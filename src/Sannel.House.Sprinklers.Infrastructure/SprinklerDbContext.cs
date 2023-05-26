@@ -15,6 +15,9 @@ public class SprinklerDbContext : DbContext
 {
 	public DbSet<ScheduleProgram> Programs { get; set; }
 	public DbSet<StationLog> RunLog { get; set; }
+
+	public DbSet<ZoneRun> Runs { get; set; }
+
 	public SprinklerDbContext(DbContextOptions<SprinklerDbContext> options) : base(options)
 	{
 	}
@@ -32,5 +35,8 @@ public class SprinklerDbContext : DbContext
 
 		var runLog = modelBuilder.Entity<StationLog>();
 		runLog.HasKey(i => i.Id);
+
+		var runs = modelBuilder.Entity<ZoneRun>();
+		runs.HasKey(nameof(ZoneRun.StartDateTime), nameof(ZoneRun.ZoneId));
 	}
 }

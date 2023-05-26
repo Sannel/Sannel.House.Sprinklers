@@ -20,6 +20,7 @@ builder.Services.AddSingleton<SprinklerService>();
 builder.Services.AddTransient<IScheduleRepository,  ScheduleRepository>();
 builder.Services.AddTransient<ILoggerRepository, LoggerRepository>();
 builder.Services.AddHostedService<SprinklerService>(s => s.GetRequiredService<SprinklerService>());
+builder.Services.AddHostedService<ScheduleService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -41,6 +42,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 //app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseAuthorization();
 

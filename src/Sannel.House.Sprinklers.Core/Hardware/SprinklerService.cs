@@ -24,7 +24,7 @@ public class SprinklerService : BackgroundService, IDisposable
 		this._hardware = hardware ?? throw new ArgumentNullException(nameof(hardware));
 		this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		this._loggerRepository = loggerRepository ?? throw new ArgumentNullException(nameof(loggerRepository));
-		_timer = new PeriodicTimer(TimeSpan.FromMilliseconds(100));
+		_timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
 	}
 
 	public bool IsRunning => _isRunning;
