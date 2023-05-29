@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,4 +27,9 @@ public interface ISprinklerHardware : IDisposable
 	/// Returns the number of zones in the system
 	/// </summary>
 	byte Zones { get; }
+
+	/// <summary>
+	/// Gets the current state of all the sprinkler zones
+	/// </summary>
+	ImmutableArray<ZoneState> State { get; }
 }

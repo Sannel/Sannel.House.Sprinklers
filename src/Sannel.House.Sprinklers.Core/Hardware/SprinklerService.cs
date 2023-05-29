@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -13,29 +8,29 @@ public class SprinklerService : BackgroundService, IDisposable
 	private readonly ISprinklerHardware _hardware;
 	private readonly ILoggerRepository _loggerRepository;
 	private readonly ILogger<SprinklerService> _logger;
-	private bool _isRunning = false;
-	private bool _continue = true;
+	private readonly bool _continue = true;
 	private DateTimeOffset _endAt = DateTimeOffset.MinValue;
-	private byte _stationId = 0;
 	private readonly PeriodicTimer _timer;
+	private readonly IServiceScope _scope;
 
-	public SprinklerService(ISprinklerHardware hardware, ILoggerRepository loggerRepository, ILogger<SprinklerService> logger)
+	public SprinklerService(ISprinklerHardware hardware, IServiceProvider serviceProvider, ILogger<SprinklerService> logger)
 	{
-		this._hardware = hardware ?? throw new ArgumentNullException(nameof(hardware));
-		this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-		this._loggerRepository = loggerRepository ?? throw new ArgumentNullException(nameof(loggerRepository));
+		_scope = (serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider))).CreateScope();
+		_hardware = hardware ?? throw new ArgumentNullException(nameof(hardware));
+		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		_loggerRepository = _scope.ServiceProvider.GetRequiredService<ILoggerRepository>();
 		_timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
 	}
 
-	public bool IsRunning => _isRunning;
+	public bool IsRunning { get; private set; } = false;
 
-	public byte StationId => _stationId;
+	public byte StationId { get; private set; } = 0;
 
 	public TimeSpan TimeLeft
 	{
 		get
 		{
-			if (_isRunning)
+			if (IsRunning)
 			{
 				var c = new TimeSpan(DateTimeOffset.Now.Ticks);
 				var end = new TimeSpan(_endAt.Ticks);
@@ -56,10 +51,10 @@ public class SprinklerService : BackgroundService, IDisposable
 		while (_continue && !stoppingToken.IsCancellationRequested)
 		{
 			await _timer.WaitForNextTickAsync(stoppingToken);
-			if (_isRunning
+			if (IsRunning
 				&& _endAt < DateTimeOffset.Now)
 			{
-				_isRunning = false;
+				IsRunning = false;
 				await _hardware.ResetZonesAsync();
 				await _loggerRepository.LogStationAction("Finish", StationId);
 			}
@@ -70,28 +65,28 @@ public class SprinklerService : BackgroundService, IDisposable
 
 	public async Task<bool> StartZoneAsync(byte zoneId, TimeSpan length)
 	{
-		if (_isRunning || zoneId < 0 || zoneId >= _hardware.Zones || length <= TimeSpan.Zero)
+		if (IsRunning || zoneId < 0 || zoneId >= _hardware.Zones || length <= TimeSpan.Zero)
 		{
 			return false;
 		}
 
 		_endAt = DateTimeOffset.Now.Add(length);
-		_isRunning = true;
+		IsRunning = true;
 		await _hardware.TurnZoneOnAsync(zoneId);
 		await _loggerRepository.LogStationAction("Start", zoneId, length);
-		_stationId = zoneId;
+		StationId = zoneId;
 
 		return true;
 	}
 
 	public async Task<bool> StopAllAsync()
 	{
-		if (!_isRunning)
+		if (!IsRunning)
 		{
 			return false;
 		}
 
-		_isRunning = false;
+		IsRunning = false;
 		await _hardware.ResetZonesAsync();
 		await _loggerRepository.LogStationAction("AllStop", byte.MaxValue);
 
@@ -103,10 +98,10 @@ public class SprinklerService : BackgroundService, IDisposable
 		while (_continue)
 		{
 			await _timer.WaitForNextTickAsync();
-			if (_isRunning
+			if (IsRunning
 				&& _endAt < DateTimeOffset.Now)
 			{
-				_isRunning = false;
+				IsRunning = false;
 				await _hardware.ResetZonesAsync();
 				await _loggerRepository.LogStationAction("Finish", StationId);
 			}
@@ -116,6 +111,7 @@ public class SprinklerService : BackgroundService, IDisposable
 	public void Dispose()
 	{
 		_timer.Dispose();
+		_scope.Dispose();
 	}
 
 }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Immutable;
 using System.Device.Gpio;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Iot.Device.Board;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -13,16 +9,14 @@ namespace Sannel.House.Sprinklers.Infrastructure.Hardware;
 
 public class OpenSprinklerHardware : ISprinklerHardware
 {
-	const int PIN_SR_LATCH = 22;
-	const int PIN_SR_DATA = 27;
-	const int PIN_SR_CLOCK = 4;
-	const int PIN_SR_OE = 17;
+	private const int PIN_SR_LATCH = 22;
+	private const int PIN_SR_DATA = 27;
+	private const int PIN_SR_CLOCK = 4;
+	private const int PIN_SR_OE = 17;
 
-	private readonly Board _board;
 	private readonly GpioController _controller;
-	private readonly IConfiguration _configuration;
 	private readonly ILogger<OpenSprinklerHardware> _logger;
-	private readonly byte[] _zones;
+	private readonly ZoneState[] _zones;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="OpenSprinklerHardware"/> class.
@@ -32,93 +26,72 @@ public class OpenSprinklerHardware : ISprinklerHardware
 	/// <param name="logger">The logger instance to log events.</param>
 	public OpenSprinklerHardware(Board board, IConfiguration configuration, ILogger<OpenSprinklerHardware> logger)
 	{
-		_board = board ?? throw new ArgumentNullException(nameof(board));
-		_configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-		_controller = board.CreateGpioController();
+		this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		this._controller = board.CreateGpioController();
 
 		var zoneCount = configuration.GetValue<byte?>("Sprinkler:Zones") ?? throw new Exception("Sprinkler:Zones is not configured");
-		_zones = new byte[zoneCount];
-		_controller.OpenPin(PIN_SR_OE, PinMode.Output);
+		this._zones = new ZoneState[zoneCount];
+		this._controller.OpenPin(PIN_SR_OE, PinMode.Output);
 
-		_controller.OpenPin(PIN_SR_DATA, PinMode.Output);
-		_controller.OpenPin(PIN_SR_CLOCK, PinMode.Output);
-		_controller.OpenPin(PIN_SR_LATCH, PinMode.Output);
+		this._controller.OpenPin(PIN_SR_DATA, PinMode.Output);
+		this._controller.OpenPin(PIN_SR_CLOCK, PinMode.Output);
+		this._controller.OpenPin(PIN_SR_LATCH, PinMode.Output);
 	}
 	/// <summary>
 	/// The number of zones to know about
 	/// </summary>
-	public byte Zones => (byte)_zones.Length;
+	public byte Zones => (byte)this._zones.Length;
 
-	public void Dispose()
-	{
-		_controller.Dispose();
-	}
+	public ImmutableArray<ZoneState> State => this._zones.ToImmutableArray();
+
+	public void Dispose() => this._controller.Dispose();
 
 	private void SendOutZoneInfo()
 	{
-		_controller.Write(PIN_SR_OE, PinValue.High);
-		_controller.Write(PIN_SR_LATCH, PinValue.Low);
+		this._controller.Write(PIN_SR_OE, PinValue.High);
+		this._controller.Write(PIN_SR_LATCH, PinValue.Low);
 
-		var builder = new StringBuilder();
-
-		for(var i=_zones.Length - 1;i >=0;i--)
+		for (var i = this._zones.Length - 1; i >= 0; i--)
 		{
-			_controller.Write(PIN_SR_CLOCK, PinValue.Low);
-			if (_zones[i] >= 1)
+			this._controller.Write(PIN_SR_CLOCK, PinValue.Low);
+			if (this._zones[i] == ZoneState.On)
 			{
-				builder.Append('1');
-				_controller.Write(PIN_SR_DATA, PinValue.High);
+				this._controller.Write(PIN_SR_DATA, PinValue.High);
 			}
 			else
 			{
-				builder.Append('0');
-				_controller.Write(PIN_SR_DATA, PinValue.Low);
+				this._controller.Write(PIN_SR_DATA, PinValue.Low);
 			}
-			_controller.Write(PIN_SR_CLOCK, PinValue.High);
+			this._controller.Write(PIN_SR_CLOCK, PinValue.High);
 		}
 
-		_logger.LogInformation("Sent out {b}", builder);
-
-		_controller.Write(PIN_SR_LATCH, PinValue.High);
-		_controller.Write(PIN_SR_OE, PinValue.Low);
-		_controller.Write(PIN_SR_LATCH, PinValue.Low);
+		this._controller.Write(PIN_SR_LATCH, PinValue.High);
+		this._controller.Write(PIN_SR_OE, PinValue.Low);
+		this._controller.Write(PIN_SR_LATCH, PinValue.Low);
 	}
 
 	public Task ResetZonesAsync()
 		=> Task.Run(() =>
 	{
 
-		for (var i = 0; i < _zones.Length; i++)
+		for (var i = 0; i < this._zones.Length; i++)
 		{
-			_zones[i] = 0;
+			this._zones[i] = 0;
 		}
-		SendOutZoneInfo();
+		this.SendOutZoneInfo();
+		this._logger.LogInformation("Reset all Zones");
 	});
 
-	public Task TurnZoneOnAsync(byte zoneIndex)
-	{
-		if(zoneIndex >= Zones || zoneIndex < 0)
+	public Task TurnZoneOnAsync(byte zoneIndex) => zoneIndex >= this.Zones || zoneIndex < 0
+			? throw new ArgumentOutOfRangeException(nameof(zoneIndex), zoneIndex, "Zone index does not fall within range")
+			: Task.Run(() =>
 		{
-			throw new ArgumentOutOfRangeException(nameof(zoneIndex), zoneIndex, "Zone index does not fall within range");
-		}
-
-		return Task.Run(() =>
-		{
-			for (var i = 0; i < _zones.Length; i++)
+			for (var i = 0; i < this._zones.Length; i++)
 			{
-				if (zoneIndex == i)
-				{
-					_zones[i] = 1;
-				}
-				else
-				{
-					_zones[i] = 0;
-				}
+				this._zones[i] = zoneIndex == i ? ZoneState.On : ZoneState.Off;
 			}
 
-			SendOutZoneInfo();
-			_logger.LogInformation("Starting Zone {zone}", zoneIndex + 1);
+			this.SendOutZoneInfo();
+			this._logger.LogInformation("Starting Zone {zone}", zoneIndex + 1);
 		});
-	}
 }

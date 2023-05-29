@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Sannel.House.Sprinklers.Core.Hardware;
@@ -16,26 +12,29 @@ public class ScheduleService : BackgroundService
 	private readonly PeriodicTimer _waitStart;
 	private readonly ILogger<ScheduleService> _logger;
 	private readonly SprinklerService _sprinklers;
+	private readonly IServiceScope _scope;
 
-	public ScheduleService(IScheduleRepository scheduleRepository, SprinklerService sprinklers, ILogger<ScheduleService> logger)
+	public ScheduleService(IServiceProvider provider)
 	{
-		_scheduleRepository = scheduleRepository ?? throw new ArgumentNullException(nameof(scheduleRepository));
-		_sprinklers = sprinklers ?? throw new ArgumentNullException(nameof(sprinklers));
-		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		ArgumentNullException.ThrowIfNull(provider);
+		_scope = provider.CreateScope();
+		_scheduleRepository = _scope.ServiceProvider.GetRequiredService<IScheduleRepository>();
+		_sprinklers = _scope.ServiceProvider.GetRequiredService<SprinklerService>();
+		_logger = _scope.ServiceProvider.GetRequiredService<ILogger<ScheduleService>>();
 		_waitStart = new PeriodicTimer(TimeSpan.FromSeconds(10));
 	}
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
 		GenerateSchedule(stoppingToken);
-		while(!stoppingToken.IsCancellationRequested)
+		while (!stoppingToken.IsCancellationRequested)
 		{
 			var needRun = await _scheduleRepository.GetNotRanRunsByDayAsync(DateOnly.FromDateTime(DateTime.Now));
 			var first = needRun.FirstOrDefault();
 
-			if(first?.StartDateTime < DateTime.Now)
+			if (first?.StartDateTime < DateTime.Now)
 			{
-				if(!_sprinklers.IsRunning)
+				if (!_sprinklers.IsRunning)
 				{
 					await _sprinklers.StartZoneAsync(first.ZoneId, first.RunLength);
 					await _scheduleRepository.FlagRunAsStartedAsync(first.StartDateTime, first.ZoneId);
@@ -105,5 +104,11 @@ public class ScheduleService : BackgroundService
 			_logger.LogInformation("Waiting until {time} to generate again in {length}", tt, wait);
 			await Task.Delay(wait, stoppingToken);
 		}
+	}
+
+	public override void Dispose()
+	{
+		_scope.Dispose();
+		base.Dispose();
 	}
 }
