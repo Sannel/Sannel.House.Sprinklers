@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sannel.House.Sprinklers.Core.Hardware;
@@ -6,8 +7,9 @@ using Sannel.House.Sprinklers.Responses.Sprinklers;
 
 namespace Sannel.House.Sprinklers.Controllers;
 
-[Route("api/[controller]")]
+[Route("sprinkler/api/v{version:apiVersion}/[controller]")]
 [ApiController]
+[ApiVersion(1.0)]
 public class SprinklersController : ControllerBase
 {
 

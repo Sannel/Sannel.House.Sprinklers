@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sannel.House.Sprinklers.Core.Schedules;
@@ -8,8 +9,9 @@ using Sannel.House.Sprinklers.Responses.Schedules;
 
 namespace Sannel.House.Sprinklers.Controllers;
 
-[Route("api/[controller]")]
+[Route("sprinkler/api/v{version:apiVersion}/[controller]")]
 [ApiController]
+[ApiVersion(1.0)]
 public class ScheduleController : ControllerBase
 {
 	private readonly IScheduleRepository _scheduleRepository;

@@ -15,6 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile(Path.Combine("app_config", "appsettings.json"), true, true);
 builder.Host.UseSystemd();
 
+builder.Services.AddApplicationInsightsTelemetry();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddMicrosoftIdentityWebApi(builder.Configuration);
 
@@ -62,6 +64,22 @@ static bool IsRunningOnRaspberryPi()
 	return processorName.Contains(piPartialProcessorName);
 }
 
+builder.Services.AddApiVersioning(o =>
+	{
+		o.ReportApiVersions = true;
+	})
+	.AddMvc()
+	.AddApiExplorer(options =>
+	{
+		// add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
+		// note: the specified format code will format the version as "'v'major[.minor][-status]"
+		options.GroupNameFormat = "'v'VVV";
+
+		// note: this option is only necessary when versioning by url segment. the SubstitutionFormat
+		// can also be used to control the format of the API version in route templates
+		options.SubstituteApiVersionInUrl = true;
+	});
+
 
 // Add services to the container.
 builder.Services.AddDbContext<SprinklerDbContext>(i => i.UseSqlite("Data Source=schedule.db"));
@@ -91,6 +109,7 @@ builder.Services.AddSwaggerGen(o =>
 	o.MapType<TimeSpan?>(() => new OpenApiSchema { Type = "string", Format = "00:00:00", Reference = null, Nullable = true });
 });
 
+
 var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
@@ -102,9 +121,13 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-app.UseSwagger();
+app.UseSwagger(o =>
+{
+	o.RouteTemplate = "sprinkler/swagger/{documentName}/swagger.{json|yaml}";
+});
 app.UseSwaggerUI(o =>
 {
+	o.RoutePrefix = "sprinkler/swagger";
 	o.OAuthAppName("AzureAd");
 	o.OAuthClientId(builder.Configuration["AzureAd:ClientId"]);
 	o.OAuthScopeSeparator(" ");
