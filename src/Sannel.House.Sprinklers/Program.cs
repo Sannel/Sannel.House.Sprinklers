@@ -1,8 +1,10 @@
 using Iot.Device.Board;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
+using Sannel.House;
 using Sannel.House.Sprinklers;
 using Sannel.House.Sprinklers.Core;
 using Sannel.House.Sprinklers.Core.Hardware;
@@ -13,41 +15,42 @@ using Sannel.House.Sprinklers.Infrastructure.Schedules;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile(Path.Combine("app_config", "appsettings.json"), true, true);
+builder.Configuration.AddJsonFile(Path.Combine("app_config", $"appsettings.{builder.Environment.EnvironmentName}.json"), true, true);
 builder.Host.UseSystemd();
 
 builder.Services.AddApplicationInsightsTelemetry();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
+builder.Services.AddAuthentication(o =>
+{
+	o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+})
 	.AddMicrosoftIdentityWebApi(builder.Configuration);
 
 builder.Services.AddAuthorization(o =>
 {
 	o.AddPolicy(AuthPolicy.ZONE_READERS, p =>
 		p.RequireRole(
-			AuthRoles.READER,
-			AuthRoles.TRIGGERS,
-			AuthRoles.WRITER,
-			AuthRoles.ADMINS
-		).RequireScope(AuthScopes.ZONES));
+			Roles.Sprinklers.ZONE_READ,
+			Roles.Sprinklers.ZONE_WRITE,
+			Roles.ADMIN
+		));
 	o.AddPolicy(AuthPolicy.ZONE_TRIGGERS, p =>
 		p.RequireRole(
-			AuthRoles.TRIGGERS,
-			AuthRoles.WRITER,
-			AuthRoles.ADMINS
-		).RequireScope(AuthScopes.ZONES));
+			Roles.Sprinklers.ZONE_WRITE,
+			Roles.ADMIN
+		));
 	o.AddPolicy(AuthPolicy.SCHEDULE_READERS, p =>
 		p.RequireRole(
-			AuthRoles.READER,
-			AuthRoles.WRITER,
-			AuthRoles.ADMINS
-		).RequireScope(AuthScopes.SCHEDULES));
+			Roles.Sprinklers.SCHEDULE_READ,
+			Roles.Sprinklers.SCHEDULE_WRITE,
+			Roles.ADMIN
+		));
 	o.AddPolicy(AuthPolicy.SCHEDULE_SCHEDULERS, p =>
 		p.RequireRole(
-			AuthRoles.READER,
-			AuthRoles.WRITER,
-			AuthRoles.SCHEDULERS,
-			AuthRoles.ADMINS
-		).RequireScope(AuthScopes.SCHEDULES));
+			Roles.Sprinklers.SCHEDULE_WRITE,
+			Roles.ADMIN
+		));
 });
 
 static bool IsRunningOnRaspberryPi()
@@ -92,6 +95,7 @@ else
 {
 	builder.Services.AddSingleton<ISprinklerHardware, FakeHardware>();
 }
+builder.Services.AddTransient<IClaimsTransformation, UserClaimsTransformation>();
 builder.Services.AddSingleton<SprinklerService>();
 builder.Services.AddTransient<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddTransient<ILoggerRepository, LoggerRepository>();

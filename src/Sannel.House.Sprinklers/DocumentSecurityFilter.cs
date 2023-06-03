@@ -25,8 +25,7 @@ public class DocumentSecurityFilter : IDocumentFilter
 				TokenUrl = new Uri($"{_configuration["AzureAd:Instance"]}{_configuration["AzureAd:TenantId"]}/oauth2/v2.0/token"),
 				Scopes = new Dictionary<string, string>()
 				{
-					{$"api://sannel.house.sprinklers/{AuthScopes.SCHEDULES}", AuthScopes.SCHEDULES },
-					{$"api://sannel.house.sprinklers/{AuthScopes.ZONES}", AuthScopes.ZONES }
+					{"api://sannel.house/access", "access" }
 				}
 			}
 		},
