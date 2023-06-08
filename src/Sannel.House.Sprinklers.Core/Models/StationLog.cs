@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sannel.House.Sprinklers.Core.Models;
+﻿namespace Sannel.House.Sprinklers.Core.Models;
 
 /// <summary>
 /// Represents a single run for a station.
@@ -27,12 +21,22 @@ public class StationLog
 	public DateTimeOffset ActionDate { get; set; }
 
 	/// <summary>
-	/// Gets or sets the unique identifier for the station.
+	/// Gets or sets the unique identifier for the Zone.
 	/// </summary>
-	public byte StationId { get; set; }
+	public byte ZoneId { get; set; }
 
 	/// <summary>
 	/// Gets or sets the duration of the run.
 	/// </summary>
 	public TimeSpan? RunLength { get; set; }
+
+	/// <summary>
+	/// Gets or set the username that initiated this action
+	/// </summary>
+	public string? Username { get; set; }
+
+	/// <summary>
+	/// Gets or sets the unique identifier of the user that initiated this action
+	/// </summary>
+	public string? UserId { get; set; }
 }

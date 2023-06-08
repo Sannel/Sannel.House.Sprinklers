@@ -9,9 +9,11 @@ using Sannel.House.Sprinklers;
 using Sannel.House.Sprinklers.Core;
 using Sannel.House.Sprinklers.Core.Hardware;
 using Sannel.House.Sprinklers.Core.Schedules;
+using Sannel.House.Sprinklers.Core.Zones;
 using Sannel.House.Sprinklers.Infrastructure;
 using Sannel.House.Sprinklers.Infrastructure.Hardware;
 using Sannel.House.Sprinklers.Infrastructure.Schedules;
+using Sannel.House.Sprinklers.Infrastructure.Zones;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile(Path.Combine("app_config", "appsettings.json"), true, true);
@@ -35,7 +37,18 @@ builder.Services.AddAuthorization(o =>
 			Roles.Sprinklers.ZONE_WRITE,
 			Roles.ADMIN
 		));
+	o.AddPolicy(AuthPolicy.ZONE_METADATA_READER, p =>
+		p.RequireRole(
+			Roles.Sprinklers.ZONE_READ,
+			Roles.Sprinklers.ZONE_WRITE,
+			Roles.ADMIN
+		));
 	o.AddPolicy(AuthPolicy.ZONE_TRIGGERS, p =>
+		p.RequireRole(
+			Roles.Sprinklers.ZONE_WRITE,
+			Roles.ADMIN
+		));
+	o.AddPolicy(AuthPolicy.ZONE_METADATA_WRITER, p =>
 		p.RequireRole(
 			Roles.Sprinklers.ZONE_WRITE,
 			Roles.ADMIN
@@ -99,6 +112,7 @@ builder.Services.AddTransient<IClaimsTransformation, UserClaimsTransformation>()
 builder.Services.AddSingleton<SprinklerService>();
 builder.Services.AddTransient<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddTransient<ILoggerRepository, LoggerRepository>();
+builder.Services.AddTransient<IZoneRepository, ZoneRepository>();
 builder.Services.AddHostedService<SprinklerService>(s => s.GetRequiredService<SprinklerService>());
 builder.Services.AddHostedService<ScheduleService>();
 

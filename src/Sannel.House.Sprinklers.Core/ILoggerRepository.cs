@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Sannel.House.Sprinklers.Core.Models;
 
 namespace Sannel.House.Sprinklers.Core;
 
@@ -29,4 +25,13 @@ public interface ILoggerRepository
 	/// <param name="runLength">How long this station will run</param>
 	/// <returns>A task representing the asynchronous operation.</returns>
 	Task LogStationAction(string action, byte stationId, TimeSpan runLength);
+
+	/// <summary>
+	/// Gets the logs for a specified period.
+	/// </summary>
+	/// <param name="startDateTime">Start datetime for filter.</param>
+	/// <param name="endDateTime">End datetime for filter.</param>
+	/// <param name="action">The type of action to retreve</param>
+	/// <returns>A task representing the asynchronous operation returning a list of StationLog instances.</returns>
+	Task<IEnumerable<StationLog>> GetLogs(DateTimeOffset startDateTime, DateTimeOffset endDateTime, string action);
 }

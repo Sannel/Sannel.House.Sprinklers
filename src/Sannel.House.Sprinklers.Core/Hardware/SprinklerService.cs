@@ -56,7 +56,7 @@ public class SprinklerService : BackgroundService, IDisposable
 			{
 				IsRunning = false;
 				await _hardware.ResetZonesAsync();
-				await _loggerRepository.LogStationAction("Finish", StationId);
+				await _loggerRepository.LogStationAction(LogActions.FINISHED, StationId);
 			}
 		}
 
@@ -73,7 +73,7 @@ public class SprinklerService : BackgroundService, IDisposable
 		_endAt = DateTimeOffset.Now.Add(length);
 		IsRunning = true;
 		await _hardware.TurnZoneOnAsync(zoneId);
-		await _loggerRepository.LogStationAction("Start", zoneId, length);
+		await _loggerRepository.LogStationAction(LogActions.START, zoneId, length);
 		StationId = zoneId;
 
 		return true;
@@ -88,7 +88,7 @@ public class SprinklerService : BackgroundService, IDisposable
 
 		IsRunning = false;
 		await _hardware.ResetZonesAsync();
-		await _loggerRepository.LogStationAction("AllStop", byte.MaxValue);
+		await _loggerRepository.LogStationAction(LogActions.ALL_STOP, byte.MaxValue);
 
 		return true;
 	}
@@ -103,7 +103,7 @@ public class SprinklerService : BackgroundService, IDisposable
 			{
 				IsRunning = false;
 				await _hardware.ResetZonesAsync();
-				await _loggerRepository.LogStationAction("Finish", StationId);
+				await _loggerRepository.LogStationAction(LogActions.FINISHED, StationId);
 			}
 		}
 	}

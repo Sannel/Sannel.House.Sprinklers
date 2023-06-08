@@ -7,13 +7,14 @@ using Sannel.House.Sprinklers.Core.Schedules.Models;
 using Sannel.House.Sprinklers.Requests.Schedules;
 using Sannel.House.Sprinklers.Responses.Schedules;
 
-namespace Sannel.House.Sprinklers.Controllers;
+namespace Sannel.House.Sprinklers.Controllers.v1_0;
 
 [Route("sprinkler/api/v{version:apiVersion}/[controller]")]
 [ApiController]
 [ApiVersion(1.0)]
 public class ScheduleController : ControllerBase
 {
+	private const string VERSION = "v1";
 	private readonly IScheduleRepository _scheduleRepository;
 	private readonly ILogger _logger;
 
@@ -23,7 +24,7 @@ public class ScheduleController : ControllerBase
 		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 	}
 
-	[HttpGet]
+	[HttpGet(Name = $"{VERSION}.[controller].[action]")]
 	[ProducesResponseType(typeof(List<ScheduleProgramResponse>), (int)HttpStatusCode.OK)]
 	[Authorize(AuthPolicy.SCHEDULE_READERS)]
 	public async Task<IActionResult> GetSchedules()
@@ -40,7 +41,7 @@ public class ScheduleController : ControllerBase
 		}));
 	}
 
-	[HttpGet("{id}")]
+	[HttpGet("{id}", Name = $"{VERSION}.[controller].[action]")]
 	[ProducesResponseType(typeof(ScheduleProgramResponse), (int)HttpStatusCode.OK)]
 	[ProducesResponseType((int)HttpStatusCode.NotFound)]
 	[Authorize(AuthPolicy.SCHEDULE_READERS)]
@@ -59,7 +60,7 @@ public class ScheduleController : ControllerBase
 			: NotFound();
 	}
 
-	[HttpPost]
+	[HttpPost(Name = $"{VERSION}.[controller].[action]")]
 	[ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
 	[ProducesResponseType((int)HttpStatusCode.BadRequest)]
 	[Authorize(AuthPolicy.SCHEDULE_SCHEDULERS)]
@@ -81,7 +82,7 @@ public class ScheduleController : ControllerBase
 		await _scheduleRepository.AddOrUpdateScheduleAsync(scheduleProgram);
 		return Ok(scheduleProgram.Id);
 	}
-	[HttpPut]
+	[HttpPut(Name = $"{VERSION}.[controller].[action]")]
 	[ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
 	[ProducesResponseType((int)HttpStatusCode.BadRequest)]
 	[Authorize(AuthPolicy.SCHEDULE_SCHEDULERS)]
@@ -104,7 +105,7 @@ public class ScheduleController : ControllerBase
 		return Ok(scheduleProgram.Id);
 	}
 
-	[HttpPut("{scheduleId}/{isEnable}")]
+	[HttpPut("{scheduleId}/{isEnable}", Name = $"{VERSION}.[controller].[action]")]
 	[ProducesResponseType((int)HttpStatusCode.OK)]
 	[Authorize(AuthPolicy.SCHEDULE_SCHEDULERS)]
 	public async Task<IActionResult> UpdateScheduleStatus(Guid scheduleId, bool isEnable)
@@ -121,13 +122,13 @@ public class ScheduleController : ControllerBase
 		return Ok();
 	}
 
-	[HttpGet("runs/today")]
+	[HttpGet("runs/today", Name = $"{VERSION}.[controller].[action]")]
 	[ProducesResponseType(typeof(IEnumerable<ZoneRunResponse>), (int)HttpStatusCode.OK)]
 	[Authorize(AuthPolicy.SCHEDULE_READERS)]
 	public async Task<IActionResult> GetTodaysRuns()
 		=> Ok((await _scheduleRepository.GetRunsByDayAsync(DateOnly.FromDateTime(DateTime.Now))).Select(i => new ZoneRunResponse(i)));
 
-	[HttpGet("runs/{startDate}/{endDate}")]
+	[HttpGet("runs/{startDate}/{endDate}", Name = $"{VERSION}.[controller].[action]")]
 	[ProducesResponseType(typeof(IEnumerable<ZoneRunResponse>), (int)HttpStatusCode.OK)]
 	[Authorize(AuthPolicy.SCHEDULE_READERS)]
 	public async Task<IActionResult> GetRunRange(DateOnly startDate, DateOnly endDate)

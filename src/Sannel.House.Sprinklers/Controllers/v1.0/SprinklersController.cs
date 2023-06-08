@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using Sannel.House.Sprinklers.Core.Hardware;
 using Sannel.House.Sprinklers.Responses.Sprinklers;
 
-namespace Sannel.House.Sprinklers.Controllers;
+namespace Sannel.House.Sprinklers.Controllers.v1_0;
 
 [Route("sprinkler/api/v{version:apiVersion}/[controller]")]
 [ApiController]
 [ApiVersion(1.0)]
 public class SprinklersController : ControllerBase
 {
-
+	private const string VERSION = "v1";
 	private readonly ILogger _logger;
 	private readonly SprinklerService _service;
 
@@ -22,7 +22,7 @@ public class SprinklersController : ControllerBase
 		_logger = logger;
 	}
 
-	[HttpPost("Start")]
+	[HttpPost("Start", Name = $"{VERSION}.[controller].[action]")]
 	[Authorize(AuthPolicy.ZONE_TRIGGERS)]
 	[ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
 	public async Task<IActionResult> Start(byte zoneId, TimeSpan length)
@@ -32,7 +32,7 @@ public class SprinklersController : ControllerBase
 		return Ok(result);
 	}
 
-	[HttpPost("Stop")]
+	[HttpPost("Stop", Name = $"{VERSION}.[controller].[action]")]
 	[Authorize(AuthPolicy.ZONE_TRIGGERS)]
 	[ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
 	public async Task<IActionResult> Stop()
@@ -41,7 +41,7 @@ public class SprinklersController : ControllerBase
 		return Ok(result);
 	}
 
-	[HttpGet]
+	[HttpGet(Name = $"{VERSION}.[controller].[action]")]
 	[Authorize(AuthPolicy.ZONE_READERS)]
 	[ProducesResponseType(typeof(Status), (int)HttpStatusCode.OK)]
 	public IActionResult Status()
