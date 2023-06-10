@@ -45,7 +45,7 @@ builder.Services.AddAuthorization(o =>
 		));
 	o.AddPolicy(AuthPolicy.ZONE_TRIGGERS, p =>
 		p.RequireRole(
-			Roles.Sprinklers.ZONE_WRITE,
+			Roles.Sprinklers.ZONE_TRIGGER,
 			Roles.ADMIN
 		));
 	o.AddPolicy(AuthPolicy.ZONE_METADATA_WRITER, p =>
