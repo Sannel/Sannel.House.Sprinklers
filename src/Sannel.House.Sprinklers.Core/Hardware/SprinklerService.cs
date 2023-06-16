@@ -44,6 +44,8 @@ public class SprinklerService : BackgroundService, IDisposable
 		}
 	}
 
+	public TimeSpan? TotalTime { get; private set; }
+
 	public byte Zones => _hardware.Zones;
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -70,6 +72,7 @@ public class SprinklerService : BackgroundService, IDisposable
 			return false;
 		}
 
+		TotalTime = length;
 		_endAt = DateTimeOffset.Now.Add(length);
 		IsRunning = true;
 		await _hardware.TurnZoneOnAsync(zoneId);
@@ -87,6 +90,7 @@ public class SprinklerService : BackgroundService, IDisposable
 		}
 
 		IsRunning = false;
+		TotalTime = null;
 		await _hardware.ResetZonesAsync();
 		await _loggerRepository.LogStationAction(LogActions.ALL_STOP, byte.MaxValue);
 

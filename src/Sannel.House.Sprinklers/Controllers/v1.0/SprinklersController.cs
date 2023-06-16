@@ -3,6 +3,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sannel.House.Sprinklers.Core.Hardware;
+using Sannel.House.Sprinklers.Core.Zones;
 using Sannel.House.Sprinklers.Responses.Sprinklers;
 
 namespace Sannel.House.Sprinklers.Controllers.v1_0;
@@ -15,10 +16,17 @@ public class SprinklersController : ControllerBase
 	private const string VERSION = "v1";
 	private readonly ILogger _logger;
 	private readonly SprinklerService _service;
+	private readonly IZoneRepository _zoneRepository;
 
-	public SprinklersController(SprinklerService service, ILogger<SprinklersController> logger)
+	public SprinklersController(SprinklerService service,
+		IZoneRepository zoneRepository,
+		ILogger<SprinklersController> logger)
 	{
+		ArgumentNullException.ThrowIfNull(service);
+		ArgumentNullException.ThrowIfNull(zoneRepository);
+		ArgumentNullException.ThrowIfNull(logger);
 		_service = service;
+		_zoneRepository = zoneRepository;
 		_logger = logger;
 	}
 
@@ -43,19 +51,29 @@ public class SprinklersController : ControllerBase
 
 	[HttpGet(Name = $"{VERSION}.[controller].[action]")]
 	[Authorize(AuthPolicy.ZONE_READERS)]
-	[ProducesResponseType(typeof(Status), (int)HttpStatusCode.OK)]
-	public IActionResult Status()
+	[ProducesResponseType(typeof(StatusDto), (int)HttpStatusCode.OK)]
+	public async Task<IActionResult> Status()
 	{
-		var status = new Status()
+		var status = new StatusDto()
 		{
 			IsRunning = _service.IsRunning,
 			TimeLeft = _service.TimeLeft,
+			TotalTime = _service.TotalTime,
 			Zones = _service.Zones
 		};
 
 		if (status.IsRunning)
 		{
-			status.RunningZone = _service.StationId;
+			var s = await _zoneRepository.GetZoneInfoByIdAsync(_service.StationId);
+			if (s is not null)
+			{
+				status.ZoneInfo = new Responses.Zones.ZoneInfoDto()
+				{
+					ZoneId = s.ZoneId,
+					Name = s.Name,
+					Color = s.Color,
+				};
+			}
 		}
 
 		return Ok(status);

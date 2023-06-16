@@ -58,6 +58,9 @@ csharp_style_unused_value_expression_statement_preference = none
 indent_style = space
 indent_size = 2
 
+[build-dep.ps1]
+end_of_line = lf
+
 
 [*.{cs,vb}]
 dotnet_diagnostic.CS8321.severity = none

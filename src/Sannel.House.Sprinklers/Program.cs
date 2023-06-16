@@ -18,6 +18,16 @@ using Sannel.House.Sprinklers.Infrastructure.Zones;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile(Path.Combine("app_config", "appsettings.json"), true, true);
 builder.Configuration.AddJsonFile(Path.Combine("app_config", $"appsettings.{builder.Environment.EnvironmentName}.json"), true, true);
+if (OperatingSystem.IsLinux())
+{
+	builder
+		.Configuration
+		.AddJsonFile(
+			Path.Combine(Path.DirectorySeparatorChar.ToString(), "etc", "Sannel", "House", "sprinklers.json"),
+			false,
+			true
+		);
+}
 builder.Host.UseSystemd();
 
 builder.Services.AddApplicationInsightsTelemetry();
@@ -98,7 +108,14 @@ builder.Services.AddApiVersioning(o =>
 
 
 // Add services to the container.
-builder.Services.AddDbContext<SprinklerDbContext>(i => i.UseSqlite("Data Source=schedule.db"));
+if (OperatingSystem.IsLinux())
+{
+	builder.Services.AddDbContext<SprinklerDbContext>(i => i.UseSqlite("Data Source=/var/lib/Sannel/House/Sprinklers/schedule.db"));
+}
+else
+{
+	builder.Services.AddDbContext<SprinklerDbContext>(i => i.UseSqlite("Data Source=schedule.db"));
+}
 builder.Services.AddSingleton<Board>(RaspberryPiBoard.Create());
 if (IsRunningOnRaspberryPi())
 {
@@ -121,6 +138,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(o =>
 {
+	o.UseAllOfToExtendReferenceSchemas();
 	o.DocumentFilter<DocumentSecurityFilter>();
 	o.OperationFilter<SecurityFilter>();
 	o.MapType<TimeSpan>(() => new OpenApiSchema { Type = "string", Format = "00:00:00", Reference = null, Nullable = false });
