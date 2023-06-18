@@ -3,8 +3,8 @@ Description=Sannel House Sprinklers
 
 [Service]
 Type=notify
-#User=sprinkler
-#Group=sprinkler
+User=sprinkler
+Group=sprinkler
 WorkingDirectory=/usr/share/Sannel/House/Sprinklers
 ExecStart=/usr/share/Sannel/House/Sprinklers/Sannel.House.Sprinklers
 

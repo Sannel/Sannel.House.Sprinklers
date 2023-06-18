@@ -28,15 +28,34 @@ New-Item -ItemType Directory -Path $path
 dotnet publish -r linux-arm64 -c Release --sc -o $path /p:PublishSingleFile=true src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj
 
 $content = "Package: sannel.house.sprinklers
-Version: $version
+Version: $version-$buildNumber
 Maintainer: Adam Holt <holtsoftware@outlook.com>
 Architecture: arm64
 Homepage: https://github.com/Sannel/Sannel.House.Sprinklers
-Description: Firmware to run a sprinkler system off of a raspberry pi (Currently only supports OSRPI)"
+Description: Firmware to run a sprinkler system off of a raspberry pi (Currently only supports OSRPI)
+"
 
 $path = [System.IO.Path]::Combine($rootPath,"DEBIAN")
 New-Item -ItemType Directory -Path $path
+$debianDir = $path
 $path = Join-Path -Path $path -ChildPath "control"
 Set-Content -Path $path -Value $content
 
+$content = "/etc/Sannel/House/sprinklers.json"
+$path = Join-Path -Path $debianDir -ChildPath "conffiles"
+Set-Content -Path $path -Value $content
+
+$content = "#!/bin/bash
+useradd --system sprinkler -G gpio,i2c
+mkdir /var/lib/Sannel/House/Sprinklers/data
+chown -R sprinkler:sprinkler /var/lib/Sannel/House/Sprinklers
+chmod 700 /var/lib/Sannel/House/Sprinklers/data
+" -replace "`r",""
+$path = Join-Path -Path $debianDir -ChildPath "postinst"
+Set-Content -Path $path -Value $content
+chmod 0775 $path
+
+
 dpkg-deb --build --root-owner-group -Zgzip $rootPath
+
+aptly repo add sannel-repository "$rootPath.deb"

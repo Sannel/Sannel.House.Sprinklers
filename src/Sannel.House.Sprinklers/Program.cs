@@ -1,6 +1,7 @@
 using Iot.Device.Board;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
@@ -29,9 +30,13 @@ if (OperatingSystem.IsLinux())
 		);
 }
 builder.Host.UseSystemd();
+if (OperatingSystem.IsLinux())
+{
+	builder.Services.AddDataProtection()
+		.PersistKeysToFileSystem(new DirectoryInfo(Path.Join("var", "lib", "Sannel", "House", "Sprinklers", "data")));
+}
 
 builder.Services.AddApplicationInsightsTelemetry();
-
 
 builder.Services.AddAuthentication(o =>
 {
