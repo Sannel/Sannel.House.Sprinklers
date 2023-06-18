@@ -47,7 +47,9 @@ Set-Content -Path $path -Value $content
 
 $content = "#!/bin/bash
 useradd --system sprinkler -G gpio,i2c
-mkdir /var/lib/Sannel/House/Sprinklers/data
+if [ ! -d `"`$DIRECTORY`" ]; then
+	mkdir /var/lib/Sannel/House/Sprinklers/data
+fi
 chown -R sprinkler:sprinkler /var/lib/Sannel/House/Sprinklers
 chmod 700 /var/lib/Sannel/House/Sprinklers/data
 " -replace "`r",""
