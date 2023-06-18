@@ -108,7 +108,21 @@ public class ScheduleService : BackgroundService
 
 	public override void Dispose()
 	{
-		_scope.Dispose();
-		base.Dispose();
+		try
+		{
+			_scope.Dispose();
+		}
+		catch
+		{
+
+		}
+		try
+		{
+			base.Dispose();
+		}
+		catch
+		{
+
+		}
 	}
 }
