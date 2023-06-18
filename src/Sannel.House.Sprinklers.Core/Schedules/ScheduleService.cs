@@ -26,22 +26,30 @@ public class ScheduleService : BackgroundService
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
-		GenerateSchedule(stoppingToken);
-		while (!stoppingToken.IsCancellationRequested)
+		try
 		{
-			var needRun = await _scheduleRepository.GetNotRanRunsByDayAsync(DateOnly.FromDateTime(DateTime.Now));
-			var first = needRun.FirstOrDefault();
-
-			if (first?.StartDateTime < DateTime.Now)
+			GenerateSchedule(stoppingToken);
+			while (!stoppingToken.IsCancellationRequested)
 			{
-				if (!_sprinklers.IsRunning)
-				{
-					await _sprinklers.StartZoneAsync(first.ZoneId, first.RunLength);
-					await _scheduleRepository.FlagRunAsStartedAsync(first.StartDateTime, first.ZoneId);
-				}
-			}
+				var needRun = await _scheduleRepository.GetNotRanRunsByDayAsync(DateOnly.FromDateTime(DateTime.Now));
+				var first = needRun.FirstOrDefault();
 
-			await _waitStart.WaitForNextTickAsync(stoppingToken);
+				if (first?.StartDateTime < DateTime.Now)
+				{
+					if (!_sprinklers.IsRunning)
+					{
+						await _sprinklers.StartZoneAsync(first.ZoneId, first.RunLength);
+						await _scheduleRepository.FlagRunAsStartedAsync(first.StartDateTime, first.ZoneId);
+					}
+				}
+
+				await _waitStart.WaitForNextTickAsync(stoppingToken);
+			}
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Exception in {service}", nameof(ScheduleService));
+			throw;
 		}
 	}
 
@@ -106,7 +114,7 @@ public class ScheduleService : BackgroundService
 		}
 	}
 
-	public override void Dispose()
+	public new void Dispose()
 	{
 		try
 		{
