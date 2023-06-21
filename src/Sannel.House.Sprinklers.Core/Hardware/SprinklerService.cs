@@ -10,7 +10,7 @@ public class SprinklerService : BackgroundService, IDisposable
 	private readonly ILogger<SprinklerService> _logger;
 	private readonly bool _continue = true;
 	private DateTimeOffset _endAt = DateTimeOffset.MinValue;
-	private readonly PeriodicTimer _timer;
+	private readonly TimeSpan _waitTime;
 	private readonly IServiceScope _scope;
 
 	public SprinklerService(ISprinklerHardware hardware, IServiceProvider serviceProvider, ILogger<SprinklerService> logger)
@@ -19,7 +19,7 @@ public class SprinklerService : BackgroundService, IDisposable
 		_hardware = hardware ?? throw new ArgumentNullException(nameof(hardware));
 		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		_loggerRepository = _scope.ServiceProvider.GetRequiredService<ILoggerRepository>();
-		_timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
+		_waitTime = TimeSpan.FromMilliseconds(500);
 	}
 
 	public bool IsRunning { get; private set; } = false;
@@ -52,7 +52,7 @@ public class SprinklerService : BackgroundService, IDisposable
 	{
 		while (_continue && !stoppingToken.IsCancellationRequested)
 		{
-			await _timer.WaitForNextTickAsync(stoppingToken);
+			await Task.Delay(_waitTime, stoppingToken);
 			if (IsRunning
 				&& _endAt < DateTimeOffset.Now)
 			{
@@ -101,7 +101,7 @@ public class SprinklerService : BackgroundService, IDisposable
 	{
 		while (_continue)
 		{
-			await _timer.WaitForNextTickAsync();
+			await Task.Delay(_waitTime);
 			if (IsRunning
 				&& _endAt < DateTimeOffset.Now)
 			{
@@ -114,7 +114,6 @@ public class SprinklerService : BackgroundService, IDisposable
 
 	public void Dispose()
 	{
-		_timer.Dispose();
 		_scope.Dispose();
 	}
 

@@ -9,10 +9,10 @@ namespace Sannel.House.Sprinklers.Core.Schedules;
 public class ScheduleService : BackgroundService
 {
 	private readonly IScheduleRepository _scheduleRepository;
-	private readonly PeriodicTimer _waitStart;
 	private readonly ILogger<ScheduleService> _logger;
 	private readonly SprinklerService _sprinklers;
 	private readonly IServiceScope _scope;
+	private readonly TimeSpan _waitTime;
 
 	public ScheduleService(IServiceProvider provider)
 	{
@@ -21,14 +21,13 @@ public class ScheduleService : BackgroundService
 		_scheduleRepository = _scope.ServiceProvider.GetRequiredService<IScheduleRepository>();
 		_sprinklers = _scope.ServiceProvider.GetRequiredService<SprinklerService>();
 		_logger = _scope.ServiceProvider.GetRequiredService<ILogger<ScheduleService>>();
-		_waitStart = new PeriodicTimer(TimeSpan.FromSeconds(10));
+		_waitTime = TimeSpan.FromSeconds(10);
 	}
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
 		try
 		{
-			_logger.LogInformation("Notify Path {path}", Environment.GetEnvironmentVariable("NOTIFY_SOCKET"));
 			GenerateSchedule(stoppingToken);
 			while (!stoppingToken.IsCancellationRequested)
 			{
@@ -44,14 +43,7 @@ public class ScheduleService : BackgroundService
 					}
 				}
 
-				try
-				{
-					await _waitStart.WaitForNextTickAsync(stoppingToken);
-				}
-				catch (Exception ex)
-				{
-					_logger.LogError(ex, "Exception in {service}", nameof(ScheduleService));
-				}
+				await Task.Delay(_waitTime, stoppingToken);
 			}
 		}
 		catch (Exception ex)

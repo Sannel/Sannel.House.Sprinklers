@@ -151,7 +151,6 @@ builder.Services.AddSwaggerGen(o =>
 	o.MapType<TimeSpan?>(() => new OpenApiSchema { Type = "string", Format = "00:00:00", Reference = null, Nullable = true });
 });
 
-
 var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
