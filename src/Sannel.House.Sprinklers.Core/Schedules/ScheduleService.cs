@@ -43,7 +43,14 @@ public class ScheduleService : BackgroundService
 					}
 				}
 
-				await _waitStart.WaitForNextTickAsync(stoppingToken);
+				try
+				{
+					await _waitStart.WaitForNextTickAsync(stoppingToken);
+				}
+				catch (Exception ex)
+				{
+					_logger.LogError(ex, "Exception in {service}", nameof(ScheduleService));
+				}
 			}
 		}
 		catch (Exception ex)
