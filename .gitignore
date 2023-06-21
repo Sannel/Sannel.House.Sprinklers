@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 schedule.db*
 **/app_config/*.json
+[bB]uild/
