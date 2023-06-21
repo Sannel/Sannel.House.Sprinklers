@@ -28,6 +28,7 @@ public class ScheduleService : BackgroundService
 	{
 		try
 		{
+			_logger.LogInformation("Notify Path {path}", Environment.GetEnvironmentVariable("NOTIFY_SOCKET"));
 			GenerateSchedule(stoppingToken);
 			while (!stoppingToken.IsCancellationRequested)
 			{

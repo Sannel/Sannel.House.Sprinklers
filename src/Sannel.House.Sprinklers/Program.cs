@@ -183,7 +183,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var notifiyer = app.Services.GetRequiredService<ISystemdNotifier>();
+var notifiyer = app.Services.GetRequiredService<SystemdNotifier>();
 notifiyer.Notify(ServiceState.Ready);
 
 await app.RunAsync();
