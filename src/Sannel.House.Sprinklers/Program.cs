@@ -33,7 +33,7 @@ builder.Host.UseSystemd();
 if (OperatingSystem.IsLinux())
 {
 	builder.Services.AddDataProtection()
-		.PersistKeysToFileSystem(new DirectoryInfo("data"));
+		.PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(Path.DirectorySeparatorChar.ToString(), "var", "lib", "Sannel", "House", "Sprinklers", "data")));
 }
 
 builder.Services.AddApplicationInsightsTelemetry();
