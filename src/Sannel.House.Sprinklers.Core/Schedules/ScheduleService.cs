@@ -110,7 +110,7 @@ public class ScheduleService : BackgroundService
 			var wait = new TimeSpan(tt.Ticks) - new TimeSpan(n.Ticks);
 
 			_logger.LogInformation("Waiting until {time} to generate again in {length}", tt, wait);
-			await Task.Delay(wait);
+			await Task.Delay(wait, stoppingToken);
 		}
 	}
 
