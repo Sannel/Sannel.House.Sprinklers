@@ -54,6 +54,8 @@ public class SprinklerDbContext : DbContext
 
 		var runLog = modelBuilder.Entity<StationLog>();
 		runLog.HasKey(i => i.Id);
+		runLog.Ignore(i => i.StationName);
+		runLog.Ignore(i => i.StationColor);
 
 		var runs = modelBuilder.Entity<ZoneRun>();
 		runs.HasKey(nameof(ZoneRun.StartDateTime), nameof(ZoneRun.ZoneId));

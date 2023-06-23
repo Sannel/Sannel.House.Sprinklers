@@ -15,12 +15,25 @@ public class LoggerRepository : ILoggerRepository
 
 	public async Task<IEnumerable<StationLog>> GetLogs(DateTimeOffset startDateTime, DateTimeOffset endDateTime, string action)
 	{
-		var logs = await _context.RunLog.AsNoTracking().Where(i =>
-							i.ActionDate >= startDateTime
-							&& i.ActionDate <= endDateTime
-							&& i.Action == action)
-						.OrderByDescending(i => i.ActionDate)
-						.ToListAsync();
+		var logs = await (from l in _context.RunLog.AsNoTracking()
+			where l.ActionDate >= startDateTime
+			&& l.ActionDate <= endDateTime
+			&& l.Action == action
+			join s in _context.ZoneMetaDatas 
+				on l.ZoneId equals s.ZoneId
+			orderby l.ActionDate descending
+			select new StationLog()
+			{
+				ZoneId = l.ZoneId,
+				Action = l.Action,
+				ActionDate = l.ActionDate,
+				Id = l.Id,
+				RunLength = l.RunLength,
+				UserId = l.UserId,
+				Username = l.Username,
+				StationColor = s.Color,
+				StationName = s.Name
+			}).ToListAsync();
 
 		return logs;
 	}

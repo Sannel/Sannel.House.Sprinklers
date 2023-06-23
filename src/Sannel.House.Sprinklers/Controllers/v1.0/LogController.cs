@@ -43,7 +43,9 @@ public class LogController : ControllerBase
 		{
 			ActionDate = i.ActionDate,
 			StationId = i.ZoneId,
-			RunLength = i.RunLength
+			RunLength = i.RunLength,
+			StationName = i.StationName,
+			StationColor = i.StationColor
 		}));
 	}
 }
