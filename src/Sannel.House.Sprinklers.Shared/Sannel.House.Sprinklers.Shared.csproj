@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Sannel House Sprinklers Shared</Title>
+    <Company>Sannel Software, L.L.C.</Company>
+    <Product>Sannel House Sprinklers</Product>
+    <PackageProjectUrl>https://github.com/Sannel/Sannel.House.Sprinklers</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Sannel/Sannel.House.Sprinklers</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

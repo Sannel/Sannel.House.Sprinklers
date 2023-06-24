@@ -8,20 +8,26 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Sannel.House.Sprinklers.Core\Sannel.House.Sprinklers.Core.csproj" />
+		<ProjectReference Include="..\Sannel.House.Sprinklers.Shared\Sannel.House.Sprinklers.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Iot.Device.Bindings" Version="2.2.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.7">
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.Json" Version="7.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.7">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.8">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+		<PackageReference Include="MQTTnet" Version="4.2.1.781" />
 		<PackageReference Include="System.Device.Gpio" Version="2.2.0" />
 	</ItemGroup>
 

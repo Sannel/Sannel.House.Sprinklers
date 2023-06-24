@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sannel.House.Sprinklers.Core;
 using Sannel.House.Sprinklers.Core.Zones;
-using Sannel.House.Sprinklers.Responses.Zones;
+using Sannel.House.Sprinklers.Mappers;
+using Sannel.House.Sprinklers.Shared.Dtos.Zones;
 
 namespace Sannel.House.Sprinklers.Controllers.v1_0;
 
@@ -15,13 +16,18 @@ public class ZoneController : ControllerBase
 {
 	private const string VERSION = "v1";
 	private readonly IZoneRepository _zoneRepository;
+	private readonly ZoneInfoMapper _zoneInfoMapper;
 	private readonly ILoggerRepository _loggerRepository;
 
-	public ZoneController(IZoneRepository zoneRepository, ILoggerRepository loggerRepository)
+	public ZoneController(IZoneRepository zoneRepository,
+		ZoneInfoMapper zoneInfoMapper,
+		ILoggerRepository loggerRepository)
 	{
 		ArgumentNullException.ThrowIfNull(zoneRepository);
+		ArgumentNullException.ThrowIfNull(zoneInfoMapper);
 		ArgumentNullException.ThrowIfNull(loggerRepository);
 		_zoneRepository = zoneRepository;
+		_zoneInfoMapper = zoneInfoMapper;
 		_loggerRepository = loggerRepository;
 	}
 
@@ -32,12 +38,7 @@ public class ZoneController : ControllerBase
 	{
 		var zones = await _zoneRepository.GetAllZones();
 
-		return Ok(zones.Select(i => new ZoneInfoDto()
-		{
-			ZoneId = i.ZoneId,
-			Name = i.Name,
-			Color = i.Color,
-		}));
+		return Ok(zones.Select(i => _zoneInfoMapper.ModelToDto(i)));
 	}
 
 	[HttpGet("{id}", Name = $"{VERSION}.[controller].[action]")]
@@ -50,12 +51,7 @@ public class ZoneController : ControllerBase
 
 		if (metaData is not null)
 		{
-			return Ok(new ZoneInfoDto()
-			{
-				ZoneId = metaData.ZoneId,
-				Name = metaData.Name,
-				Color = metaData.Color,
-			});
+			return Ok(_zoneInfoMapper.ModelToDto(metaData));
 		}
 		else
 		{
@@ -68,14 +64,7 @@ public class ZoneController : ControllerBase
 	[ProducesResponseType((int)HttpStatusCode.OK)]
 	public async Task<IActionResult> UpdateZoneMetaData([FromBody] ZoneInfoDto zoneInfo)
 	{
-		var info = new ZoneMetaData()
-		{
-			ZoneId = zoneInfo.ZoneId,
-			Name = zoneInfo.Name,
-			Color = zoneInfo.Color,
-		};
-
-		await _zoneRepository.AddOrUpdateZoneInfoAsync(info);
+		await _zoneRepository.AddOrUpdateZoneInfoAsync(_zoneInfoMapper.DtoToModel(zoneInfo));
 
 		return Ok();
 	}

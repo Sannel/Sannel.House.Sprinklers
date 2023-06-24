@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Sannel.House.Sprinklers.Core.Schedules.Models;
 
-namespace Sannel.House.Sprinklers.Requests.Schedules;
+namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules;
 
 /// <summary>
 /// Represents a request to update a schedule program.
 /// </summary>
-public class UpdateScheduleRequest
+public class UpdateScheduleDto
 {
 	/// <summary>
 	/// The unique identifier of the schedule program to update.
@@ -31,5 +30,5 @@ public class UpdateScheduleRequest
 	/// <summary>
 	/// A collection of station times defined for the schedule program.
 	/// </summary>
-	public List<StationTime> StationTimes { get; set; } = new List<StationTime>();
+	public List<StationTimeDto> StationTimes { get; set; } = new List<StationTimeDto>();
 }

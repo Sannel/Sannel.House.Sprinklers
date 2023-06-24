@@ -1,6 +1,7 @@
-﻿using Sannel.House.Sprinklers.Responses.Zones;
+﻿
+using Sannel.House.Sprinklers.Shared.Dtos.Zones;
 
-namespace Sannel.House.Sprinklers.Responses.Sprinklers;
+namespace Sannel.House.Sprinklers.Shared.Dtos.Sprinklers;
 
 /// <summary>
 /// Represents the status of a sprinkler system.

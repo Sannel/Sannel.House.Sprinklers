@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sannel.House.Sprinklers.Core;
-using Sannel.House.Sprinklers.Responses.Logs;
+using Sannel.House.Sprinklers.Shared.Dtos.Logs;
 
 namespace Sannel.House.Sprinklers.Controllers.v1_0;
 

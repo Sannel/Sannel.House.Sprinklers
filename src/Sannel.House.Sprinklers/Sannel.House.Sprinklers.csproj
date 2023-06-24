@@ -4,6 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>be65a2ba-e30a-47c9-b01a-5cd63745c2ca</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,7 +13,9 @@
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.0.0" />
 		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Identity.Web" Version="2.12.2" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="2.12.4" />
+		<PackageReference Include="MQTTnet" Version="4.2.1.781" />
+		<PackageReference Include="Riok.Mapperly" Version="2.8.0" />
 		<PackageReference Include="Sannel.House.Core" Version="0.1.2-preview-001" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Iot.Device.Bindings" Version="2.2.0" />
@@ -22,5 +25,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Sannel.House.Sprinklers.Core\Sannel.House.Sprinklers.Core.csproj" />
 		<ProjectReference Include="..\Sannel.House.Sprinklers.Infrastructure\Sannel.House.Sprinklers.Infrastructure.csproj" />
+		<ProjectReference Include="..\Sannel.House.Sprinklers.Shared\Sannel.House.Sprinklers.Shared.csproj" />
 	</ItemGroup>
 </Project>

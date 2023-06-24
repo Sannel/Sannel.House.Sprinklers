@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sannel.House.Sprinklers.Core.Hardware;
 using Sannel.House.Sprinklers.Core.Zones;
-using Sannel.House.Sprinklers.Responses.Sprinklers;
+using Sannel.House.Sprinklers.Mappers;
+using Sannel.House.Sprinklers.Shared.Dtos.Sprinklers;
 
 namespace Sannel.House.Sprinklers.Controllers.v1_0;
 
@@ -17,16 +18,20 @@ public class SprinklersController : ControllerBase
 	private readonly ILogger _logger;
 	private readonly SprinklerService _service;
 	private readonly IZoneRepository _zoneRepository;
+	private readonly ZoneInfoMapper _zoneInfoMapper;
 
 	public SprinklersController(SprinklerService service,
 		IZoneRepository zoneRepository,
+		ZoneInfoMapper zoneInfoMapper,
 		ILogger<SprinklersController> logger)
 	{
 		ArgumentNullException.ThrowIfNull(service);
 		ArgumentNullException.ThrowIfNull(zoneRepository);
+		ArgumentNullException.ThrowIfNull(zoneInfoMapper);
 		ArgumentNullException.ThrowIfNull(logger);
 		_service = service;
 		_zoneRepository = zoneRepository;
+		_zoneInfoMapper = zoneInfoMapper;
 		_logger = logger;
 	}
 
@@ -67,12 +72,7 @@ public class SprinklersController : ControllerBase
 			var s = await _zoneRepository.GetZoneInfoByIdAsync(_service.StationId);
 			if (s is not null)
 			{
-				status.ZoneInfo = new Responses.Zones.ZoneInfoDto()
-				{
-					ZoneId = s.ZoneId,
-					Name = s.Name,
-					Color = s.Color,
-				};
+				status.ZoneInfo = _zoneInfoMapper.ModelToDto(s);
 			}
 		}
 

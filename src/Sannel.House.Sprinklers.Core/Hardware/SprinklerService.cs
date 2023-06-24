@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Sannel.House.Sprinklers.Shared.Messages;
 
 namespace Sannel.House.Sprinklers.Core.Hardware;
 public class SprinklerService : BackgroundService, IDisposable
@@ -9,14 +10,19 @@ public class SprinklerService : BackgroundService, IDisposable
 	private readonly ILoggerRepository _loggerRepository;
 	private readonly ILogger<SprinklerService> _logger;
 	private readonly bool _continue = true;
+	private readonly IMessageClient _messageClient;
 	private DateTimeOffset _endAt = DateTimeOffset.MinValue;
 	private readonly TimeSpan _waitTime;
 	private readonly IServiceScope _scope;
 
-	public SprinklerService(ISprinklerHardware hardware, IServiceProvider serviceProvider, ILogger<SprinklerService> logger)
+	public SprinklerService(ISprinklerHardware hardware,
+		IServiceProvider serviceProvider,
+		IMessageClient messageClient,
+		ILogger<SprinklerService> logger)
 	{
 		_scope = (serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider))).CreateScope();
 		_hardware = hardware ?? throw new ArgumentNullException(nameof(hardware));
+		_messageClient = messageClient ?? throw new ArgumentNullException(nameof(messageClient));
 		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		_loggerRepository = _scope.ServiceProvider.GetRequiredService<ILoggerRepository>();
 		_waitTime = TimeSpan.FromMilliseconds(500);
@@ -48,6 +54,11 @@ public class SprinklerService : BackgroundService, IDisposable
 
 	public byte Zones => _hardware.Zones;
 
+	private async void sendStopMessage(StationStopMessage message)
+	{
+		await _messageClient.SendStopMessageAsync(message);
+	}
+
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
 		while (_continue && !stoppingToken.IsCancellationRequested)
@@ -56,6 +67,11 @@ public class SprinklerService : BackgroundService, IDisposable
 			if (IsRunning
 				&& _endAt < DateTimeOffset.Now)
 			{
+				sendStopMessage(new StationStopMessage
+				{
+					ZoneId = StationId,
+					StopTime = DateTimeOffset.Now
+				});
 				IsRunning = false;
 				await _hardware.ResetZonesAsync();
 				await _loggerRepository.LogStationAction(LogActions.FINISHED, StationId);
@@ -63,6 +79,11 @@ public class SprinklerService : BackgroundService, IDisposable
 		}
 
 		await StopAllAsync();
+	}
+
+	private async void sendStartMessage(StationStartMessage message)
+	{
+		await _messageClient.SendStartMessageAsync(message);
 	}
 
 	public async Task<bool> StartZoneAsync(byte zoneId, TimeSpan length)
@@ -77,10 +98,17 @@ public class SprinklerService : BackgroundService, IDisposable
 		IsRunning = true;
 		await _hardware.TurnZoneOnAsync(zoneId);
 		await _loggerRepository.LogStationAction(LogActions.START, zoneId, length);
+		sendStartMessage(new StationStartMessage
+		{
+			ZoneId = zoneId,
+			Duration = length,
+			StartTime = DateTimeOffset.Now
+		});
 		StationId = zoneId;
 
 		return true;
 	}
+
 
 	public async Task<bool> StopAllAsync()
 	{

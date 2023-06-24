@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sannel.House.Sprinklers.Core.Schedules.Models;
 
-namespace Sannel.House.Sprinklers.Requests.Schedules;
+namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules;
 
 /// <summary>
 /// Schedule program DTO class representing a schedule program with a unique identifier, user defined name, 
 /// a Cron Expression string and a collection of station times.
 /// </summary>
-public class NewScheduleRequest
+public class NewScheduleDto
 {
 
 	/// <summary>
@@ -32,5 +26,5 @@ public class NewScheduleRequest
 	/// <summary>
 	/// Collection of station times defined for the schedule program.
 	/// </summary>
-	public List<StationTime> StationTimes { get; set; } = new List<StationTime>();
+	public List<StationTimeDto> StationTimes { get; set; } = new List<StationTimeDto>();
 }

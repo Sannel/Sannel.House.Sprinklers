@@ -1,4 +1,4 @@
-﻿namespace Sannel.House.Sprinklers.Responses.Zones;
+﻿namespace Sannel.House.Sprinklers.Shared.Dtos.Zones;
 /// <summary>
 /// Represents information about a sprinkler zone.
 /// </summary>

@@ -1,8 +1,7 @@
-﻿using Sannel.House.Sprinklers.Core.Schedules.Models;
+﻿
+namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules;
 
-namespace Sannel.House.Sprinklers.Responses.Schedules;
-
-public class ScheduleProgramResponse
+public class ScheduleProgramDto
 {
 	/// <summary>
 	/// Unique identifier for the schedule program.
@@ -27,5 +26,5 @@ public class ScheduleProgramResponse
 	/// <summary>
 	/// Collection of station times defined for the schedule program.
 	/// </summary>
-	public ICollection<StationTime> StationTimes { get; set; } = new List<StationTime>();
+	public ICollection<StationTimeDto> StationTimes { get; set; } = new List<StationTimeDto>();
 }

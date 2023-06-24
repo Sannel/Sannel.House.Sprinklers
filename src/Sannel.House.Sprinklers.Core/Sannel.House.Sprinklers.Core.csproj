@@ -13,4 +13,8 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
 		<PackageReference Include="ncrontab" Version="3.3.1" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Sannel.House.Sprinklers.Shared\Sannel.House.Sprinklers.Shared.csproj" />
+	</ItemGroup>
 </Project>

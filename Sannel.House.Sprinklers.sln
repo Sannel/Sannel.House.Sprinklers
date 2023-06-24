@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Sannel.House.Sprinklers.service = Sannel.House.Sprinklers.service
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sannel.House.Sprinklers.Shared", "src\Sannel.House.Sprinklers.Shared\Sannel.House.Sprinklers.Shared.csproj", "{29251B3C-95DC-4CA0-970C-70CEF2F9FC08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{BC3C01DA-979C-4900-AFA6-F4ABA7D467DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC3C01DA-979C-4900-AFA6-F4ABA7D467DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC3C01DA-979C-4900-AFA6-F4ABA7D467DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29251B3C-95DC-4CA0-970C-70CEF2F9FC08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29251B3C-95DC-4CA0-970C-70CEF2F9FC08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29251B3C-95DC-4CA0-970C-70CEF2F9FC08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29251B3C-95DC-4CA0-970C-70CEF2F9FC08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

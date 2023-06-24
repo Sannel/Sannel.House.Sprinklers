@@ -25,7 +25,9 @@ Copy-Item "Sannel.House.Sprinklers.service" ([System.IO.Path]::Combine($rootPath
 $path = [System.IO.Path]::Combine($rootPath,"usr","share","Sannel","House","Sprinklers")
 New-Item -ItemType Directory -Path $path
 
-dotnet publish -r linux-arm64 -c Release --sc -o $path /p:PublishSingleFile=true src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj
+$longVersion = "$version.0"
+
+dotnet publish -r linux-arm64 -c Release --sc -o $path /p:PublishSingleFile=true /p:VersionPrefix=$version /p:Version=$longVersion src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj
 
 $content = "Package: sannel.house.sprinklers
 Version: $version-$buildNumber

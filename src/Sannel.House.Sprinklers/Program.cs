@@ -4,10 +4,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting.Systemd;
+using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
+using MQTTnet;
+using MQTTnet.Client;
 using Sannel.House;
 using Sannel.House.Sprinklers;
+using Sannel.House.Sprinklers.Controllers.v1_0;
 using Sannel.House.Sprinklers.Core;
 using Sannel.House.Sprinklers.Core.Hardware;
 using Sannel.House.Sprinklers.Core.Schedules;
@@ -16,6 +20,8 @@ using Sannel.House.Sprinklers.Infrastructure;
 using Sannel.House.Sprinklers.Infrastructure.Hardware;
 using Sannel.House.Sprinklers.Infrastructure.Schedules;
 using Sannel.House.Sprinklers.Infrastructure.Zones;
+using Sannel.House.Sprinklers.Mappers;
+using Sannel.House.Sprinklers.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile(Path.Combine("app_config", "appsettings.json"), true, true);
@@ -136,9 +142,19 @@ builder.Services.AddSingleton<SprinklerService>();
 builder.Services.AddTransient<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddTransient<ILoggerRepository, LoggerRepository>();
 builder.Services.AddTransient<IZoneRepository, ZoneRepository>();
+builder.Services.AddSingleton<HubMessageClient>();
+builder.Services.AddSingleton<MQTTMessageClient>();
+builder.Services.AddSingleton<IMessageClient>(sp =>
+		new MultiMessageClient(
+			sp.GetRequiredService<HubMessageClient>(),
+			sp.GetRequiredService<MQTTMessageClient>()
+		));
+builder.Services.AddSingleton<ScheduleMapper>();
+builder.Services.AddSingleton<ZoneInfoMapper>();
 builder.Services.AddHostedService<SprinklerService>(s => s.GetRequiredService<SprinklerService>());
 builder.Services.AddHostedService<ScheduleService>();
 
+builder.Services.AddSignalR();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -151,7 +167,29 @@ builder.Services.AddSwaggerGen(o =>
 	o.MapType<TimeSpan?>(() => new OpenApiSchema { Type = "string", Format = "00:00:00", Reference = null, Nullable = true });
 });
 
-var app = builder.Build();
+
+var factory = new MqttFactory();
+using var client = factory.CreateMqttClient();
+
+builder.Services.Configure<MqttOptions>(builder.Configuration.GetSection("MQTT"));
+
+builder.Services.AddSingleton<IMqttClient>(sp =>
+{
+	var options = sp.GetRequiredService<IOptions<MqttOptions>>().Value;
+
+	var o = new MqttClientOptionsBuilder()
+			.WithTcpServer(options.Server);
+	if(!string.IsNullOrWhiteSpace(options.Username))
+	{
+		o = o.WithCredentials(options.Username, options.Password);
+	}
+
+	client.ConnectAsync(o.Build()).Wait();
+
+	return client;
+});
+
+using var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 
@@ -173,6 +211,8 @@ app.UseSwaggerUI(o =>
 	o.OAuthClientId(builder.Configuration["AzureAd:ClientId"]);
 	o.OAuthScopeSeparator(" ");
 });
+
+app.MapHub<HubMessageClient>("/sprinkler/hub");
 
 //app.UseHttpsRedirection();
 app.UseStaticFiles();

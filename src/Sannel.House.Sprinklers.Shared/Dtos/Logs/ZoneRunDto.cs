@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sannel.House.Sprinklers.Shared.Dtos;
+namespace Sannel.House.Sprinklers.Shared.Dtos.Logs;
 
 /// <summary>
 /// Represents data about a sprinkler zone run.
