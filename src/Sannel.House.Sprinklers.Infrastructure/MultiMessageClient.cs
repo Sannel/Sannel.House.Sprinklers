@@ -17,13 +17,12 @@ public class MultiMessageClient : IMessageClient
 		_clients = clients;
 	}
 
-	public async Task SendStartMessageAsync(StationStartMessage message)
-	{
-		await Task.WhenAll(_clients.Select(i => i.SendStartMessageAsync(message)));
-	}
+	public Task SendProgressMessageAsync(StationProgressMessage message)
+		=> Task.WhenAll(_clients.Select(i => i.SendProgressMessageAsync(message)));
 
-	public Task SendStopMessageAsync(StationStopMessage message)
-	{
-		return Task.WhenAll(_clients.Select(i => i.SendStopMessageAsync(message)));
-	}
+	public async Task SendStartMessageAsync(StationStartMessage message) 
+		=> await Task.WhenAll(_clients.Select(i => i.SendStartMessageAsync(message)));
+
+	public Task SendStopMessageAsync(StationStopMessage message) 
+		=> Task.WhenAll(_clients.Select(i => i.SendStopMessageAsync(message)));
 }

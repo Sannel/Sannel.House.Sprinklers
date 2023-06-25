@@ -25,4 +25,5 @@ public class StationStartMessage
 	/// Gets or sets the start time of the station start.
 	/// </summary>
 	public DateTimeOffset StartTime { get; set; } = DateTimeOffset.Now;
+	public DateTimeOffset TriggerTime { get; set; }
 }

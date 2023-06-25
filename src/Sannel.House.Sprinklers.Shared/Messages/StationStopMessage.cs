@@ -9,4 +9,5 @@ public class StationStopMessage
 {
 	public byte ZoneId { get; set; }
 	public DateTimeOffset StopTime { get; set; } = DateTimeOffset.Now;
+	public DateTimeOffset TriggerTime { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿namespace Sannel.House.Sprinklers.Options;
+﻿namespace Sannel.House.Sprinklers.Infrastructure.Options;
 
 public class MqttOptions
 {

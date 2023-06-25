@@ -59,6 +59,11 @@ public class SprinklerService : BackgroundService, IDisposable
 		await _messageClient.SendStopMessageAsync(message);
 	}
 
+	private async void sendProgressMessage(StationProgressMessage message)
+	{
+		await _messageClient.SendProgressMessageAsync(message);
+	}
+
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
 		while (_continue && !stoppingToken.IsCancellationRequested)
@@ -67,14 +72,49 @@ public class SprinklerService : BackgroundService, IDisposable
 			if (IsRunning
 				&& _endAt < DateTimeOffset.Now)
 			{
+				var totalTime = TotalTime ?? TimeSpan.FromMilliseconds(1);
+				sendProgressMessage(new StationProgressMessage()
+				{
+					ZoneId = StationId,
+					RunLength = totalTime,
+					TimeLeft = totalTime,
+					PercentCompleteFloat = 1f,
+					PercentComplete = 100,
+					InvertPercentComplete = 0,
+					TriggerTime = DateTimeOffset.Now
+				});
 				sendStopMessage(new StationStopMessage
 				{
 					ZoneId = StationId,
-					StopTime = DateTimeOffset.Now
+					StopTime = DateTimeOffset.Now,
+					TriggerTime = DateTimeOffset.Now
 				});
 				IsRunning = false;
 				await _hardware.ResetZonesAsync();
 				await _loggerRepository.LogStationAction(LogActions.FINISHED, StationId);
+			}
+			else if(IsRunning)
+			{
+				try
+				{
+					var totalTime = TotalTime ?? TimeSpan.FromMilliseconds(1);
+					var timeLeft = TimeLeft;
+					var percent = (float)(1f - (timeLeft.TotalMicroseconds / totalTime.TotalMicroseconds));
+					sendProgressMessage(new StationProgressMessage
+					{
+						ZoneId = StationId,
+						RunLength = totalTime,
+						TimeLeft = timeLeft,
+						PercentCompleteFloat = percent,
+						PercentComplete = (short)(percent * 100),
+						InvertPercentComplete = (short)(100 - (percent * 100)),
+						TriggerTime = DateTimeOffset.Now
+					});
+				}
+				catch (Exception ex)
+				{
+
+				}
 			}
 		}
 
@@ -102,7 +142,8 @@ public class SprinklerService : BackgroundService, IDisposable
 		{
 			ZoneId = zoneId,
 			Duration = length,
-			StartTime = DateTimeOffset.Now
+			StartTime = DateTimeOffset.Now,
+			TriggerTime = DateTimeOffset.Now
 		});
 		StationId = zoneId;
 

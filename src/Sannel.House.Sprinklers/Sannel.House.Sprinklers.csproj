@@ -27,4 +27,8 @@
 		<ProjectReference Include="..\Sannel.House.Sprinklers.Infrastructure\Sannel.House.Sprinklers.Infrastructure.csproj" />
 		<ProjectReference Include="..\Sannel.House.Sprinklers.Shared\Sannel.House.Sprinklers.Shared.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Options\" />
+	</ItemGroup>
 </Project>

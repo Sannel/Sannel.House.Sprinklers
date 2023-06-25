@@ -7,21 +7,18 @@ using Microsoft.Extensions.Hosting.Systemd;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
-using MQTTnet;
-using MQTTnet.Client;
 using Sannel.House;
 using Sannel.House.Sprinklers;
-using Sannel.House.Sprinklers.Controllers.v1_0;
 using Sannel.House.Sprinklers.Core;
 using Sannel.House.Sprinklers.Core.Hardware;
 using Sannel.House.Sprinklers.Core.Schedules;
 using Sannel.House.Sprinklers.Core.Zones;
 using Sannel.House.Sprinklers.Infrastructure;
 using Sannel.House.Sprinklers.Infrastructure.Hardware;
+using Sannel.House.Sprinklers.Infrastructure.Options;
 using Sannel.House.Sprinklers.Infrastructure.Schedules;
 using Sannel.House.Sprinklers.Infrastructure.Zones;
 using Sannel.House.Sprinklers.Mappers;
-using Sannel.House.Sprinklers.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile(Path.Combine("app_config", "appsettings.json"), true, true);
@@ -168,26 +165,8 @@ builder.Services.AddSwaggerGen(o =>
 });
 
 
-var factory = new MqttFactory();
-using var client = factory.CreateMqttClient();
-
 builder.Services.Configure<MqttOptions>(builder.Configuration.GetSection("MQTT"));
-
-builder.Services.AddSingleton<IMqttClient>(sp =>
-{
-	var options = sp.GetRequiredService<IOptions<MqttOptions>>().Value;
-
-	var o = new MqttClientOptionsBuilder()
-			.WithTcpServer(options.Server);
-	if(!string.IsNullOrWhiteSpace(options.Username))
-	{
-		o = o.WithCredentials(options.Username, options.Password);
-	}
-
-	client.ConnectAsync(o.Build()).Wait();
-
-	return client;
-});
+builder.Services.AddSingleton<MQTTManager>();
 
 using var app = builder.Build();
 
@@ -212,7 +191,8 @@ app.UseSwaggerUI(o =>
 	o.OAuthScopeSeparator(" ");
 });
 
-app.MapHub<HubMessageClient>("/sprinkler/hub");
+app.MapHub<MessageHub>("/sprinkler/hub");
+await app.Services.GetRequiredService<MQTTManager>().StartAsync();
 
 //app.UseHttpsRedirection();
 app.UseStaticFiles();

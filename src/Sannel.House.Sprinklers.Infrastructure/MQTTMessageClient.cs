@@ -13,15 +13,33 @@ using Sannel.House.Sprinklers.Shared.Messages;
 namespace Sannel.House.Sprinklers.Infrastructure;
 public class MQTTMessageClient : IMessageClient
 {
-	private readonly IMqttClient _mqttClient;
+	private readonly MQTTManager _manager;
 	private readonly ILogger _logger;
 
-	public MQTTMessageClient(IMqttClient mqttClient, ILogger<MQTTMessageClient> logger)
+	public MQTTMessageClient(MQTTManager manager, ILogger<MQTTMessageClient> logger)
 	{
-		ArgumentNullException.ThrowIfNull(mqttClient);
+		ArgumentNullException.ThrowIfNull(manager);
 		ArgumentNullException.ThrowIfNull(logger);
-		_mqttClient = mqttClient;
+		_manager = manager;
 		_logger = logger;
+	}
+
+	public Task SendProgressMessageAsync(StationProgressMessage message)
+	{
+		try
+		{
+			var mqtt = new MqttApplicationMessageBuilder()
+				.WithTopic("Sannel/House/Sprinklers/ProgressMessage")
+				.WithPayload(JsonSerializer.Serialize(message))
+				.Build();
+
+			return _manager.PublishAsync(mqtt);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Error sending progress message {zoneId}", message.ZoneId);
+			return Task.CompletedTask;
+		}
 	}
 
 	public async Task SendStartMessageAsync(StationStartMessage message)
@@ -33,7 +51,7 @@ public class MQTTMessageClient : IMessageClient
 				.WithPayload(JsonSerializer.Serialize(message))
 				.Build();
 
-			await _mqttClient.PublishAsync(mqtt);
+			await _manager.PublishAsync(mqtt);
 		}
 		catch (Exception ex)
 		{
@@ -50,7 +68,7 @@ public class MQTTMessageClient : IMessageClient
 				.WithPayload(JsonSerializer.Serialize(message))
 				.Build();
 
-			await _mqttClient.PublishAsync(mqtt);
+			await _manager.PublishAsync(mqtt);
 		}
 		catch(Exception ex)
 		{

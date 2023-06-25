@@ -11,4 +11,6 @@ public interface IMessageClient
 	Task SendStartMessageAsync(StationStartMessage message);
 
 	Task SendStopMessageAsync(StationStopMessage message);
+
+	Task SendProgressMessageAsync(StationProgressMessage message);
 }
