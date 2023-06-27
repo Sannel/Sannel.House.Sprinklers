@@ -362,5 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 schedule.db*
-**/app_config/*.json
+**/app_config/*
 [bB]uild/

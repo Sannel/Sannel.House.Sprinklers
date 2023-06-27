@@ -2,6 +2,7 @@
 using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -82,10 +83,43 @@ public class MQTTManager : IDisposable
 		try
 		{
 			var o = new MqttClientOptionsBuilder()
-					.WithTcpServer(_options.Server);
+					.WithTcpServer(_options.Server, _options.Port);
+
 			if (!string.IsNullOrWhiteSpace(_options.Username))
 			{
 				o = o.WithCredentials(_options.Username, _options.Password);
+			}
+
+			if(_options.UseSSL)
+			{
+				o = o.WithTls(p =>
+				{
+					p.UseTls = true;
+					if(_options.CertPaths?.Any() == true)
+					{
+						p.Certificates = _options.CertPaths.Select(i => new X509Certificate2(i)).ToList();
+						p.CertificateValidationHandler += (certContext) =>
+						{
+							X509Chain chain = new X509Chain();
+							chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+							chain.ChainPolicy.RevocationFlag = X509RevocationFlag.ExcludeRoot;
+							chain.ChainPolicy.VerificationFlags = X509VerificationFlags.NoFlag;
+							chain.ChainPolicy.VerificationTime = DateTime.Now;
+							chain.ChainPolicy.UrlRetrievalTimeout = new TimeSpan(0, 0, 0);
+							foreach (var c in p.Certificates)
+							{
+								chain.ChainPolicy.CustomTrustStore.Add(c);
+							}
+
+							chain.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;
+
+							// convert provided X509Certificate to X509Certificate2
+							var x5092 = new X509Certificate2(certContext.Certificate);
+
+							return chain.Build(x5092);
+						};
+					}
+				});
 			}
 
 			await _client.ConnectAsync(o.Build());

@@ -15,7 +15,7 @@ New-Item -ItemType Directory -Path $path
 $path = [System.IO.Path]::Combine($rootPath,"etc","Sannel","House")
 New-Item -ItemType Directory -Path $path
 
-$path = [System.IO.Path]::Combine($rootPath,"etc","systemd","system")
+$path = [System.IO.Path]::Combine($rootPath,"lib","systemd","system")
 New-Item -ItemType Directory -Path $path
 
 Copy-Item ([System.IO.Path]::Combine("src","Sannel.House.Sprinklers","appsettings.etc.json")) ([System.IO.Path]::Combine($rootPath,"etc","Sannel","House","sprinklers.json"))
