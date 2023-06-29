@@ -10,6 +10,16 @@
     <Product>Sannel House Sprinklers</Product>
     <PackageProjectUrl>https://github.com/Sannel/Sannel.House.Sprinklers</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Sannel/Sannel.House.Sprinklers</RepositoryUrl>
+    <Description>The client to access Sannel House Sprinklers</Description>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <Version>$(VersionPrefix)-preview</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
