@@ -6,9 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Sannel.House.Sprinklers.Shared;
-public class Result<T>
+public class Result
 {
-	public T? Value { get; set; }
 	public bool IsSuccess { get; set; }
 	public HttpStatusCode StatusCode { get; set; }
+}
+public class Result<T> : Result
+{
+	public T? Value { get; set; }
 }

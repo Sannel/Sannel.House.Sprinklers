@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Sannel.House.Sprinklers.Shared.Dtos.Sprinklers;
 using Sannel.House.Sprinklers.Shared.Dtos.Zones;
 
 namespace Sannel.House.Sprinklers.Shared;
@@ -13,33 +14,41 @@ public partial class SprinklersClient
 
 	public class V1Class
 	{
-		private readonly HttpClient _httpClient;
-		internal V1Class(HttpClient httpClient)
+		private readonly SprinklersClient _parent;
+		internal V1Class(SprinklersClient parent)
 		{
-			_httpClient = httpClient;
+			_parent = parent;
 		}
 
-		public async Task<Result<IEnumerable<ZoneInfoDto>>> GetAllZoneMetaDataAsync()
+		public Task<Result<IEnumerable<ZoneInfoDto>>> GetAllZoneMetaDataAsync()
 		{
-			var result = new Result<IEnumerable<ZoneInfoDto>>();
-			var response = await _httpClient.GetAsync("/sprinklers/api/v1/ZoneMetaData");
+			return _parent.GetAsync<IEnumerable<ZoneInfoDto>>("/sprinklers/api/v1/ZoneMetaData");
+		}
 
-			if(response.IsSuccessStatusCode)
-			{
-				result.IsSuccess = true;
-				result.StatusCode = response.StatusCode;
-			}
-			else
-			{
-				result.IsSuccess = false;
-				result.StatusCode = response.StatusCode;
-				return result;
-			}
+		public Task<Result<ZoneInfoDto>> GetZoneMetaDataAsync(byte id)
+		{
+			return _parent.GetAsync<ZoneInfoDto>($"/sprinklers/api/v1/ZoneMetaData/{id}");
+		}
 
-			var content = await response.Content.ReadAsStringAsync();
-			result.Value = JsonSerializer.Deserialize<IEnumerable<ZoneInfoDto>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+		public Task<Result> UpdateZoneMetaDataAsync( ZoneInfoDto zone)
+		{
+			ArgumentNullException.ThrowIfNull(zone);
+			return _parent.PutAsync("/sprinklers/api/v1/ZoneMetaData", zone);
+		}
 
-			return result;
+		public Task<Result> StartZoneAsync(byte id, TimeSpan length)
+		{
+			return _parent.PostAsync($"/sprinklers/api/v1/Sprinklers/Start?zoneId={id}&length={JsonSerializer.Serialize(length)}");
+		}
+
+		public Task<Result> StopAll()
+		{
+			return _parent.PostAsync($"/sprinklers/api/v1/Sprinklers/Stop");
+		}
+
+		public Task<Result<StatusDto>> GetStatus()
+		{
+			return _parent.GetAsync<StatusDto>("/sprinklers/api/v1/Sprinklers/Status");
 		}
 	}
 }
