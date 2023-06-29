@@ -24,7 +24,7 @@ public partial class SprinklersClient
 	private async Task<Result<T>> GetAsync<T>(string path)
 	{
 		var result = new Result<T>();
-		using var message = new HttpRequestMessage(HttpMethod.Get, url);
+		using var message = new HttpRequestMessage(HttpMethod.Get, path);
 		message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", _authCallBack());
 		var response = await _httpClient.SendAsync(message);
 
