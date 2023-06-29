@@ -10,14 +10,11 @@ namespace Sannel.House.Sprinklers.Shared;
 public partial class SprinklersClient
 {
 	private readonly HttpClient _httpClient;
-	private readonly Func<string> _authCallBack;
 
-	public SprinklersClient(HttpClient httpClient, Func<string> authCallBack)
+	public SprinklersClient(HttpClient httpClient)
 	{
 		ArgumentNullException.ThrowIfNull(httpClient);
-		ArgumentNullException.ThrowIfNull(authCallBack);
 		_httpClient = httpClient;
-		_authCallBack = authCallBack;
 		V1 = new V1Class(this);
 	}
 
@@ -25,7 +22,6 @@ public partial class SprinklersClient
 	{
 		var result = new Result<T>();
 		using var message = new HttpRequestMessage(HttpMethod.Get, path);
-		message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", _authCallBack());
 		var response = await _httpClient.SendAsync(message);
 
 		if(response.IsSuccessStatusCode)
@@ -50,7 +46,6 @@ public partial class SprinklersClient
 	{
 		var result = new Result();
 		using var message = new HttpRequestMessage(HttpMethod.Put, path);
-		message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", _authCallBack());
 		var response = await _httpClient.SendAsync(message);
 
 		if(response.IsSuccessStatusCode)
@@ -72,7 +67,6 @@ public partial class SprinklersClient
 		var result = new Result();
 		using var message = new HttpRequestMessage(HttpMethod.Put, path);
 		message.Content = JsonContent.Create(obj);
-		message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", _authCallBack());
 		var response = await _httpClient.SendAsync(message);
 
 		if(response.IsSuccessStatusCode)
