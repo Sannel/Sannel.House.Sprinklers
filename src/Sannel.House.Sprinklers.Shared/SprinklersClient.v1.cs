@@ -22,33 +22,33 @@ public partial class SprinklersClient
 
 		public Task<Result<IEnumerable<ZoneInfoDto>>> GetAllZoneMetaDataAsync()
 		{
-			return _parent.GetAsync<IEnumerable<ZoneInfoDto>>("/sprinklers/api/v1/ZoneMetaData");
+			return _parent.GetAsync<IEnumerable<ZoneInfoDto>>($"{_parent.PathRoot}/api/v1/Zone");
 		}
 
 		public Task<Result<ZoneInfoDto>> GetZoneMetaDataAsync(byte id)
 		{
-			return _parent.GetAsync<ZoneInfoDto>($"/sprinklers/api/v1/ZoneMetaData/{id}");
+			return _parent.GetAsync<ZoneInfoDto>($"{_parent.PathRoot}/api/v1/Zone/{id}");
 		}
 
 		public Task<Result> UpdateZoneMetaDataAsync( ZoneInfoDto zone)
 		{
 			ArgumentNullException.ThrowIfNull(zone);
-			return _parent.PutAsync("/sprinklers/api/v1/ZoneMetaData", zone);
+			return _parent.PutAsync($"{_parent.PathRoot}/api/v1/Zone", zone);
 		}
 
 		public Task<Result> StartZoneAsync(byte id, TimeSpan length)
 		{
-			return _parent.PostAsync($"/sprinklers/api/v1/Sprinklers/Start?zoneId={id}&length={JsonSerializer.Serialize(length)}");
+			return _parent.PostAsync($"{_parent.PathRoot}/api/v1/Sprinklers/Start?zoneId={id}&length={JsonSerializer.Serialize(length)}");
 		}
 
 		public Task<Result> StopAll()
 		{
-			return _parent.PostAsync($"/sprinklers/api/v1/Sprinklers/Stop");
+			return _parent.PostAsync($"{_parent.PathRoot}/api/v1/Sprinklers/Stop");
 		}
 
 		public Task<Result<StatusDto>> GetStatus()
 		{
-			return _parent.GetAsync<StatusDto>("/sprinklers/api/v1/Sprinklers/Status");
+			return _parent.GetAsync<StatusDto>($"{_parent.PathRoot}/api/v1/Sprinklers/Status");
 		}
 	}
 }

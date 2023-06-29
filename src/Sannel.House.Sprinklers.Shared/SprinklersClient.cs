@@ -18,6 +18,8 @@ public partial class SprinklersClient
 		V1 = new V1Class(this);
 	}
 
+	public string PathRoot { get; set; } = "/sprinkler";
+
 	private async Task<Result<T>> GetAsync<T>(string path)
 	{
 		var result = new Result<T>();
