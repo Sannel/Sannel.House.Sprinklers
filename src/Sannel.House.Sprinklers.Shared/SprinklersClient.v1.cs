@@ -19,10 +19,10 @@ public partial class SprinklersClient
 		private readonly SprinklersClient _parent;
 		private readonly HubConnection _hubConnection;
 
-		public event Action<StationStartMessage> StationStart;
-		public event Action<StationStopMessage> StationStop;
-		public event Action<StationProgressMessage> StationProgress;
-		public event Action<ZoneUpdateMessage> ZoneUpdate;
+		public event Action<StationStartMessage>? StationStart;
+		public event Action<StationStopMessage>? StationStop;
+		public event Action<StationProgressMessage>? StationProgress;
+		public event Action<ZoneUpdateMessage>? ZoneUpdate;
 
 		internal V1Class(SprinklersClient parent)
 		{

@@ -18,8 +18,8 @@ public partial class SprinklersClient
 		ArgumentNullException.ThrowIfNull(httpClient);
 		ArgumentNullException.ThrowIfNull(options);
 		_httpClient = httpClient;
-		V1 = new V1Class(this);
 		_options = options.Value;
+		V1 = new V1Class(this);
 	}
 
 	private async Task<Result<T>> GetAsync<T>(string path)
