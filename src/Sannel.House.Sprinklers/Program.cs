@@ -148,6 +148,8 @@ builder.Services.AddSingleton<IMessageClient>(sp =>
 		));
 builder.Services.AddSingleton<ScheduleMapper>();
 builder.Services.AddSingleton<ZoneInfoMapper>();
+builder.Services.AddSingleton<CoreMapper>();
+builder.Services.AddTransient<IZoneService, ZoneService>();
 builder.Services.AddHostedService<SprinklerService>(s => s.GetRequiredService<SprinklerService>());
 builder.Services.AddHostedService<ScheduleService>();
 

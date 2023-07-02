@@ -5,25 +5,31 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace Sannel.House.Sprinklers.Shared;
 public partial class SprinklersClient
 {
 	private readonly HttpClient _httpClient;
+	private readonly SprinklerClientOptions _options;
 
-	public SprinklersClient(HttpClient httpClient)
+	public SprinklersClient(HttpClient httpClient, IOptions<SprinklerClientOptions> options)
 	{
 		ArgumentNullException.ThrowIfNull(httpClient);
+		ArgumentNullException.ThrowIfNull(options);
 		_httpClient = httpClient;
 		V1 = new V1Class(this);
+		_options = options.Value;
 	}
-
-	public string PathRoot { get; set; } = "/sprinkler";
 
 	private async Task<Result<T>> GetAsync<T>(string path)
 	{
 		var result = new Result<T>();
-		using var message = new HttpRequestMessage(HttpMethod.Get, path);
+
+		var builder = new UriBuilder(_options.HostUri!);
+		builder.Path += path;
+
+		using var message = new HttpRequestMessage(HttpMethod.Get, builder.Uri);
 		var response = await _httpClient.SendAsync(message);
 
 		if(response.IsSuccessStatusCode)
@@ -47,7 +53,11 @@ public partial class SprinklersClient
 	private async Task<Result> PostAsync(string path)
 	{
 		var result = new Result();
-		using var message = new HttpRequestMessage(HttpMethod.Put, path);
+
+		var builder = new UriBuilder(_options.HostUri!);
+		builder.Path += path;
+
+		using var message = new HttpRequestMessage(HttpMethod.Put, builder.Uri);
 		var response = await _httpClient.SendAsync(message);
 
 		if(response.IsSuccessStatusCode)
@@ -67,7 +77,11 @@ public partial class SprinklersClient
 	private async Task<Result> PutAsync<T>(string path, T obj)
 	{
 		var result = new Result();
-		using var message = new HttpRequestMessage(HttpMethod.Put, path);
+
+		var builder = new UriBuilder(_options.HostUri!);
+		builder.Path += path;
+
+		using var message = new HttpRequestMessage(HttpMethod.Put, builder.Uri);
 		message.Content = JsonContent.Create(obj);
 		var response = await _httpClient.SendAsync(message);
 

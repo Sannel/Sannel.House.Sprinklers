@@ -25,4 +25,6 @@ public class MultiMessageClient : IMessageClient
 
 	public Task SendStopMessageAsync(StationStopMessage message) 
 		=> Task.WhenAll(_clients.Select(i => i.SendStopMessageAsync(message)));
+	public Task SendZoneUpdateMessageAsync(ZoneUpdateMessage message)
+		=> Task.WhenAll(_clients.Select(i => i.SendZoneUpdateMessageAsync(message)));
 }
