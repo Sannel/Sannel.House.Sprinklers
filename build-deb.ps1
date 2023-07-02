@@ -20,14 +20,14 @@ New-Item -ItemType Directory -Path $path
 
 Copy-Item ([System.IO.Path]::Combine("src","Sannel.House.Sprinklers","appsettings.etc.json")) ([System.IO.Path]::Combine($rootPath,"etc","Sannel","House","sprinklers.json"))
 
-Copy-Item "Sannel.House.Sprinklers.service" ([System.IO.Path]::Combine($rootPath,"etc","systemd","system","Sannel.House.Sprinklers.service"))
+Copy-Item "Sannel.House.Sprinklers.service" ([System.IO.Path]::Combine($rootPath,"lib","systemd","system","Sannel.House.Sprinklers.service"))
 
 $path = [System.IO.Path]::Combine($rootPath,"usr","share","Sannel","House","Sprinklers")
 New-Item -ItemType Directory -Path $path
 
 $longVersion = "$version.0"
 
-dotnet publish -r linux-arm64 -c Release --sc -o $path /p:PublishSingleFile=true /p:VersionPrefix=$version /p:Version=$longVersion src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj
+dotnet publish -r linux-arm64 -c Release --sc -o $path /p:PublishSingleFile=true /p:VersionPrefix=$version-preview-$buildNumber /p:PackageVersion=$version-preview-$buildNumber /p:Version=$longVersion src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj
 
 $content = "Package: sannel.house.sprinklers
 Version: $version-$buildNumber
