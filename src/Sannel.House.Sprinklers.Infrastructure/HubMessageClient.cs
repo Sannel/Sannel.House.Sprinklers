@@ -19,15 +19,18 @@ public class HubMessageClient : IMessageClient
 	}
 
 	public async Task SendProgressMessageAsync(StationProgressMessage message)
-		=> await _hubContext.Clients.All.SendAsync("ProgressMessage", message);
+		=> await _hubContext.Clients.All.SendAsync(EventNames.PROGRESS_MESSAGE, message);
 
 	public async Task SendStartMessageAsync(StationStartMessage message)
 	{
-		await _hubContext.Clients.All.SendAsync("StartMessage", message);
+		await _hubContext.Clients.All.SendAsync(EventNames.START_MESSAGE, message);
 	}
 
 	public async Task SendStopMessageAsync(StationStopMessage message)
 	{
-		await _hubContext.Clients.All.SendAsync("StopMessage", message);
+		await _hubContext.Clients.All.SendAsync(EventNames.STOP_MESSAGE, message);
 	}
+
+	public async Task SendZoneUpdateMessageAsync(ZoneUpdateMessage message)
+		=> await _hubContext.Clients.All.SendAsync(EventNames.ZONE_UPDATE_MESSAGE, message);
 }

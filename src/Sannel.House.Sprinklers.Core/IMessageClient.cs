@@ -13,4 +13,6 @@ public interface IMessageClient
 	Task SendStopMessageAsync(StationStopMessage message);
 
 	Task SendProgressMessageAsync(StationProgressMessage message);
+
+	Task SendZoneUpdateMessageAsync(ZoneUpdateMessage message);
 }

@@ -15,18 +15,18 @@ namespace Sannel.House.Sprinklers.Controllers.v1_0;
 public class ZoneController : ControllerBase
 {
 	private const string VERSION = "v1";
-	private readonly IZoneRepository _zoneRepository;
+	private readonly IZoneService _zoneService;
 	private readonly ZoneInfoMapper _zoneInfoMapper;
 	private readonly ILoggerRepository _loggerRepository;
 
-	public ZoneController(IZoneRepository zoneRepository,
+	public ZoneController(IZoneService zoneService,
 		ZoneInfoMapper zoneInfoMapper,
 		ILoggerRepository loggerRepository)
 	{
-		ArgumentNullException.ThrowIfNull(zoneRepository);
+		ArgumentNullException.ThrowIfNull(zoneService);
 		ArgumentNullException.ThrowIfNull(zoneInfoMapper);
 		ArgumentNullException.ThrowIfNull(loggerRepository);
-		_zoneRepository = zoneRepository;
+		_zoneService = zoneService;
 		_zoneInfoMapper = zoneInfoMapper;
 		_loggerRepository = loggerRepository;
 	}
@@ -36,7 +36,7 @@ public class ZoneController : ControllerBase
 	[ProducesResponseType(typeof(IEnumerable<ZoneInfoDto>), (int)HttpStatusCode.OK)]
 	public async Task<IActionResult> GetAllZoneMetaData()
 	{
-		var zones = await _zoneRepository.GetAllZones();
+		var zones = await _zoneService.GetAllZones();
 
 		return Ok(zones.Select(i => _zoneInfoMapper.ModelToDto(i)));
 	}
@@ -47,7 +47,7 @@ public class ZoneController : ControllerBase
 	[ProducesResponseType((int)HttpStatusCode.NotFound)]
 	public async Task<IActionResult> GetZoneMetaData(byte id)
 	{
-		var metaData = await _zoneRepository.GetZoneInfoByIdAsync(id);
+		var metaData = await _zoneService.GetZoneInfoByIdAsync(id);
 
 		if (metaData is not null)
 		{
@@ -64,7 +64,7 @@ public class ZoneController : ControllerBase
 	[ProducesResponseType((int)HttpStatusCode.OK)]
 	public async Task<IActionResult> UpdateZoneMetaData([FromBody] ZoneInfoDto zoneInfo)
 	{
-		await _zoneRepository.AddOrUpdateZoneInfoAsync(_zoneInfoMapper.DtoToModel(zoneInfo));
+		await _zoneService.AddOrUpdateZoneInfoAsync(_zoneInfoMapper.DtoToModel(zoneInfo));
 
 		return Ok();
 	}

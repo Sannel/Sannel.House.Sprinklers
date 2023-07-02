@@ -26,10 +26,11 @@ public class MQTTMessageClient : IMessageClient
 
 	public Task SendProgressMessageAsync(StationProgressMessage message)
 	{
+		const string topic = $"Sannel/House/Sprinklers/{EventNames.PROGRESS_MESSAGE}";
 		try
 		{
 			var mqtt = new MqttApplicationMessageBuilder()
-				.WithTopic("Sannel/House/Sprinklers/ProgressMessage")
+				.WithTopic(topic)
 				.WithPayload(JsonSerializer.Serialize(message))
 				.Build();
 
@@ -44,10 +45,11 @@ public class MQTTMessageClient : IMessageClient
 
 	public async Task SendStartMessageAsync(StationStartMessage message)
 	{
+		const string topic = $"Sannel/House/Sprinklers/{EventNames.START_MESSAGE}";
 		try
 		{
 			var mqtt = new MqttApplicationMessageBuilder()
-				.WithTopic("Sannel/House/Sprinklers/StartMessage")
+				.WithTopic(topic)
 				.WithPayload(JsonSerializer.Serialize(message))
 				.Build();
 
@@ -61,10 +63,11 @@ public class MQTTMessageClient : IMessageClient
 
 	public async Task SendStopMessageAsync(StationStopMessage message)
 	{
+		const string topic = $"Sannel/House/Sprinklers/{EventNames.STOP_MESSAGE}";
 		try
 		{
 			var mqtt = new MqttApplicationMessageBuilder()
-				.WithTopic("Sannel/House/Sprinklers/StopMessage")
+				.WithTopic(topic)
 				.WithPayload(JsonSerializer.Serialize(message))
 				.Build();
 
@@ -73,6 +76,24 @@ public class MQTTMessageClient : IMessageClient
 		catch(Exception ex)
 		{
 			_logger.LogError(ex, "Error sending stop message {zoneId}", message.ZoneId);
+		}
+	}
+
+	public async Task SendZoneUpdateMessageAsync(ZoneUpdateMessage message)
+	{
+		const string topic = $"Sannel/House/Sprinklers/{EventNames.ZONE_UPDATE_MESSAGE}";
+		try
+		{
+			var mqtt = new MqttApplicationMessageBuilder()
+				.WithTopic(topic)
+				.WithPayload(JsonSerializer.Serialize(message))
+				.Build();
+
+			await _manager.PublishAsync(mqtt);
+		}
+		catch(Exception ex)
+		{
+			_logger.LogError(ex, "Error sending Zone Update Message {zoneId}", message?.ZoneInfo?.ZoneId);
 		}
 	}
 }
