@@ -1,28 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>Sannel House Sprinklers Shared</Title>
-    <Company>Sannel Software, L.L.C.</Company>
-    <Product>Sannel House Sprinklers</Product>
-    <PackageProjectUrl>https://github.com/Sannel/Sannel.House.Sprinklers</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Sannel/Sannel.House.Sprinklers</RepositoryUrl>
-    <Description>The client to access Sannel House Sprinklers</Description>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>Sannel House Sprinklers Shared</Title>
+		<Company>Sannel Software, L.L.C.</Company>
+		<Product>Sannel House Sprinklers</Product>
+		<PackageProjectUrl>https://github.com/Sannel/Sannel.House.Sprinklers</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Sannel/Sannel.House.Sprinklers</RepositoryUrl>
+		<Description>The client to access Sannel House Sprinklers</Description>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 
-  <ItemGroup>
-    <None Include="..\..\LICENSE.txt">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+		<!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.8" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\LICENSE.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.8" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
 </Project>
