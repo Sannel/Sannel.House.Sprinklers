@@ -40,6 +40,7 @@ jobs:
     - uses: ncipollo/release-action@v1
       with:
         name: Release ${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
+        tag: true
         allowUpdates: true
         draft: true
         generateReleaseNotes: true
