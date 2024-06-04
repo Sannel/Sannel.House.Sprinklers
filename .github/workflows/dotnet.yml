@@ -45,4 +45,4 @@ jobs:
         draft: true
         generateReleaseNotes: true
         artifacts: release.tar.bz2
-        bodyFile: "body.md"
+        bodyFile: "Release.md"
