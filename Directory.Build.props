@@ -1,0 +1,8 @@
+<Project>
+	<PropertyGroup>
+		<Major Condition="'$(Major)' == ''">0</Major>
+		<Minor Condition="'$(Minor)' == ''">0</Minor>
+		<Patch Condition="'$(Patch)' == ''">1</Patch>
+		<BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
+	</PropertyGroup>
+</Project>

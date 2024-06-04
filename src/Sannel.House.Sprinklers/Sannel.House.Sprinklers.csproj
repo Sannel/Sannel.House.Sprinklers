@@ -1,25 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>be65a2ba-e30a-47c9-b01a-5cd63745c2ca</UserSecretsId>
+		<Copyright>Sannel Software, L.L.C. $([System.DateTime]::Now.ToString('yyyy'))</Copyright>
+		<AssemblyVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</AssemblyVersion>
+		<FileVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</FileVersion>
+		<Version>$(Major).$(Minor).$(Patch).$(BuildNumber)</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Asp.Versioning.Http" Version="7.0.0" />
-		<PackageReference Include="Asp.Versioning.Mvc" Version="7.0.0" />
-		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.0.0" />
-		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Identity.Web" Version="2.12.4" />
-		<PackageReference Include="MQTTnet" Version="4.2.1.781" />
-		<PackageReference Include="Riok.Mapperly" Version="2.8.0" />
+		<PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
+		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="2.19.0" />
+		<PackageReference Include="MQTTnet" Version="4.3.6.1152" />
+		<PackageReference Include="Riok.Mapperly" Version="3.5.1" />
 		<PackageReference Include="Sannel.House.Core" Version="0.1.2-preview-001" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-		<PackageReference Include="Iot.Device.Bindings" Version="2.2.0" />
-		<PackageReference Include="System.Device.Gpio" Version="2.2.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="Iot.Device.Bindings" Version="3.1.0" />
+		<PackageReference Include="System.Device.Gpio" Version="3.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -14,11 +14,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		build-deb.ps1 = build-deb.ps1
+		Changes.md = Changes.md
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		Directory.Build.props = Directory.Build.props
 		nuget.config = nuget.config
+		Release.md = Release.md
 		Sannel.House.Sprinklers.service = Sannel.House.Sprinklers.service
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sannel.House.Sprinklers.Shared", "src\Sannel.House.Sprinklers.Shared\Sannel.House.Sprinklers.Shared.csproj", "{29251B3C-95DC-4CA0-970C-70CEF2F9FC08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sannel.House.Sprinklers.Shared", "src\Sannel.House.Sprinklers.Shared\Sannel.House.Sprinklers.Shared.csproj", "{29251B3C-95DC-4CA0-970C-70CEF2F9FC08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

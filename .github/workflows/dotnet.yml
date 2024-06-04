@@ -11,25 +11,37 @@ on:
 
 jobs:
   build:
+    env:
+      MAJOR: 0
+      MINOR: 1
+      PATCH: 0
+      DOTNET_VERSION: 8.0.x
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
 #    - name: Test
 #      run: dotnet test --no-build --verbosity normal
-    - uses: actions/upload-artifact@v4
+    - name: Build
+      run: dotnet clean
+    - name: compress
+      run: tar -czvf release.tar.bz2 *
+    - uses: ncipollo/release-action@v1
       with:
-        name: release
-        path: src/*
-        if-no-files-found: error
-        retention-days: 0
-        compression-level: 6
+        name: Release ${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
+        allowUpdates: true
+        draft: true
+        generateReleaseNotes: true
+        artifacts: release.tar.bz2
+        bodyFile: "body.md"
