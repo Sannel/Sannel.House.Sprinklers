@@ -43,7 +43,7 @@ jobs:
       id: fixedTags
       run: |
         fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/:/:linux-x64./g' | sed 's/\s/,/g')
-        fixed="$fixed,sannel/house.sprinklers:linux-x64.$Major.$Minor.$Patch.$BuildNumber"
+        fixed="$fixed,sannel/house.sprinklers:linux-arm64.$major.$minor.$patch.${{ github.run_number }}"
         export DOCKER_TAGS=$fixed
         echo "tags=$fixed" >> $GITHUB_OUTPUT
       
@@ -91,7 +91,7 @@ jobs:
       id: fixedTags
       run: |
         fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/:/:linux-arm64./g' | sed 's/\s/,/g')
-        fixed="$fixed,sannel/house.sprinklers:linux-arm64.$Major.$Minor.$Patch.$BuildNumber"
+        fixed="$fixed,sannel/house.sprinklers:linux-arm64.$major.$minor.$patch.${{ github.run_number }}"
         export DOCKER_TAGS=$fixed
         echo "tags=$fixed" >> $GITHUB_OUTPUT
       
