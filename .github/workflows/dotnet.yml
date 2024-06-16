@@ -42,7 +42,7 @@ jobs:
     - name: FixTags
       id: fixedTags
       run: |
-        fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/:/:linux-x64./g' | sed 's/\n/,/g')
+        fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/:/:linux-x64./g' | sed 's/\s/,/g')
         export DOCKER_TAGS=$fixed
         echo "tags=$fixed" >> $GITHUB_OUTPUT
       
