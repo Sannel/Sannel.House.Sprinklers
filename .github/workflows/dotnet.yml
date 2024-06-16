@@ -52,9 +52,9 @@ jobs:
       with:
           context: .
           build-args:
-            Major={{major}}
-            Minor={{minor}}
-            Patch={{patch}}
+            Major=${{ env.major }}
+            Minor=${{ env.minor }}
+            Patch=${{ env.patch }}
           file: src/Sannel.House.Sprinklers/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           platforms: linux/amd64,linux/arm64
