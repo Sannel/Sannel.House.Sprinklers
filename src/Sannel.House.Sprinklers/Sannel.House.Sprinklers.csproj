@@ -6,9 +6,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>be65a2ba-e30a-47c9-b01a-5cd63745c2ca</UserSecretsId>
 		<Copyright>Sannel Software, L.L.C. $([System.DateTime]::Now.ToString('yyyy'))</Copyright>
-		<AssemblyVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</AssemblyVersion>
-		<FileVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</FileVersion>
-		<Version>$(Major).$(Minor).$(Patch).$(BuildNumber)</Version>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..</DockerfileContext>
 	</PropertyGroup>

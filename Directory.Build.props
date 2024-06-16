@@ -4,5 +4,8 @@
 		<Minor Condition="'$(Minor)' == ''">0</Minor>
 		<Patch Condition="'$(Patch)' == ''">1</Patch>
 		<BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
+		<AssemblyVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</AssemblyVersion>
+		<FileVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</FileVersion>
+		<Version>$(Major).$(Minor).$(Patch).$(BuildNumber)</Version>
 	</PropertyGroup>
 </Project>

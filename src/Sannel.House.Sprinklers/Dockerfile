@@ -11,6 +11,7 @@ ARG BUILD_CONFIGURATION=Release
 ARG Major=0
 ARG Minor=1
 ARG Patch=0
+ARG BuildNumber=0
 WORKDIR /src
 COPY ["Directory.Build.props", "./"]
 COPY ["src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj", "src/Sannel.House.Sprinklers/"]
@@ -26,6 +27,7 @@ FROM build AS publish
 ARG Major=0
 ARG Minor=1
 ARG Patch=0
+ARG BuildNumber=0
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Sannel.House.Sprinklers.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
