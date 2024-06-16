@@ -34,11 +34,16 @@ jobs:
           tags: |
             type=ref,event=branch
             type=ref,event=pr
-            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=semver,pattern=${{ env.major }}.${{ env.minor }}.${{ env.patch }}
             type=sha            
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
+    - name: FixTags
+      id: fixedTags
+      run: |
+        fixed=$(echo "${{ steps.meta.outputs.tags }}" | sed 's/:/:linux-x64./g')
+        export tags="$fixed"
       
     - name: Login to Docker Hub
       if: github.event_name != 'pull_request'
@@ -58,7 +63,7 @@ jobs:
           file: src/Sannel.House.Sprinklers/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           platforms: linux/amd64
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.fixedTags.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
   arm64:
     runs-on: [self-hosted, ARM64]
@@ -70,7 +75,7 @@ jobs:
       with:
           # list of Docker images to use as base name for tags
           images: |
-            sannel/house.sprinklers:linux-arm64            
+            sannel/house.sprinklers            
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
