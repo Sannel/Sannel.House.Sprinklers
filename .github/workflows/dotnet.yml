@@ -51,6 +51,10 @@ jobs:
       uses: docker/build-push-action@v5
       with:
           context: .
+          build-args:
+            Major={{major}}
+            Minor={{minor}}
+            Patch={{patch}}
           file: src/Sannel.House.Sprinklers/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           platforms: linux/amd64,linux/arm64
