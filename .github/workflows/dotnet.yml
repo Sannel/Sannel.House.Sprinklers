@@ -43,7 +43,7 @@ jobs:
       id: fixedTags
       run: |
         fixed=$(echo "${{ steps.meta.outputs.tags }}" | sed 's/:/:linux-x64./g' | sed 's/\n/,/g')
-        echo "tags=$tags" >> $GITHUB_OUTPUT
+        echo "tags=$fixed" >> $GITHUB_OUTPUT
       
     - name: Login to Docker Hub
       if: github.event_name != 'pull_request'
