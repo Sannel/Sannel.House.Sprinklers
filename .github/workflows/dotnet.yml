@@ -16,6 +16,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      major: 0
+      minor: 1
+      patch: 0
     steps:
     - uses: actions/checkout@v4
     - name: Docker meta
@@ -49,5 +53,6 @@ jobs:
           context: .
           file: src/Sannel.House.Sprinklers/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
+          platforms: linux/amd64,linux/arm64,linux/arm32
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
