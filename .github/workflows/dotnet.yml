@@ -13,13 +13,14 @@ on:
   pull_request:
     branches: [ "main", "develop" ]
 
+env:
+  major: 0
+  minor: 1
+  patch: 0
+
 jobs:
   x64:
     runs-on: ubuntu-24.04
-    env:
-      major: 0
-      minor: 1
-      patch: 0
     steps:
     - uses: actions/checkout@v4
     - name: Docker meta
@@ -28,7 +29,7 @@ jobs:
       with:
           # list of Docker images to use as base name for tags
           images: |
-            sannel/house.sprinklers            
+            sannel/house.sprinklers:linux-x64            
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
@@ -61,10 +62,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
   arm64:
     runs-on: [self-hosted, ARM64]
-    env:
-      major: 0
-      minor: 1
-      patch: 0
     steps:
     - uses: actions/checkout@v4
     - name: Docker meta
@@ -73,7 +70,7 @@ jobs:
       with:
           # list of Docker images to use as base name for tags
           images: |
-            sannel/house.sprinklers            
+            sannel/house.sprinklers:linux-arm64            
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
@@ -104,3 +101,23 @@ jobs:
           platforms: linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+  combine:
+    runs-on: [self-hosted, ARM64]
+    needs:
+    - x64
+    - arm64
+    steps:
+    - uses: actions/checkout@v4
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+          # list of Docker images to use as base name for tags
+          images: |
+            sannel/house.sprinklers            
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=sha            
