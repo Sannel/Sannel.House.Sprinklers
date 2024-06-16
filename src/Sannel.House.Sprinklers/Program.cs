@@ -20,10 +20,15 @@ using Sannel.House.Sprinklers.Infrastructure.Schedules;
 using Sannel.House.Sprinklers.Infrastructure.Zones;
 using Sannel.House.Sprinklers.Mappers;
 
+if(!Directory.Exists("Data"))
+{
+	Directory.CreateDirectory("Data");
+}
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile(Path.Combine("app_config", "appsettings.json"), true, true);
 builder.Configuration.AddJsonFile(Path.Combine("app_config", $"appsettings.{builder.Environment.EnvironmentName}.json"), true, true);
-if (OperatingSystem.IsLinux())
+/*if (OperatingSystem.IsLinux())
 {
 	builder
 		.Configuration
@@ -34,11 +39,11 @@ if (OperatingSystem.IsLinux())
 		);
 }
 builder.Host.UseSystemd();
-if (OperatingSystem.IsLinux())
-{
-	builder.Services.AddDataProtection()
-		.PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(Path.DirectorySeparatorChar.ToString(), "var", "lib", "Sannel", "House", "Sprinklers", "data")));
-}
+*/
+builder.Services.AddDataProtection()
+	.PersistKeysToFileSystem(
+		new DirectoryInfo("Data")
+	);
 
 builder.Services.AddApplicationInsightsTelemetry();
 
@@ -87,16 +92,17 @@ builder.Services.AddAuthorization(o =>
 
 static bool IsRunningOnRaspberryPi()
 {
-	const string piPartialProcessorName = "BCM";
-	var processorNameFile = "/proc/cpuinfo";
+	return File.Exists("/dev/gpiomem");
+	//const string piPartialProcessorName = "BCM";
+	//var processorNameFile = "/proc/cpuinfo";
 
-	if (!File.Exists(processorNameFile))
-	{
-		return false;
-	}
+	//if (!File.Exists(processorNameFile))
+	//{
+	//	return false;
+	//}
 
-	var processorName = File.ReadAllText(processorNameFile);
-	return processorName.Contains(piPartialProcessorName);
+	//var processorName = File.ReadAllText(processorNameFile);
+	//return processorName.Contains(piPartialProcessorName);
 }
 
 builder.Services.AddApiVersioning(o =>
@@ -116,18 +122,11 @@ builder.Services.AddApiVersioning(o =>
 	});
 
 
-// Add services to the container.
-if (OperatingSystem.IsLinux())
-{
-	builder.Services.AddDbContext<SprinklerDbContext>(i => i.UseSqlite("Data Source=/var/lib/Sannel/House/Sprinklers/schedule.db"));
-}
-else
-{
-	builder.Services.AddDbContext<SprinklerDbContext>(i => i.UseSqlite("Data Source=schedule.db"));
-}
-builder.Services.AddSingleton<Board>(RaspberryPiBoard.Create());
+builder.Services.AddDbContext<SprinklerDbContext>(i => i.UseSqlite("Data Source=Data/schedule.db"));
+
 if (IsRunningOnRaspberryPi())
 {
+	builder.Services.AddSingleton<Board>(RaspberryPiBoard.Create());
 	builder.Services.AddSingleton<ISprinklerHardware, OpenSprinklerHardware>();
 }
 else
