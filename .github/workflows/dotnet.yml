@@ -5,44 +5,49 @@ name: .NET
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: 
+      - "main"
+      - "develop"
+    tags:
+      - "v*.*.*"
   pull_request:
     branches: [ "main", "develop" ]
 
 jobs:
   build:
-    env:
-      MAJOR: 0
-      MINOR: 1
-      PATCH: 0
-      DOTNET_VERSION: 8.0.x
-
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
     steps:
     - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-#    - name: Test
-#      run: dotnet test --no-build --verbosity normal
-    - name: Build
-      run: dotnet clean
-    - name: compress
-      run: tar -czvf release.tar.bz2 *
-    - uses: ncipollo/release-action@v1
-      with:
-        name: Release ${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.PATCH }}
-        tag: true
-        allowUpdates: true
-        draft: true
-        generateReleaseNotes: true
-        artifacts: release.tar.bz2
-        bodyFile: "Release.md"
+    - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            sannel/house.sprinklers            
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=sha            
+    - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      
+    - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+    - name: Login to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          dockerfile: src/Sannel.House.Sprinklers/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
