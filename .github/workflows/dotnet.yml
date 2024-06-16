@@ -60,9 +60,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
   arm64:
-    runs-on: self-hosted
-    needs:
-    - ARM64
+    runs-on: [self-hosted, ARM64]
     env:
       major: 0
       minor: 1
