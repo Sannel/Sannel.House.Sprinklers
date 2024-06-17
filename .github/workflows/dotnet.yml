@@ -147,8 +147,8 @@ jobs:
         # Set IFS to comma
         IFS=',' read -ra elements <<< $fixed
         for element in "${elements[@]}"; do
-          amd64 = $(echo $element | sed 's/:/:linux-amd64./g')
-          arm64 = $(echo $element | sed 's/:/:linux-arm64./g')
+          $amd64 = $(echo $element | sed 's/:/:linux-amd64./g')
+          $arm64 = $(echo $element | sed 's/:/:linux-arm64./g')
           docker manifest create $amd64 $arm64 $element
           docker push $element
         done
