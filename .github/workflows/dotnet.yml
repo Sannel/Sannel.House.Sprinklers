@@ -68,7 +68,7 @@ jobs:
         # Set IFS to comma
         IFS=',' read -ra elements <<< $fixed
         for element in "${elements[@]}"; do
-          docker tag image:latest $element
+          docker tag sannel/house.sprinklers:build-amd64 $element
           docker push $element
         done
   arm64:
@@ -124,7 +124,7 @@ jobs:
         # Set IFS to comma
         IFS=',' read -ra elements <<< $fixed
         for element in "${elements[@]}"; do
-          docker tag image:latest $element
+          docker tag sannel/house.sprinklers:build-arm64 $element
           docker push $element
         done
   combine:
