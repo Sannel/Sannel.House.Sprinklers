@@ -39,34 +39,25 @@ jobs:
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-    - name: FixTags
-      id: fixedTags
-      run: |
-        fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/:/:linux-amd64./g' | sed 's/\s/,/g')
-        fixed="$fixed,sannel/house.sprinklers:linux-amd64.$major.$minor.$patch.${{ github.run_number }}"
-        export DOCKER_TAGS=$fixed
-        echo "tags=$fixed" >> $GITHUB_OUTPUT
-      
     - name: Login to Docker Hub
       if: github.event_name != 'pull_request'
       uses: docker/login-action@v3
       with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-          context: .
-          build-args: |
-            Major=${{ env.major }}
-            Minor=${{ env.minor }}
-            Patch=${{ env.patch }}
-            BuildNumber=${{ github.run_number }}
-          file: src/Sannel.House.Sprinklers/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/amd64
-          tags: ${{ steps.fixedTags.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+    - name: FixTags
+      id: fixedTags
+      run: |
+        fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/:/:linux-amd64./g' | sed 's/\s/,/g')
+        fixed="$fixed,sannel/house.sprinklers:linux-amd64.$major.$minor.$patch.${{ github.run_number }}"
+        export DOCKER_TAGS=$fixed
+        # Set IFS to comma
+        IFS=',' read -ra elements <<< $fixed
+        docker build -t image:latest --build-arg Major=$Major --build-arg Minor=$Minor --build-arg Patch=$Patch --build-arg --build-arg RID=linux-x64 BuildNumber=$BuildNumber -f src/Sannel.House.Sprinklers/Dockerfile .
+        for element in "${elements[@]}"; do
+          docker tag image:latest $element
+          docker push $element
+        done
   arm64:
     runs-on: [self-hosted, ARM64]
     steps:
@@ -87,34 +78,29 @@ jobs:
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-    - name: FixTags
-      id: fixedTags
-      run: |
-        fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/:/:linux-arm64./g' | sed 's/\s/,/g')
-        fixed="$fixed,sannel/house.sprinklers:linux-arm64.$major.$minor.$patch.${{ github.run_number }}"
-        export DOCKER_TAGS=$fixed
-        echo "tags=$fixed" >> $GITHUB_OUTPUT
-      
     - name: Login to Docker Hub
       if: github.event_name != 'pull_request'
       uses: docker/login-action@v3
       with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-          context: .
-          build-args: |
-            Major=${{ env.major }}
-            Minor=${{ env.minor }}
-            Patch=${{ env.patch }}
-            BuildNumber=${{ github.run_number }}
-          file: src/Sannel.House.Sprinklers/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/arm64
-          tags: ${{ steps.fixedTags.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+    - name: FixTags
+      id: fixedTags
+      run: |
+        export Major=${{ env.major }}
+        export Minor=${{ env.minor }}
+        export Patch=${{ env.patch }}
+        export BuildNumber=${{ github.run_number }}
+        fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/:/:linux-arm64./g' | sed 's/\s/,/g')
+        fixed="$fixed,sannel/house.sprinklers:linux-arm64.$major.$minor.$patch.${{ github.run_number }}"
+        export DOCKER_TAGS=$fixed
+        # Set IFS to comma
+        IFS=',' read -ra elements <<< $fixed
+        docker build -t image:latest --build-arg Major=$Major --build-arg Minor=$Minor --build-arg Patch=$Patch --build-arg --build-arg RID=linux-arm64 BuildNumber=$BuildNumber -f src/Sannel.House.Sprinklers/Dockerfile .
+        for element in "${elements[@]}"; do
+          docker tag image:latest $element
+          docker push $element
+        done
   combine:
     runs-on: [self-hosted, ARM64]
     needs:
