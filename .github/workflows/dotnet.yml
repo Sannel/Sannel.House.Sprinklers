@@ -149,5 +149,6 @@ jobs:
         for element in "${elements[@]}"; do
           amd64=$(echo $element | sed 's/:/:linux-amd64./g')
           arm64=$(echo $element | sed 's/:/:linux-arm64./g')
-          docker manifest create $element $amd64 $arm64 --push
+          docker manifest create $element $amd64 $arm64
+          docker manifest push $element
         done
