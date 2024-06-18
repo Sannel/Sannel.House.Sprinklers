@@ -129,10 +129,6 @@ jobs:
           docker tag sannel/house.sprinklers:build-arm64 $element
           docker push $element
         done
-        if [ $GITHUB_REF_NAME = "main" ]; then
-          docker tag sannel/house.sprinklers:build-arm64 sannel/house.sprinklers:latest
-          docker push sannel/house.sprinklers:latest
-        fi
   combine:
     runs-on: ubuntu-24.04
     needs:
@@ -171,3 +167,10 @@ jobs:
           docker manifest create $element $amd64 $arm64
           docker manifest push $element
         done
+        version="sannel/house.sprinklers:${{ env.major }}.${{ env.minor }}.${{ env.patch }}"
+        docker manifest create $version sannel/house.sprinklers:linux-amd64.$major.$minor.$patch sannel/house.sprinklers:linux-arm64.$major.$minor.$patch
+        docker manifest push $version
+        if [ $GITHUB_REF_NAME = "main" ]; then
+          docker tag $version sannel/house.sprinklers:latest
+          docker push sannel/house.sprinklers:latest
+        fi
