@@ -167,8 +167,9 @@ jobs:
           docker manifest create $element $amd64 $arm64
           docker manifest push $element
         done
-        version="sannel/house.sprinklers:${{ env.major }}.${{ env.minor }}.${{ env.patch }}"
-        docker manifest create $version sannel/house.sprinklers:linux-amd64.$major.$minor.$patch sannel/house.sprinklers:linux-arm64.$major.$minor.$patch
+        export BuildNumber=${{ github.run_number }}
+        version="sannel/house.sprinklers:${{ env.major }}.${{ env.minor }}.${{ env.patch }}.$BuildNumber"
+        docker manifest create $version sannel/house.sprinklers:linux-amd64.$major.$minor.$patch.$BuildNumber sannel/house.sprinklers:linux-arm64.$major.$minor.$patch.$BuildNumber
         docker manifest push $version
         if [ $GITHUB_REF_NAME = "main" ]; then
           docker tag $version sannel/house.sprinklers:latest
