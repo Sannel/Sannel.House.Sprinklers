@@ -1,0 +1,648 @@
+### YamlMime:ManagedReference
+items:
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  commentId: T:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  id: ScheduleProgramDto
+  parent: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  children:
+  - Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Enabled
+  - Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Id
+  - Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Name
+  - Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.ScheduleCron
+  - Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.StationTimes
+  langs:
+  - csharp
+  - vb
+  name: ScheduleProgramDto
+  nameWithType: ScheduleProgramDto
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  type: Class
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: ScheduleProgramDto
+    path: ../src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+    startLine: 3
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  syntax:
+    content: public class ScheduleProgramDto
+    content.vb: Public Class ScheduleProgramDto
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Id
+  commentId: P:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Id
+  id: Id
+  parent: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: ScheduleProgramDto.Id
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Id
+  type: Property
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: Id
+    path: ../src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+    startLine: 8
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  summary: Unique identifier for the schedule program.
+  example: []
+  syntax:
+    content: public Guid Id { get; set; }
+    parameters: []
+    return:
+      type: System.Guid
+    content.vb: Public Property Id As Guid
+  overload: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Id*
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Name
+  commentId: P:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Name
+  id: Name
+  parent: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ScheduleProgramDto.Name
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Name
+  type: Property
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: Name
+    path: ../src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+    startLine: 13
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  summary: User-defined name for the schedule program.
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Name*
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.ScheduleCron
+  commentId: P:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.ScheduleCron
+  id: ScheduleCron
+  parent: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  langs:
+  - csharp
+  - vb
+  name: ScheduleCron
+  nameWithType: ScheduleProgramDto.ScheduleCron
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.ScheduleCron
+  type: Property
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: ScheduleCron
+    path: ../src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+    startLine: 18
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  summary: Cron Expression for the schedule program.
+  example: []
+  syntax:
+    content: public string? ScheduleCron { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ScheduleCron As String
+  overload: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.ScheduleCron*
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Enabled
+  commentId: P:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Enabled
+  id: Enabled
+  parent: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  langs:
+  - csharp
+  - vb
+  name: Enabled
+  nameWithType: ScheduleProgramDto.Enabled
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Enabled
+  type: Property
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: Enabled
+    path: ../src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+    startLine: 23
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  summary: Indicates if the schedule program is enabled for sprinkling.
+  example: []
+  syntax:
+    content: public bool Enabled { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Enabled As Boolean
+  overload: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Enabled*
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.StationTimes
+  commentId: P:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.StationTimes
+  id: StationTimes
+  parent: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  langs:
+  - csharp
+  - vb
+  name: StationTimes
+  nameWithType: ScheduleProgramDto.StationTimes
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.StationTimes
+  type: Property
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: StationTimes
+    path: ../src/Sannel.House.Sprinklers.Shared/Dtos/Schedules/ScheduleProgramDto.cs
+    startLine: 28
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  summary: Collection of station times defined for the schedule program.
+  example: []
+  syntax:
+    content: public ICollection<StationTimeDto> StationTimes { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.ICollection{Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto}
+    content.vb: Public Property StationTimes As ICollection(Of StationTimeDto)
+  overload: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.StationTimes*
+references:
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  commentId: N:Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  href: Sannel.html
+  name: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  nameWithType: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  spec.csharp:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos
+    name: Dtos
+    href: Sannel.House.Sprinklers.Shared.Dtos.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+    name: Schedules
+    href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.html
+  spec.vb:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos
+    name: Dtos
+    href: Sannel.House.Sprinklers.Shared.Dtos.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+    name: Schedules
+    href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Id*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Id
+  href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.html#Sannel_House_Sprinklers_Shared_Dtos_Schedules_ScheduleProgramDto_Id
+  name: Id
+  nameWithType: ScheduleProgramDto.Id
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Id
+- uid: System.Guid
+  commentId: T:System.Guid
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.guid
+  name: Guid
+  nameWithType: Guid
+  fullName: System.Guid
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Name*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Name
+  href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.html#Sannel_House_Sprinklers_Shared_Dtos_Schedules_ScheduleProgramDto_Name
+  name: Name
+  nameWithType: ScheduleProgramDto.Name
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.ScheduleCron*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.ScheduleCron
+  href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.html#Sannel_House_Sprinklers_Shared_Dtos_Schedules_ScheduleProgramDto_ScheduleCron
+  name: ScheduleCron
+  nameWithType: ScheduleProgramDto.ScheduleCron
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.ScheduleCron
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Enabled*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Enabled
+  href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.html#Sannel_House_Sprinklers_Shared_Dtos_Schedules_ScheduleProgramDto_Enabled
+  name: Enabled
+  nameWithType: ScheduleProgramDto.Enabled
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.Enabled
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.StationTimes*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.StationTimes
+  href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.html#Sannel_House_Sprinklers_Shared_Dtos_Schedules_ScheduleProgramDto_StationTimes
+  name: StationTimes
+  nameWithType: ScheduleProgramDto.StationTimes
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.StationTimes
+- uid: System.Collections.Generic.ICollection{Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto}
+  commentId: T:System.Collections.Generic.ICollection{Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.ICollection`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<StationTimeDto>
+  nameWithType: ICollection<StationTimeDto>
+  fullName: System.Collections.Generic.ICollection<Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto>
+  nameWithType.vb: ICollection(Of StationTimeDto)
+  fullName.vb: System.Collections.Generic.ICollection(Of Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto)
+  name.vb: ICollection(Of StationTimeDto)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto
+    name: StationTimeDto
+    href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto
+    name: StationTimeDto
+    href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto.html
+  - name: )
+- uid: System.Collections.Generic.ICollection`1
+  commentId: T:System.Collections.Generic.ICollection`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<T>
+  nameWithType: ICollection<T>
+  fullName: System.Collections.Generic.ICollection<T>
+  nameWithType.vb: ICollection(Of T)
+  fullName.vb: System.Collections.Generic.ICollection(Of T)
+  name.vb: ICollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic

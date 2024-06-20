@@ -1,17 +1,127 @@
 {
-  "docs/getting-started.html": {
-    "href": "docs/getting-started.html",
-    "title": "Getting Started | Sannel.House.Sprinklers",
-    "keywords": "Getting Started"
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto.html",
+    "title": "Class ZoneRunDto | Sannel.House.Sprinklers",
+    "keywords": "Class ZoneRunDto Namespace Sannel.House.Sprinklers.Shared.Dtos.Logs Assembly Sannel.House.Sprinklers.Shared.dll Represents data about a sprinkler zone run. public class ZoneRunDto Inheritance object ZoneRunDto Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties ActionDate Gets or sets the date and time when this run was executed. public DateTimeOffset ActionDate { get; set; } Property Value DateTimeOffset RunLength Gets or sets the duration of the run. public TimeSpan? RunLength { get; set; } Property Value TimeSpan? StationColor Gets or sets the color of the station. public string? StationColor { get; set; } Property Value string StationId Gets or sets the unique identifier for the station. public byte StationId { get; set; } Property Value byte StationName Gets or sets the name of the station. public string? StationName { get; set; } Property Value string"
   },
-  "docs/introduction.html": {
-    "href": "docs/introduction.html",
-    "title": "Introduction | Sannel.House.Sprinklers",
-    "keywords": "Introduction"
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Logs.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Logs.html",
+    "title": "Namespace Sannel.House.Sprinklers.Shared.Dtos.Logs | Sannel.House.Sprinklers",
+    "keywords": "Namespace Sannel.House.Sprinklers.Shared.Dtos.Logs Classes ZoneRunDto Represents data about a sprinkler zone run."
+  },
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto.html",
+    "title": "Class NewScheduleDto | Sannel.House.Sprinklers",
+    "keywords": "Class NewScheduleDto Namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules Assembly Sannel.House.Sprinklers.Shared.dll Schedule program DTO class representing a schedule program with a unique identifier, user defined name, a Cron Expression string and a collection of station times. public class NewScheduleDto Inheritance object NewScheduleDto Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties Name User-defined name for the schedule program. [Required] [MinLength(4)] public string Name { get; set; } Property Value string ScheduleCron Cron Expression for the schedule program. [Required] [MinLength(5)] public string ScheduleCron { get; set; } Property Value string StationTimes Collection of station times defined for the schedule program. public List<StationTimeDto> StationTimes { get; set; } Property Value List<StationTimeDto>"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.html",
+    "title": "Class ScheduleProgramDto | Sannel.House.Sprinklers",
+    "keywords": "Class ScheduleProgramDto Namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules Assembly Sannel.House.Sprinklers.Shared.dll public class ScheduleProgramDto Inheritance object ScheduleProgramDto Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties Enabled Indicates if the schedule program is enabled for sprinkling. public bool Enabled { get; set; } Property Value bool Id Unique identifier for the schedule program. public Guid Id { get; set; } Property Value Guid Name User-defined name for the schedule program. public string Name { get; set; } Property Value string ScheduleCron Cron Expression for the schedule program. public string? ScheduleCron { get; set; } Property Value string StationTimes Collection of station times defined for the schedule program. public ICollection<StationTimeDto> StationTimes { get; set; } Property Value ICollection<StationTimeDto>"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto.html",
+    "title": "Class StationTimeDto | Sannel.House.Sprinklers",
+    "keywords": "Class StationTimeDto Namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules Assembly Sannel.House.Sprinklers.Shared.dll Represents the time that a sprinkler station should run. public class StationTimeDto Inheritance object StationTimeDto Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties RunLength Gets or sets the length of time that the station should run. public TimeSpan RunLength { get; set; } Property Value TimeSpan StationId Gets or sets the ID of the station. public byte StationId { get; set; } Property Value byte"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto.html",
+    "title": "Class UpdateScheduleDto | Sannel.House.Sprinklers",
+    "keywords": "Class UpdateScheduleDto Namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules Assembly Sannel.House.Sprinklers.Shared.dll Represents a request to update a schedule program. public class UpdateScheduleDto Inheritance object UpdateScheduleDto Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties Id The unique identifier of the schedule program to update. [Required] public Guid Id { get; set; } Property Value Guid Name User-defined name for the schedule program. [Required] [MinLength(4)] public string Name { get; set; } Property Value string ScheduleCron Cron Expression for the schedule program. [Required] [MinLength(5)] public string ScheduleCron { get; set; } Property Value string StationTimes A collection of station times defined for the schedule program. public List<StationTimeDto> StationTimes { get; set; } Property Value List<StationTimeDto>"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.html",
+    "title": "Namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules | Sannel.House.Sprinklers",
+    "keywords": "Namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules Classes NewScheduleDto Schedule program DTO class representing a schedule program with a unique identifier, user defined name, a Cron Expression string and a collection of station times. ScheduleProgramDto StationTimeDto Represents the time that a sprinkler station should run. UpdateScheduleDto Represents a request to update a schedule program."
+  },
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto.html",
+    "title": "Class StatusDto | Sannel.House.Sprinklers",
+    "keywords": "Class StatusDto Namespace Sannel.House.Sprinklers.Shared.Dtos.Sprinklers Assembly Sannel.House.Sprinklers.Shared.dll Represents the status of a sprinkler system. public class StatusDto Inheritance object StatusDto Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties IsRunning Gets or sets a value indicating whether the sprinkler system is running. public bool IsRunning { get; set; } Property Value bool TimeLeft Gets or sets the time left for the sprinkler zone to continue running. public TimeSpan? TimeLeft { get; set; } Property Value TimeSpan? TotalTime Gets or sets the total time the sprinkler system has been running. public TimeSpan? TotalTime { get; set; } Property Value TimeSpan? ZoneInfo Gets or sets information about the running zone. public ZoneInfoDto? ZoneInfo { get; set; } Property Value ZoneInfoDto Zones Gets or sets the number of zones in the sprinkler system. public byte Zones { get; set; } Property Value byte"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.html",
+    "title": "Namespace Sannel.House.Sprinklers.Shared.Dtos.Sprinklers | Sannel.House.Sprinklers",
+    "keywords": "Namespace Sannel.House.Sprinklers.Shared.Dtos.Sprinklers Classes StatusDto Represents the status of a sprinkler system."
+  },
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto.html",
+    "title": "Class ZoneInfoDto | Sannel.House.Sprinklers",
+    "keywords": "Class ZoneInfoDto Namespace Sannel.House.Sprinklers.Shared.Dtos.Zones Assembly Sannel.House.Sprinklers.Shared.dll Represents information about a sprinkler zone. public class ZoneInfoDto Inheritance object ZoneInfoDto Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties Color Gets or sets the color of the zone. public string? Color { get; set; } Property Value string Name Gets or sets the name of the zone. public string? Name { get; set; } Property Value string ZoneId Gets or sets the zone ID. public byte ZoneId { get; set; } Property Value byte"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Dtos.Zones.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Dtos.Zones.html",
+    "title": "Namespace Sannel.House.Sprinklers.Shared.Dtos.Zones | Sannel.House.Sprinklers",
+    "keywords": "Namespace Sannel.House.Sprinklers.Shared.Dtos.Zones Classes ZoneInfoDto Represents information about a sprinkler zone."
+  },
+  "api/Sannel.House.Sprinklers.Shared.Messages.EventNames.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Messages.EventNames.html",
+    "title": "Class EventNames | Sannel.House.Sprinklers",
+    "keywords": "Class EventNames Namespace Sannel.House.Sprinklers.Shared.Messages Assembly Sannel.House.Sprinklers.Shared.dll public static class EventNames Inheritance object EventNames Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Fields PROGRESS_MESSAGE public const string PROGRESS_MESSAGE = \"ProgressMessage\" Field Value string START_MESSAGE public const string START_MESSAGE = \"StartMessage\" Field Value string STOP_MESSAGE public const string STOP_MESSAGE = \"StopMessage\" Field Value string ZONE_UPDATE_MESSAGE public const string ZONE_UPDATE_MESSAGE = \"ZoneUpdate\" Field Value string"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage.html",
+    "title": "Class StationProgressMessage | Sannel.House.Sprinklers",
+    "keywords": "Class StationProgressMessage Namespace Sannel.House.Sprinklers.Shared.Messages Assembly Sannel.House.Sprinklers.Shared.dll public class StationProgressMessage Inheritance object StationProgressMessage Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties InvertPercentComplete public short InvertPercentComplete { get; set; } Property Value short PercentComplete public short PercentComplete { get; set; } Property Value short PercentCompleteFloat public float PercentCompleteFloat { get; set; } Property Value float RunLength public TimeSpan RunLength { get; set; } Property Value TimeSpan TimeLeft public TimeSpan TimeLeft { get; set; } Property Value TimeSpan TriggerTime public DateTimeOffset TriggerTime { get; set; } Property Value DateTimeOffset ZoneId public byte ZoneId { get; set; } Property Value byte"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Messages.StationStartMessage.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Messages.StationStartMessage.html",
+    "title": "Class StationStartMessage | Sannel.House.Sprinklers",
+    "keywords": "Class StationStartMessage Namespace Sannel.House.Sprinklers.Shared.Messages Assembly Sannel.House.Sprinklers.Shared.dll Represents a message to start a station. public class StationStartMessage Inheritance object StationStartMessage Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties Duration Gets or sets the duration of the station start. public TimeSpan Duration { get; set; } Property Value TimeSpan StartTime Gets or sets the start time of the station start. public DateTimeOffset StartTime { get; set; } Property Value DateTimeOffset TriggerTime public DateTimeOffset TriggerTime { get; set; } Property Value DateTimeOffset ZoneId Gets or sets the zone id. public byte ZoneId { get; set; } Property Value byte"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Messages.StationStopMessage.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Messages.StationStopMessage.html",
+    "title": "Class StationStopMessage | Sannel.House.Sprinklers",
+    "keywords": "Class StationStopMessage Namespace Sannel.House.Sprinklers.Shared.Messages Assembly Sannel.House.Sprinklers.Shared.dll public class StationStopMessage Inheritance object StationStopMessage Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties StopTime public DateTimeOffset StopTime { get; set; } Property Value DateTimeOffset TriggerTime public DateTimeOffset TriggerTime { get; set; } Property Value DateTimeOffset ZoneId public byte ZoneId { get; set; } Property Value byte"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage.html",
+    "title": "Class ZoneUpdateMessage | Sannel.House.Sprinklers",
+    "keywords": "Class ZoneUpdateMessage Namespace Sannel.House.Sprinklers.Shared.Messages Assembly Sannel.House.Sprinklers.Shared.dll public class ZoneUpdateMessage Inheritance object ZoneUpdateMessage Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties UpdateTime public required DateTimeOffset UpdateTime { get; set; } Property Value DateTimeOffset ZoneInfo public required ZoneInfoDto ZoneInfo { get; set; } Property Value ZoneInfoDto"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Messages.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Messages.html",
+    "title": "Namespace Sannel.House.Sprinklers.Shared.Messages | Sannel.House.Sprinklers",
+    "keywords": "Namespace Sannel.House.Sprinklers.Shared.Messages Classes EventNames StationProgressMessage StationStartMessage Represents a message to start a station. StationStopMessage ZoneUpdateMessage"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Result-1.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Result-1.html",
+    "title": "Class Result<T> | Sannel.House.Sprinklers",
+    "keywords": "Class Result<T> Namespace Sannel.House.Sprinklers.Shared Assembly Sannel.House.Sprinklers.Shared.dll public class Result<T> : Result Type Parameters T Inheritance object Result Result<T> Inherited Members Result.IsSuccess Result.StatusCode object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties Value public T? Value { get; set; } Property Value T"
+  },
+  "api/Sannel.House.Sprinklers.Shared.Result.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.Result.html",
+    "title": "Class Result | Sannel.House.Sprinklers",
+    "keywords": "Class Result Namespace Sannel.House.Sprinklers.Shared Assembly Sannel.House.Sprinklers.Shared.dll public class Result Inheritance object Result Derived Result<T> Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties IsSuccess public bool IsSuccess { get; set; } Property Value bool StatusCode public HttpStatusCode StatusCode { get; set; } Property Value HttpStatusCode"
+  },
+  "api/Sannel.House.Sprinklers.Shared.SprinklerClientOptions.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.SprinklerClientOptions.html",
+    "title": "Class SprinklerClientOptions | Sannel.House.Sprinklers",
+    "keywords": "Class SprinklerClientOptions Namespace Sannel.House.Sprinklers.Shared Assembly Sannel.House.Sprinklers.Shared.dll public class SprinklerClientOptions Inheritance object SprinklerClientOptions Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Properties HostUri The root of the sprinkler service [Required] public Uri? HostUri { get; set; } Property Value Uri"
+  },
+  "api/Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html",
+    "title": "Class SprinklersClient.V1Class | Sannel.House.Sprinklers",
+    "keywords": "Class SprinklersClient.V1Class Namespace Sannel.House.Sprinklers.Shared Assembly Sannel.House.Sprinklers.Shared.dll public class SprinklersClient.V1Class Inheritance object SprinklersClient.V1Class Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods GetAllZoneMetaDataAsync() public Task<Result<IEnumerable<ZoneInfoDto>>> GetAllZoneMetaDataAsync() Returns Task<Result<IEnumerable<ZoneInfoDto>>> GetStatus() public Task<Result<StatusDto>> GetStatus() Returns Task<Result<StatusDto>> GetZoneMetaDataAsync(byte) public Task<Result<ZoneInfoDto>> GetZoneMetaDataAsync(byte id) Parameters id byte Returns Task<Result<ZoneInfoDto>> StartListeningAsync() public Task StartListeningAsync() Returns Task StartZoneAsync(byte, TimeSpan) public Task<Result> StartZoneAsync(byte id, TimeSpan length) Parameters id byte length TimeSpan Returns Task<Result> StopAll() public Task<Result> StopAll() Returns Task<Result> UpdateZoneMetaDataAsync(ZoneInfoDto) public Task<Result> UpdateZoneMetaDataAsync(ZoneInfoDto zone) Parameters zone ZoneInfoDto Returns Task<Result> Events StationProgress public event Action<StationProgressMessage>? StationProgress Event Type Action<StationProgressMessage> StationStart public event Action<StationStartMessage>? StationStart Event Type Action<StationStartMessage> StationStop public event Action<StationStopMessage>? StationStop Event Type Action<StationStopMessage> ZoneUpdate public event Action<ZoneUpdateMessage>? ZoneUpdate Event Type Action<ZoneUpdateMessage>"
+  },
+  "api/Sannel.House.Sprinklers.Shared.SprinklersClient.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.SprinklersClient.html",
+    "title": "Class SprinklersClient | Sannel.House.Sprinklers",
+    "keywords": "Class SprinklersClient Namespace Sannel.House.Sprinklers.Shared Assembly Sannel.House.Sprinklers.Shared.dll public class SprinklersClient Inheritance object SprinklersClient Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors SprinklersClient(HttpClient, IOptions<SprinklerClientOptions>) public SprinklersClient(HttpClient httpClient, IOptions<SprinklerClientOptions> options) Parameters httpClient HttpClient options IOptions<SprinklerClientOptions> Properties V1 public SprinklersClient.V1Class V1 { get; init; } Property Value SprinklersClient.V1Class"
+  },
+  "api/Sannel.House.Sprinklers.Shared.html": {
+    "href": "api/Sannel.House.Sprinklers.Shared.html",
+    "title": "Namespace Sannel.House.Sprinklers.Shared | Sannel.House.Sprinklers",
+    "keywords": "Namespace Sannel.House.Sprinklers.Shared Classes Result Result<T> SprinklerClientOptions SprinklersClient SprinklersClient.V1Class"
+  },
+  "docs/docker-compose.html": {
+    "href": "docs/docker-compose.html",
+    "title": "| Sannel.House.Sprinklers",
+    "keywords": "Prepare our environment First off we need to install docker on our raspberry pi. I perfer using the script at https://get.docker.com docs curl -sSL https://get.docker.com | sudo sh Prepare our directories Lets go ahead and create this directory structures sudo mkdir -p /opt/Sannel/House/Sprinklers/config sudo mkdir -p /opt/Sannel/House/Sprinklers/Data Configure our service Navigate to /opt/Sannel/House/Sprinklers/config and create the file appsettings.json. Below is an example configuration that enables HTTPS, sets up our service to connect to Microsoft Entra for authentication, and configures our MQTT server connection. { \"Kestrel\": { \"Endpoints\": { \"Https\":{ \"Url\": \"https://*:8443\", \"Certificate\":{ \"Path\": \"/app/app_config/certs/cert.pfx\", \"Password\": \"@Password1\" } } } }, \"AllowedHosts\": \"*\", \"Sprinkler\": { // My System only has 8 zones so we just configure it for 8 \"Zones\": 8 }, \"AzureAd\": { \"Instance\": \"https://login.microsoftonline.com/\", \"ClientId\": \"870818f5-2723-4d4b-b833-b888e65e6cc2\", \"TenantId\": \"4f7a2a8d-fd6a-46f7-908c-40527c6c7a49\", \"accessTokenAcceptedVersion\": \"v2.0\", \"Scopes\": \"access\", \"audience\": \"api://sannel.house.sprinklers\" }, \"ApplicationInsights\": { \"ConnectionString\": \"InstrumentationKey=f31b6cf1-0694-413b-a6ca-a412c147ee23;IngestionEndpoint=https://westus3-1.in.applicationinsights.azur e.com/\" }, \"MQTT\": { \"Server\": \"mqttserver\", \"Username\": \"sprinklers\", \"Password\": \"@Password1\", \"UseSSL\": true, \"Port\": 8884, \"CertPaths\": [\"/app/app_config/certs/ca.crt\"] } } Now that the configuration is complete, we can proceed to set up our Compose file. In the example below, our user ID is 1000 and the group ID is 993. Be sure to verify that your GPIO group has the same ID; if not, use the correct ID for your setup. services: sprinklers: image: sannel/house.sprinklers:latest user: \"1000:993\" ports: - 8443:8443 volumes: - ./Data:/app/Data - ./config:/app/app_config devices: - /dev/gpiomem"
   },
   "index.html": {
     "href": "index.html",
-    "title": "This is the HOMEPAGE. | Sannel.House.Sprinklers",
-    "keywords": "This is the HOMEPAGE. Refer to Markdown for how to write markdown files. Quick Start Notes: Add images to the images folder if the file is referencing an image."
+    "title": "Sannel.House.Sprinklers | Sannel.House.Sprinklers",
+    "keywords": "Sannel.House.Sprinklers Welcome to the Sannel.House.Sprinklers project! This .NET application is designed to run on a Raspberry Pi and control your sprinkler system using the OpenSprinkler hardware. Our aim is to provide a reliable and flexible solution for automating your garden watering needs. Features Automated Watering Schedule: Set up and manage watering schedules to ensure your garden gets the right amount of water at the right time. Remote Control: Access and control your sprinkler system from anywhere using a web interface. Zone Management: Configure and manage multiple watering zones for different areas of your garden. Manual Override: Manually start or stop the sprinklers for immediate watering needs. Requirements Hardware: Raspberry Pi (any model with network capability) OpenSprinkler Pi (OSPi) Software .net 8.0+ or docker"
   }
 }

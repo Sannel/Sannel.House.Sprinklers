@@ -1,0 +1,44 @@
+### YamlMime:ManagedReference
+items:
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  commentId: N:Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  id: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  children:
+  - Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto
+  - Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  - Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto
+  - Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto
+  langs:
+  - csharp
+  - vb
+  name: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  nameWithType: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  type: Namespace
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+references:
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto
+  commentId: T:Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto
+  href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto.html
+  name: NewScheduleDto
+  nameWithType: NewScheduleDto
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  commentId: T:Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+  href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.html
+  name: ScheduleProgramDto
+  nameWithType: ScheduleProgramDto
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto
+  commentId: T:Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto
+  href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto.html
+  name: StationTimeDto
+  nameWithType: StationTimeDto
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto
+  commentId: T:Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto
+  href: Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto.html
+  name: UpdateScheduleDto
+  nameWithType: UpdateScheduleDto
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto

@@ -1,0 +1,126 @@
+### YamlMime:ManagedReference
+items:
+- uid: Sannel.House.Sprinklers.Shared
+  commentId: N:Sannel.House.Sprinklers.Shared
+  id: Sannel.House.Sprinklers.Shared
+  children:
+  - Sannel.House.Sprinklers.Shared.Result
+  - Sannel.House.Sprinklers.Shared.Result`1
+  - Sannel.House.Sprinklers.Shared.SprinklerClientOptions
+  - Sannel.House.Sprinklers.Shared.SprinklersClient
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: Sannel.House.Sprinklers.Shared
+  nameWithType: Sannel.House.Sprinklers.Shared
+  fullName: Sannel.House.Sprinklers.Shared
+  type: Namespace
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+references:
+- uid: Sannel.House.Sprinklers.Shared.Result
+  commentId: T:Sannel.House.Sprinklers.Shared.Result
+  parent: Sannel.House.Sprinklers.Shared
+  href: Sannel.House.Sprinklers.Shared.Result.html
+  name: Result
+  nameWithType: Result
+  fullName: Sannel.House.Sprinklers.Shared.Result
+- uid: Sannel.House.Sprinklers.Shared.Result`1
+  commentId: T:Sannel.House.Sprinklers.Shared.Result`1
+  href: Sannel.House.Sprinklers.Shared.Result-1.html
+  name: Result<T>
+  nameWithType: Result<T>
+  fullName: Sannel.House.Sprinklers.Shared.Result<T>
+  nameWithType.vb: Result(Of T)
+  fullName.vb: Sannel.House.Sprinklers.Shared.Result(Of T)
+  name.vb: Result(Of T)
+  spec.csharp:
+  - uid: Sannel.House.Sprinklers.Shared.Result`1
+    name: Result
+    href: Sannel.House.Sprinklers.Shared.Result-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Sannel.House.Sprinklers.Shared.Result`1
+    name: Result
+    href: Sannel.House.Sprinklers.Shared.Result-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Sannel.House.Sprinklers.Shared.SprinklerClientOptions
+  commentId: T:Sannel.House.Sprinklers.Shared.SprinklerClientOptions
+  href: Sannel.House.Sprinklers.Shared.SprinklerClientOptions.html
+  name: SprinklerClientOptions
+  nameWithType: SprinklerClientOptions
+  fullName: Sannel.House.Sprinklers.Shared.SprinklerClientOptions
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient
+  commentId: T:Sannel.House.Sprinklers.Shared.SprinklersClient
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.html
+  name: SprinklersClient
+  nameWithType: SprinklersClient
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  commentId: T:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  parent: Sannel.House.Sprinklers.Shared
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.html
+  name: SprinklersClient.V1Class
+  nameWithType: SprinklersClient.V1Class
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  spec.csharp:
+  - uid: Sannel.House.Sprinklers.Shared.SprinklersClient
+    name: SprinklersClient
+    href: Sannel.House.Sprinklers.Shared.SprinklersClient.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+    name: V1Class
+    href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html
+  spec.vb:
+  - uid: Sannel.House.Sprinklers.Shared.SprinklersClient
+    name: SprinklersClient
+    href: Sannel.House.Sprinklers.Shared.SprinklersClient.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+    name: V1Class
+    href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html
+- uid: Sannel.House.Sprinklers.Shared
+  commentId: N:Sannel.House.Sprinklers.Shared
+  href: Sannel.html
+  name: Sannel.House.Sprinklers.Shared
+  nameWithType: Sannel.House.Sprinklers.Shared
+  fullName: Sannel.House.Sprinklers.Shared
+  spec.csharp:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+  spec.vb:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html

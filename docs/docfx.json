@@ -1,4 +1,17 @@
 {
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../src",
+          "files": [
+            "Sannel.House.Sprinklers.Shared/Sannel.House.Sprinklers.Shared.csproj"
+          ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
   "build": {
     "content": [
       {

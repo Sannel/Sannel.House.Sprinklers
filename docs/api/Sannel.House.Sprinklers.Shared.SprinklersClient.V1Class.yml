@@ -1,0 +1,1183 @@
+### YamlMime:ManagedReference
+items:
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  commentId: T:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  id: SprinklersClient.V1Class
+  parent: Sannel.House.Sprinklers.Shared
+  children:
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetAllZoneMetaDataAsync
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetStatus
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetZoneMetaDataAsync(System.Byte)
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartListeningAsync
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartZoneAsync(System.Byte,System.TimeSpan)
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationProgress
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationStart
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationStop
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StopAll
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.UpdateZoneMetaDataAsync(Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto)
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.ZoneUpdate
+  langs:
+  - csharp
+  - vb
+  name: SprinklersClient.V1Class
+  nameWithType: SprinklersClient.V1Class
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  type: Class
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: V1Class
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 16
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public class SprinklersClient.V1Class
+    content.vb: Public Class SprinklersClient.V1Class
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationStart
+  commentId: E:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationStart
+  id: StationStart
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: StationStart
+  nameWithType: SprinklersClient.V1Class.StationStart
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationStart
+  type: Event
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: StationStart
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 21
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public event Action<StationStartMessage>? StationStart
+    return:
+      type: System.Action{Sannel.House.Sprinklers.Shared.Messages.StationStartMessage}
+    content.vb: Public Event StationStart As Action(Of StationStartMessage)
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationStop
+  commentId: E:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationStop
+  id: StationStop
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: StationStop
+  nameWithType: SprinklersClient.V1Class.StationStop
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationStop
+  type: Event
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: StationStop
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 22
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public event Action<StationStopMessage>? StationStop
+    return:
+      type: System.Action{Sannel.House.Sprinklers.Shared.Messages.StationStopMessage}
+    content.vb: Public Event StationStop As Action(Of StationStopMessage)
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationProgress
+  commentId: E:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationProgress
+  id: StationProgress
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: StationProgress
+  nameWithType: SprinklersClient.V1Class.StationProgress
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StationProgress
+  type: Event
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: StationProgress
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 23
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public event Action<StationProgressMessage>? StationProgress
+    return:
+      type: System.Action{Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage}
+    content.vb: Public Event StationProgress As Action(Of StationProgressMessage)
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.ZoneUpdate
+  commentId: E:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.ZoneUpdate
+  id: ZoneUpdate
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: ZoneUpdate
+  nameWithType: SprinklersClient.V1Class.ZoneUpdate
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.ZoneUpdate
+  type: Event
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: ZoneUpdate
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 24
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public event Action<ZoneUpdateMessage>? ZoneUpdate
+    return:
+      type: System.Action{Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage}
+    content.vb: Public Event ZoneUpdate As Action(Of ZoneUpdateMessage)
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartListeningAsync
+  commentId: M:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartListeningAsync
+  id: StartListeningAsync
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: StartListeningAsync()
+  nameWithType: SprinklersClient.V1Class.StartListeningAsync()
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartListeningAsync()
+  type: Method
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: StartListeningAsync
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 46
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public Task StartListeningAsync()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function StartListeningAsync() As Task
+  overload: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartListeningAsync*
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetAllZoneMetaDataAsync
+  commentId: M:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetAllZoneMetaDataAsync
+  id: GetAllZoneMetaDataAsync
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: GetAllZoneMetaDataAsync()
+  nameWithType: SprinklersClient.V1Class.GetAllZoneMetaDataAsync()
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetAllZoneMetaDataAsync()
+  type: Method
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: GetAllZoneMetaDataAsync
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 51
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public Task<Result<IEnumerable<ZoneInfoDto>>> GetAllZoneMetaDataAsync()
+    return:
+      type: System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result{System.Collections.Generic.IEnumerable{Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto}}}
+    content.vb: Public Function GetAllZoneMetaDataAsync() As Task(Of Result(Of IEnumerable(Of ZoneInfoDto)))
+  overload: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetAllZoneMetaDataAsync*
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetZoneMetaDataAsync(System.Byte)
+  commentId: M:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetZoneMetaDataAsync(System.Byte)
+  id: GetZoneMetaDataAsync(System.Byte)
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: GetZoneMetaDataAsync(byte)
+  nameWithType: SprinklersClient.V1Class.GetZoneMetaDataAsync(byte)
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetZoneMetaDataAsync(byte)
+  type: Method
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: GetZoneMetaDataAsync
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 56
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public Task<Result<ZoneInfoDto>> GetZoneMetaDataAsync(byte id)
+    parameters:
+    - id: id
+      type: System.Byte
+    return:
+      type: System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result{Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto}}
+    content.vb: Public Function GetZoneMetaDataAsync(id As Byte) As Task(Of Result(Of ZoneInfoDto))
+  overload: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetZoneMetaDataAsync*
+  nameWithType.vb: SprinklersClient.V1Class.GetZoneMetaDataAsync(Byte)
+  fullName.vb: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetZoneMetaDataAsync(Byte)
+  name.vb: GetZoneMetaDataAsync(Byte)
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.UpdateZoneMetaDataAsync(Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto)
+  commentId: M:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.UpdateZoneMetaDataAsync(Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto)
+  id: UpdateZoneMetaDataAsync(Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto)
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: UpdateZoneMetaDataAsync(ZoneInfoDto)
+  nameWithType: SprinklersClient.V1Class.UpdateZoneMetaDataAsync(ZoneInfoDto)
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.UpdateZoneMetaDataAsync(Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto)
+  type: Method
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: UpdateZoneMetaDataAsync
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 61
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public Task<Result> UpdateZoneMetaDataAsync(ZoneInfoDto zone)
+    parameters:
+    - id: zone
+      type: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+    return:
+      type: System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result}
+    content.vb: Public Function UpdateZoneMetaDataAsync(zone As ZoneInfoDto) As Task(Of Result)
+  overload: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.UpdateZoneMetaDataAsync*
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartZoneAsync(System.Byte,System.TimeSpan)
+  commentId: M:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartZoneAsync(System.Byte,System.TimeSpan)
+  id: StartZoneAsync(System.Byte,System.TimeSpan)
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: StartZoneAsync(byte, TimeSpan)
+  nameWithType: SprinklersClient.V1Class.StartZoneAsync(byte, TimeSpan)
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartZoneAsync(byte, System.TimeSpan)
+  type: Method
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: StartZoneAsync
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 67
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public Task<Result> StartZoneAsync(byte id, TimeSpan length)
+    parameters:
+    - id: id
+      type: System.Byte
+    - id: length
+      type: System.TimeSpan
+    return:
+      type: System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result}
+    content.vb: Public Function StartZoneAsync(id As Byte, length As TimeSpan) As Task(Of Result)
+  overload: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartZoneAsync*
+  nameWithType.vb: SprinklersClient.V1Class.StartZoneAsync(Byte, TimeSpan)
+  fullName.vb: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartZoneAsync(Byte, System.TimeSpan)
+  name.vb: StartZoneAsync(Byte, TimeSpan)
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StopAll
+  commentId: M:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StopAll
+  id: StopAll
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: StopAll()
+  nameWithType: SprinklersClient.V1Class.StopAll()
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StopAll()
+  type: Method
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: StopAll
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 72
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public Task<Result> StopAll()
+    return:
+      type: System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result}
+    content.vb: Public Function StopAll() As Task(Of Result)
+  overload: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StopAll*
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetStatus
+  commentId: M:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetStatus
+  id: GetStatus
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  langs:
+  - csharp
+  - vb
+  name: GetStatus()
+  nameWithType: SprinklersClient.V1Class.GetStatus()
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetStatus()
+  type: Method
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: GetStatus
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 77
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public Task<Result<StatusDto>> GetStatus()
+    return:
+      type: System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result{Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto}}
+    content.vb: Public Function GetStatus() As Task(Of Result(Of StatusDto))
+  overload: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetStatus*
+references:
+- uid: Sannel.House.Sprinklers.Shared
+  commentId: N:Sannel.House.Sprinklers.Shared
+  href: Sannel.html
+  name: Sannel.House.Sprinklers.Shared
+  nameWithType: Sannel.House.Sprinklers.Shared
+  fullName: Sannel.House.Sprinklers.Shared
+  spec.csharp:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+  spec.vb:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Action{Sannel.House.Sprinklers.Shared.Messages.StationStartMessage}
+  commentId: T:System.Action{Sannel.House.Sprinklers.Shared.Messages.StationStartMessage}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<StationStartMessage>
+  nameWithType: Action<StationStartMessage>
+  fullName: System.Action<Sannel.House.Sprinklers.Shared.Messages.StationStartMessage>
+  nameWithType.vb: Action(Of StationStartMessage)
+  fullName.vb: System.Action(Of Sannel.House.Sprinklers.Shared.Messages.StationStartMessage)
+  name.vb: Action(Of StationStartMessage)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Messages.StationStartMessage
+    name: StationStartMessage
+    href: Sannel.House.Sprinklers.Shared.Messages.StationStartMessage.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Messages.StationStartMessage
+    name: StationStartMessage
+    href: Sannel.House.Sprinklers.Shared.Messages.StationStartMessage.html
+  - name: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Action{Sannel.House.Sprinklers.Shared.Messages.StationStopMessage}
+  commentId: T:System.Action{Sannel.House.Sprinklers.Shared.Messages.StationStopMessage}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<StationStopMessage>
+  nameWithType: Action<StationStopMessage>
+  fullName: System.Action<Sannel.House.Sprinklers.Shared.Messages.StationStopMessage>
+  nameWithType.vb: Action(Of StationStopMessage)
+  fullName.vb: System.Action(Of Sannel.House.Sprinklers.Shared.Messages.StationStopMessage)
+  name.vb: Action(Of StationStopMessage)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Messages.StationStopMessage
+    name: StationStopMessage
+    href: Sannel.House.Sprinklers.Shared.Messages.StationStopMessage.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Messages.StationStopMessage
+    name: StationStopMessage
+    href: Sannel.House.Sprinklers.Shared.Messages.StationStopMessage.html
+  - name: )
+- uid: System.Action{Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage}
+  commentId: T:System.Action{Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<StationProgressMessage>
+  nameWithType: Action<StationProgressMessage>
+  fullName: System.Action<Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage>
+  nameWithType.vb: Action(Of StationProgressMessage)
+  fullName.vb: System.Action(Of Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage)
+  name.vb: Action(Of StationProgressMessage)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage
+    name: StationProgressMessage
+    href: Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage
+    name: StationProgressMessage
+    href: Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage.html
+  - name: )
+- uid: System.Action{Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage}
+  commentId: T:System.Action{Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<ZoneUpdateMessage>
+  nameWithType: Action<ZoneUpdateMessage>
+  fullName: System.Action<Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage>
+  nameWithType.vb: Action(Of ZoneUpdateMessage)
+  fullName.vb: System.Action(Of Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage)
+  name.vb: Action(Of ZoneUpdateMessage)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage
+    name: ZoneUpdateMessage
+    href: Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage
+    name: ZoneUpdateMessage
+    href: Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage.html
+  - name: )
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartListeningAsync*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartListeningAsync
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html#Sannel_House_Sprinklers_Shared_SprinklersClient_V1Class_StartListeningAsync
+  name: StartListeningAsync
+  nameWithType: SprinklersClient.V1Class.StartListeningAsync
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartListeningAsync
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetAllZoneMetaDataAsync*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetAllZoneMetaDataAsync
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html#Sannel_House_Sprinklers_Shared_SprinklersClient_V1Class_GetAllZoneMetaDataAsync
+  name: GetAllZoneMetaDataAsync
+  nameWithType: SprinklersClient.V1Class.GetAllZoneMetaDataAsync
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetAllZoneMetaDataAsync
+- uid: System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result{System.Collections.Generic.IEnumerable{Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto}}}
+  commentId: T:System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result{System.Collections.Generic.IEnumerable{Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto}}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<Result<IEnumerable<ZoneInfoDto>>>
+  nameWithType: Task<Result<IEnumerable<ZoneInfoDto>>>
+  fullName: System.Threading.Tasks.Task<Sannel.House.Sprinklers.Shared.Result<System.Collections.Generic.IEnumerable<Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto>>>
+  nameWithType.vb: Task(Of Result(Of IEnumerable(Of ZoneInfoDto)))
+  fullName.vb: System.Threading.Tasks.Task(Of Sannel.House.Sprinklers.Shared.Result(Of System.Collections.Generic.IEnumerable(Of Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto)))
+  name.vb: Task(Of Result(Of IEnumerable(Of ZoneInfoDto)))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Result`1
+    name: Result
+    href: Sannel.House.Sprinklers.Shared.Result-1.html
+  - name: <
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+    name: ZoneInfoDto
+    href: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto.html
+  - name: '>'
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Result`1
+    name: Result
+    href: Sannel.House.Sprinklers.Shared.Result-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+    name: ZoneInfoDto
+    href: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto.html
+  - name: )
+  - name: )
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetZoneMetaDataAsync*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetZoneMetaDataAsync
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html#Sannel_House_Sprinklers_Shared_SprinklersClient_V1Class_GetZoneMetaDataAsync_System_Byte_
+  name: GetZoneMetaDataAsync
+  nameWithType: SprinklersClient.V1Class.GetZoneMetaDataAsync
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetZoneMetaDataAsync
+- uid: System.Byte
+  commentId: T:System.Byte
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte
+  nameWithType: byte
+  fullName: byte
+  nameWithType.vb: Byte
+  fullName.vb: Byte
+  name.vb: Byte
+- uid: System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result{Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto}}
+  commentId: T:System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result{Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<Result<ZoneInfoDto>>
+  nameWithType: Task<Result<ZoneInfoDto>>
+  fullName: System.Threading.Tasks.Task<Sannel.House.Sprinklers.Shared.Result<Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto>>
+  nameWithType.vb: Task(Of Result(Of ZoneInfoDto))
+  fullName.vb: System.Threading.Tasks.Task(Of Sannel.House.Sprinklers.Shared.Result(Of Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto))
+  name.vb: Task(Of Result(Of ZoneInfoDto))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Result`1
+    name: Result
+    href: Sannel.House.Sprinklers.Shared.Result-1.html
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+    name: ZoneInfoDto
+    href: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Result`1
+    name: Result
+    href: Sannel.House.Sprinklers.Shared.Result-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+    name: ZoneInfoDto
+    href: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto.html
+  - name: )
+  - name: )
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.UpdateZoneMetaDataAsync*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.UpdateZoneMetaDataAsync
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html#Sannel_House_Sprinklers_Shared_SprinklersClient_V1Class_UpdateZoneMetaDataAsync_Sannel_House_Sprinklers_Shared_Dtos_Zones_ZoneInfoDto_
+  name: UpdateZoneMetaDataAsync
+  nameWithType: SprinklersClient.V1Class.UpdateZoneMetaDataAsync
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.UpdateZoneMetaDataAsync
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+  commentId: T:Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+  parent: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  href: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto.html
+  name: ZoneInfoDto
+  nameWithType: ZoneInfoDto
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+- uid: System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result}
+  commentId: T:System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<Result>
+  nameWithType: Task<Result>
+  fullName: System.Threading.Tasks.Task<Sannel.House.Sprinklers.Shared.Result>
+  nameWithType.vb: Task(Of Result)
+  fullName.vb: System.Threading.Tasks.Task(Of Sannel.House.Sprinklers.Shared.Result)
+  name.vb: Task(Of Result)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Result
+    name: Result
+    href: Sannel.House.Sprinklers.Shared.Result.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Result
+    name: Result
+    href: Sannel.House.Sprinklers.Shared.Result.html
+  - name: )
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  commentId: N:Sannel.House.Sprinklers.Shared.Dtos.Zones
+  href: Sannel.html
+  name: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  nameWithType: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  spec.csharp:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos
+    name: Dtos
+    href: Sannel.House.Sprinklers.Shared.Dtos.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones
+    name: Zones
+    href: Sannel.House.Sprinklers.Shared.Dtos.Zones.html
+  spec.vb:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos
+    name: Dtos
+    href: Sannel.House.Sprinklers.Shared.Dtos.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones
+    name: Zones
+    href: Sannel.House.Sprinklers.Shared.Dtos.Zones.html
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartZoneAsync*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartZoneAsync
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html#Sannel_House_Sprinklers_Shared_SprinklersClient_V1Class_StartZoneAsync_System_Byte_System_TimeSpan_
+  name: StartZoneAsync
+  nameWithType: SprinklersClient.V1Class.StartZoneAsync
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StartZoneAsync
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StopAll*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StopAll
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html#Sannel_House_Sprinklers_Shared_SprinklersClient_V1Class_StopAll
+  name: StopAll
+  nameWithType: SprinklersClient.V1Class.StopAll
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.StopAll
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetStatus*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetStatus
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html#Sannel_House_Sprinklers_Shared_SprinklersClient_V1Class_GetStatus
+  name: GetStatus
+  nameWithType: SprinklersClient.V1Class.GetStatus
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.GetStatus
+- uid: System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result{Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto}}
+  commentId: T:System.Threading.Tasks.Task{Sannel.House.Sprinklers.Shared.Result{Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<Result<StatusDto>>
+  nameWithType: Task<Result<StatusDto>>
+  fullName: System.Threading.Tasks.Task<Sannel.House.Sprinklers.Shared.Result<Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto>>
+  nameWithType.vb: Task(Of Result(Of StatusDto))
+  fullName.vb: System.Threading.Tasks.Task(Of Sannel.House.Sprinklers.Shared.Result(Of Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto))
+  name.vb: Task(Of Result(Of StatusDto))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Result`1
+    name: Result
+    href: Sannel.House.Sprinklers.Shared.Result-1.html
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto
+    name: StatusDto
+    href: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Result`1
+    name: Result
+    href: Sannel.House.Sprinklers.Shared.Result-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto
+    name: StatusDto
+    href: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto.html
+  - name: )
+  - name: )

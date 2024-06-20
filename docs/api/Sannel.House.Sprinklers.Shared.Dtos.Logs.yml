@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Logs
+  commentId: N:Sannel.House.Sprinklers.Shared.Dtos.Logs
+  id: Sannel.House.Sprinklers.Shared.Dtos.Logs
+  children:
+  - Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto
+  langs:
+  - csharp
+  - vb
+  name: Sannel.House.Sprinklers.Shared.Dtos.Logs
+  nameWithType: Sannel.House.Sprinklers.Shared.Dtos.Logs
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Logs
+  type: Namespace
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+references:
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto
+  commentId: T:Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto
+  href: Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto.html
+  name: ZoneRunDto
+  nameWithType: ZoneRunDto
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto

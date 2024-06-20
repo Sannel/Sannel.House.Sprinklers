@@ -1,0 +1,55 @@
+### YamlMime:TableOfContent
+items:
+- uid: Sannel.House.Sprinklers.Shared
+  name: Sannel.House.Sprinklers.Shared
+  items:
+  - uid: Sannel.House.Sprinklers.Shared.Result
+    name: Result
+  - uid: Sannel.House.Sprinklers.Shared.Result`1
+    name: Result<T>
+  - uid: Sannel.House.Sprinklers.Shared.SprinklerClientOptions
+    name: SprinklerClientOptions
+  - uid: Sannel.House.Sprinklers.Shared.SprinklersClient
+    name: SprinklersClient
+  - uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+    name: SprinklersClient.V1Class
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Logs
+  name: Sannel.House.Sprinklers.Shared.Dtos.Logs
+  items:
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto
+    name: ZoneRunDto
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  name: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  items:
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto
+    name: NewScheduleDto
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
+    name: ScheduleProgramDto
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto
+    name: StationTimeDto
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto
+    name: UpdateScheduleDto
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers
+  name: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers
+  items:
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto
+    name: StatusDto
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  name: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  items:
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+    name: ZoneInfoDto
+- uid: Sannel.House.Sprinklers.Shared.Messages
+  name: Sannel.House.Sprinklers.Shared.Messages
+  items:
+  - uid: Sannel.House.Sprinklers.Shared.Messages.EventNames
+    name: EventNames
+  - uid: Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage
+    name: StationProgressMessage
+  - uid: Sannel.House.Sprinklers.Shared.Messages.StationStartMessage
+    name: StationStartMessage
+  - uid: Sannel.House.Sprinklers.Shared.Messages.StationStopMessage
+    name: StationStopMessage
+  - uid: Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage
+    name: ZoneUpdateMessage
+memberLayout: SamePage

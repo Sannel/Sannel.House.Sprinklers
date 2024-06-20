@@ -1,0 +1,51 @@
+### YamlMime:ManagedReference
+items:
+- uid: Sannel.House.Sprinklers.Shared.Messages
+  commentId: N:Sannel.House.Sprinklers.Shared.Messages
+  id: Sannel.House.Sprinklers.Shared.Messages
+  children:
+  - Sannel.House.Sprinklers.Shared.Messages.EventNames
+  - Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage
+  - Sannel.House.Sprinklers.Shared.Messages.StationStartMessage
+  - Sannel.House.Sprinklers.Shared.Messages.StationStopMessage
+  - Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage
+  langs:
+  - csharp
+  - vb
+  name: Sannel.House.Sprinklers.Shared.Messages
+  nameWithType: Sannel.House.Sprinklers.Shared.Messages
+  fullName: Sannel.House.Sprinklers.Shared.Messages
+  type: Namespace
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+references:
+- uid: Sannel.House.Sprinklers.Shared.Messages.EventNames
+  commentId: T:Sannel.House.Sprinklers.Shared.Messages.EventNames
+  href: Sannel.House.Sprinklers.Shared.Messages.EventNames.html
+  name: EventNames
+  nameWithType: EventNames
+  fullName: Sannel.House.Sprinklers.Shared.Messages.EventNames
+- uid: Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage
+  commentId: T:Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage
+  href: Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage.html
+  name: StationProgressMessage
+  nameWithType: StationProgressMessage
+  fullName: Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage
+- uid: Sannel.House.Sprinklers.Shared.Messages.StationStartMessage
+  commentId: T:Sannel.House.Sprinklers.Shared.Messages.StationStartMessage
+  href: Sannel.House.Sprinklers.Shared.Messages.StationStartMessage.html
+  name: StationStartMessage
+  nameWithType: StationStartMessage
+  fullName: Sannel.House.Sprinklers.Shared.Messages.StationStartMessage
+- uid: Sannel.House.Sprinklers.Shared.Messages.StationStopMessage
+  commentId: T:Sannel.House.Sprinklers.Shared.Messages.StationStopMessage
+  href: Sannel.House.Sprinklers.Shared.Messages.StationStopMessage.html
+  name: StationStopMessage
+  nameWithType: StationStopMessage
+  fullName: Sannel.House.Sprinklers.Shared.Messages.StationStopMessage
+- uid: Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage
+  commentId: T:Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage
+  href: Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage.html
+  name: ZoneUpdateMessage
+  nameWithType: ZoneUpdateMessage
+  fullName: Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage

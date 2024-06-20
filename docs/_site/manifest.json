@@ -11,21 +11,254 @@
       }
     },
     {
-      "type": "Conceptual",
-      "source_relative_path": "docs/getting-started.md",
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto.yml",
       "output": {
         ".html": {
-          "relative_path": "docs/getting-started.html"
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Logs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Logs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Schedules.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Zones.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Dtos.Zones.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.EventNames.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.EventNames.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.StationStartMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.StationStartMessage.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.StationStopMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.StationStopMessage.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Messages.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Result-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Result-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.Result.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.Result.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.SprinklerClientOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.SprinklerClientOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.SprinklersClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.SprinklersClient.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Sannel.House.Sprinklers.Shared.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Sannel.House.Sprinklers.Shared.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "docs/introduction.md",
+      "source_relative_path": "docs/docker-compose.md",
       "output": {
         ".html": {
-          "relative_path": "docs/introduction.html"
+          "relative_path": "docs/docker-compose.html"
         }
       },
       "version": ""

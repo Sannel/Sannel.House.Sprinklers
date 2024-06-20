@@ -1,0 +1,560 @@
+### YamlMime:ManagedReference
+items:
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient
+  commentId: T:Sannel.House.Sprinklers.Shared.SprinklersClient
+  id: SprinklersClient
+  parent: Sannel.House.Sprinklers.Shared
+  children:
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Options.IOptions{Sannel.House.Sprinklers.Shared.SprinklerClientOptions})
+  - Sannel.House.Sprinklers.Shared.SprinklersClient.V1
+  langs:
+  - csharp
+  - vb
+  name: SprinklersClient
+  nameWithType: SprinklersClient
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient
+  type: Class
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: SprinklersClient
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 12
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public class SprinklersClient
+    content.vb: Public Class SprinklersClient
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Options.IOptions{Sannel.House.Sprinklers.Shared.SprinklerClientOptions})
+  commentId: M:Sannel.House.Sprinklers.Shared.SprinklersClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Options.IOptions{Sannel.House.Sprinklers.Shared.SprinklerClientOptions})
+  id: '#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Options.IOptions{Sannel.House.Sprinklers.Shared.SprinklerClientOptions})'
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient
+  langs:
+  - csharp
+  - vb
+  name: SprinklersClient(HttpClient, IOptions<SprinklerClientOptions>)
+  nameWithType: SprinklersClient.SprinklersClient(HttpClient, IOptions<SprinklerClientOptions>)
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.SprinklersClient(System.Net.Http.HttpClient, Microsoft.Extensions.Options.IOptions<Sannel.House.Sprinklers.Shared.SprinklerClientOptions>)
+  type: Constructor
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: .ctor
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.cs
+    startLine: 15
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public SprinklersClient(HttpClient httpClient, IOptions<SprinklerClientOptions> options)
+    parameters:
+    - id: httpClient
+      type: System.Net.Http.HttpClient
+    - id: options
+      type: Microsoft.Extensions.Options.IOptions{Sannel.House.Sprinklers.Shared.SprinklerClientOptions}
+    content.vb: Public Sub New(httpClient As HttpClient, options As IOptions(Of SprinklerClientOptions))
+  overload: Sannel.House.Sprinklers.Shared.SprinklersClient.#ctor*
+  nameWithType.vb: SprinklersClient.New(HttpClient, IOptions(Of SprinklerClientOptions))
+  fullName.vb: Sannel.House.Sprinklers.Shared.SprinklersClient.New(System.Net.Http.HttpClient, Microsoft.Extensions.Options.IOptions(Of Sannel.House.Sprinklers.Shared.SprinklerClientOptions))
+  name.vb: New(HttpClient, IOptions(Of SprinklerClientOptions))
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1
+  commentId: P:Sannel.House.Sprinklers.Shared.SprinklersClient.V1
+  id: V1
+  parent: Sannel.House.Sprinklers.Shared.SprinklersClient
+  langs:
+  - csharp
+  - vb
+  name: V1
+  nameWithType: SprinklersClient.V1
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1
+  type: Property
+  source:
+    remote:
+      path: src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+      branch: main
+      repo: https://github.com/Sannel/Sannel.House.Sprinklers.git
+    id: V1
+    path: ../src/Sannel.House.Sprinklers.Shared/SprinklersClient.v1.cs
+    startLine: 14
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+  namespace: Sannel.House.Sprinklers.Shared
+  syntax:
+    content: public SprinklersClient.V1Class V1 { get; init; }
+    parameters: []
+    return:
+      type: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+    content.vb: Public Property V1 As SprinklersClient.V1Class
+  overload: Sannel.House.Sprinklers.Shared.SprinklersClient.V1*
+references:
+- uid: Sannel.House.Sprinklers.Shared
+  commentId: N:Sannel.House.Sprinklers.Shared
+  href: Sannel.html
+  name: Sannel.House.Sprinklers.Shared
+  nameWithType: Sannel.House.Sprinklers.Shared
+  fullName: Sannel.House.Sprinklers.Shared
+  spec.csharp:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+  spec.vb:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.#ctor*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.SprinklersClient.#ctor
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.html#Sannel_House_Sprinklers_Shared_SprinklersClient__ctor_System_Net_Http_HttpClient_Microsoft_Extensions_Options_IOptions_Sannel_House_Sprinklers_Shared_SprinklerClientOptions__
+  name: SprinklersClient
+  nameWithType: SprinklersClient.SprinklersClient
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.SprinklersClient
+  nameWithType.vb: SprinklersClient.New
+  fullName.vb: Sannel.House.Sprinklers.Shared.SprinklersClient.New
+  name.vb: New
+- uid: System.Net.Http.HttpClient
+  commentId: T:System.Net.Http.HttpClient
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.httpclient
+  name: HttpClient
+  nameWithType: HttpClient
+  fullName: System.Net.Http.HttpClient
+- uid: Microsoft.Extensions.Options.IOptions{Sannel.House.Sprinklers.Shared.SprinklerClientOptions}
+  commentId: T:Microsoft.Extensions.Options.IOptions{Sannel.House.Sprinklers.Shared.SprinklerClientOptions}
+  parent: Microsoft.Extensions.Options
+  definition: Microsoft.Extensions.Options.IOptions`1
+  href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.options.ioptions-1
+  name: IOptions<SprinklerClientOptions>
+  nameWithType: IOptions<SprinklerClientOptions>
+  fullName: Microsoft.Extensions.Options.IOptions<Sannel.House.Sprinklers.Shared.SprinklerClientOptions>
+  nameWithType.vb: IOptions(Of SprinklerClientOptions)
+  fullName.vb: Microsoft.Extensions.Options.IOptions(Of Sannel.House.Sprinklers.Shared.SprinklerClientOptions)
+  name.vb: IOptions(Of SprinklerClientOptions)
+  spec.csharp:
+  - uid: Microsoft.Extensions.Options.IOptions`1
+    name: IOptions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.options.ioptions-1
+  - name: <
+  - uid: Sannel.House.Sprinklers.Shared.SprinklerClientOptions
+    name: SprinklerClientOptions
+    href: Sannel.House.Sprinklers.Shared.SprinklerClientOptions.html
+  - name: '>'
+  spec.vb:
+  - uid: Microsoft.Extensions.Options.IOptions`1
+    name: IOptions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.options.ioptions-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Sannel.House.Sprinklers.Shared.SprinklerClientOptions
+    name: SprinklerClientOptions
+    href: Sannel.House.Sprinklers.Shared.SprinklerClientOptions.html
+  - name: )
+- uid: System.Net.Http
+  commentId: N:System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http
+  nameWithType: System.Net.Http
+  fullName: System.Net.Http
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+- uid: Microsoft.Extensions.Options.IOptions`1
+  commentId: T:Microsoft.Extensions.Options.IOptions`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.options.ioptions-1
+  name: IOptions<TOptions>
+  nameWithType: IOptions<TOptions>
+  fullName: Microsoft.Extensions.Options.IOptions<TOptions>
+  nameWithType.vb: IOptions(Of TOptions)
+  fullName.vb: Microsoft.Extensions.Options.IOptions(Of TOptions)
+  name.vb: IOptions(Of TOptions)
+  spec.csharp:
+  - uid: Microsoft.Extensions.Options.IOptions`1
+    name: IOptions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.options.ioptions-1
+  - name: <
+  - name: TOptions
+  - name: '>'
+  spec.vb:
+  - uid: Microsoft.Extensions.Options.IOptions`1
+    name: IOptions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.options.ioptions-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TOptions
+  - name: )
+- uid: Microsoft.Extensions.Options
+  commentId: N:Microsoft.Extensions.Options
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.Extensions.Options
+  nameWithType: Microsoft.Extensions.Options
+  fullName: Microsoft.Extensions.Options
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.Options
+    name: Options
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.options
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.Options
+    name: Options
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.options
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1*
+  commentId: Overload:Sannel.House.Sprinklers.Shared.SprinklersClient.V1
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.html#Sannel_House_Sprinklers_Shared_SprinklersClient_V1
+  name: V1
+  nameWithType: SprinklersClient.V1
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1
+- uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  commentId: T:Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  parent: Sannel.House.Sprinklers.Shared
+  href: Sannel.House.Sprinklers.Shared.SprinklersClient.html
+  name: SprinklersClient.V1Class
+  nameWithType: SprinklersClient.V1Class
+  fullName: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+  spec.csharp:
+  - uid: Sannel.House.Sprinklers.Shared.SprinklersClient
+    name: SprinklersClient
+    href: Sannel.House.Sprinklers.Shared.SprinklersClient.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+    name: V1Class
+    href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html
+  spec.vb:
+  - uid: Sannel.House.Sprinklers.Shared.SprinklersClient
+    name: SprinklersClient
+    href: Sannel.House.Sprinklers.Shared.SprinklersClient.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
+    name: V1Class
+    href: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class.html

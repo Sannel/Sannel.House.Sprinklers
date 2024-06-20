@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers
+  commentId: N:Sannel.House.Sprinklers.Shared.Dtos.Sprinklers
+  id: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers
+  children:
+  - Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto
+  langs:
+  - csharp
+  - vb
+  name: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers
+  nameWithType: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers
+  type: Namespace
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+references:
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto
+  commentId: T:Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto
+  href: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto.html
+  name: StatusDto
+  nameWithType: StatusDto
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto

@@ -1,0 +1,78 @@
+### YamlMime:ManagedReference
+items:
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  commentId: N:Sannel.House.Sprinklers.Shared.Dtos.Zones
+  id: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  children:
+  - Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+  langs:
+  - csharp
+  - vb
+  name: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  nameWithType: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  type: Namespace
+  assemblies:
+  - Sannel.House.Sprinklers.Shared
+references:
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+  commentId: T:Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+  parent: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  href: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto.html
+  name: ZoneInfoDto
+  nameWithType: ZoneInfoDto
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
+- uid: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  commentId: N:Sannel.House.Sprinklers.Shared.Dtos.Zones
+  href: Sannel.html
+  name: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  nameWithType: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  fullName: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  spec.csharp:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos
+    name: Dtos
+    href: Sannel.House.Sprinklers.Shared.Dtos.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones
+    name: Zones
+    href: Sannel.House.Sprinklers.Shared.Dtos.Zones.html
+  spec.vb:
+  - uid: Sannel
+    name: Sannel
+    href: Sannel.html
+  - name: .
+  - uid: Sannel.House
+    name: House
+    href: Sannel.House.html
+  - name: .
+  - uid: Sannel.House.Sprinklers
+    name: Sprinklers
+    href: Sannel.House.Sprinklers.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared
+    name: Shared
+    href: Sannel.House.Sprinklers.Shared.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos
+    name: Dtos
+    href: Sannel.House.Sprinklers.Shared.Dtos.html
+  - name: .
+  - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones
+    name: Zones
+    href: Sannel.House.Sprinklers.Shared.Dtos.Zones.html

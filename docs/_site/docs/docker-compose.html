@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title> | Sannel.House.Sprinklers </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content=" | Sannel.House.Sprinklers ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Sannel/Sannel.House.Sprinklers/blob/main/docs/docs/docker-compose.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Sannel.House.Sprinklers">
+            Sannel.House.Sprinklers
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+
+<h2 id="prepare-our-environment">Prepare our environment</h2>
+<p>First off we need to install docker on our raspberry pi. I perfer using the script at <a href="https://get.docker.com">https://get.docker.com</a> <a href="https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script">docs</a></p>
+<pre><code class="lang-sh">curl -sSL https://get.docker.com | sudo sh
+</code></pre>
+<h2 id="prepare-our-directories">Prepare our directories</h2>
+<p>Lets go ahead and create this directory structures</p>
+<pre><code class="lang-sh">sudo mkdir -p /opt/Sannel/House/Sprinklers/config
+sudo mkdir -p /opt/Sannel/House/Sprinklers/Data
+</code></pre>
+<h2 id="configure-our-service">Configure our service</h2>
+<p>Navigate to /opt/Sannel/House/Sprinklers/config and create the file appsettings.json. Below is an example configuration that enables HTTPS, sets up our service to connect to Microsoft Entra for authentication, and configures our MQTT server connection.</p>
+<pre><code class="lang-json">{
+	&quot;Kestrel&quot;: {
+		&quot;Endpoints&quot;: {
+			&quot;Https&quot;:{
+				&quot;Url&quot;: &quot;https://*:8443&quot;,
+				&quot;Certificate&quot;:{
+					&quot;Path&quot;: &quot;/app/app_config/certs/cert.pfx&quot;,
+					&quot;Password&quot;: &quot;@Password1&quot;
+				}
+			}
+		}
+	},
+	&quot;AllowedHosts&quot;: &quot;*&quot;,
+	&quot;Sprinkler&quot;: {
+		// My System only has 8 zones so we just configure it for 8
+		&quot;Zones&quot;: 8
+	},
+	&quot;AzureAd&quot;: {
+			&quot;Instance&quot;: &quot;https://login.microsoftonline.com/&quot;,
+			&quot;ClientId&quot;: &quot;870818f5-2723-4d4b-b833-b888e65e6cc2&quot;,
+			&quot;TenantId&quot;: &quot;4f7a2a8d-fd6a-46f7-908c-40527c6c7a49&quot;,
+			&quot;accessTokenAcceptedVersion&quot;: &quot;v2.0&quot;,
+			&quot;Scopes&quot;: &quot;access&quot;,
+			&quot;audience&quot;: &quot;api://sannel.house.sprinklers&quot;
+	},
+	&quot;ApplicationInsights&quot;: {
+			&quot;ConnectionString&quot;: &quot;InstrumentationKey=f31b6cf1-0694-413b-a6ca-a412c147ee23;IngestionEndpoint=https://westus3-1.in.applicationinsights.azur
+e.com/&quot;
+	},
+	&quot;MQTT&quot;: {
+		&quot;Server&quot;: &quot;mqttserver&quot;,
+		&quot;Username&quot;: &quot;sprinklers&quot;,
+		&quot;Password&quot;: &quot;@Password1&quot;,
+		&quot;UseSSL&quot;: true,
+		&quot;Port&quot;: 8884,
+		&quot;CertPaths&quot;: [&quot;/app/app_config/certs/ca.crt&quot;]
+	}
+}
+</code></pre>
+<p>Now that the configuration is complete, we can proceed to set up our Compose file. In the example below, our user ID is 1000 and the group ID is 993. Be sure to verify that your GPIO group has the same ID; if not, use the correct ID for your setup.</p>
+<pre><code class="lang-yaml">services:
+	sprinklers:
+		image: sannel/house.sprinklers:latest
+		user: &quot;1000:993&quot;
+		ports:
+		- 8443:8443
+		volumes:
+		- ./Data:/app/Data
+		- ./config:/app/app_config
+		devices:
+		- /dev/gpiomem
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Sannel/Sannel.House.Sprinklers/blob/main/docs/docs/docker-compose.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
