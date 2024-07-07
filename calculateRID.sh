@@ -1,13 +1,24 @@
 #!/bin/bash
+arch="`uname -m`"
+RID="linux-x64"
 
-b = "`uname -m`" == "aarm64" || "`uname -m`" == "arm64";
-RID = "linux-x64"
-if [ $b ] ; then
-	RID = "linux-arm64"
-fi
-b = "`uname -m`" == "arm32";
-if [ $b ] ; then
-	RID = "linux-arm32"
+
+if [ "$arch" = "aarm64" ]; then
+    echo "linux-arm64"
+    exit
 fi
 
-export RID
+if [ "$arch" = "arm64" ]; then
+    echo "linux-arm64"
+    exit
+fi
+
+if [ "$arch" = "arm32" ]; then
+    echo "linux-arm32"
+    exit
+fi
+
+if [ "$arch" = "x86_64" ]; then
+    echo "linux-x64"
+    exit
+fi

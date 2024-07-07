@@ -15,7 +15,7 @@ on:
 
 env:
   major: 0
-  minor: 1
+  minor: 2
   patch: 0
 
 jobs:
@@ -56,123 +56,5 @@ jobs:
             BuildNumber=${{ github.run_number }}
           file: src/Sannel.House.Sprinklers/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: sannel/house.sprinklers:build-amd64
+          tags: sannel/house.sprinklers:v${{ env.major }}.${{ env.minor }}.${{ env.patch }}
           labels: ${{ steps.meta.outputs.labels }}
-    - name: FixTags
-      if: ${{ github.event_name != 'pull_request' }}
-      id: fixedTags
-      run: |
-        fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/:/:linux-amd64./g' | sed 's/\s/,/g')
-        fixed="$fixed,sannel/house.sprinklers:linux-amd64.$major.$minor.$patch.${{ github.run_number }}"
-        export DOCKER_TAGS=$fixed
-        # Set IFS to comma
-        IFS=',' read -ra elements <<< $fixed
-        for element in "${elements[@]}"; do
-          docker pull sannel/house.sprinklers:build-amd64
-          docker tag sannel/house.sprinklers:build-amd64 $element
-          docker push $element
-        done
-  arm64:
-    runs-on: [self-hosted, ARM64]
-    steps:
-    - uses: actions/checkout@v4
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-          # list of Docker images to use as base name for tags
-          images: |
-            sannel/house.sprinklers            
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{major}}.{{minor}}.{{patch}}
-            type=sha            
-      
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    - name: Login to Docker Hub
-      if: github.event_name != 'pull_request'
-      uses: docker/login-action@v3
-      with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-          context: .
-          build-args: |
-            Major=${{ env.major }}
-            Minor=${{ env.minor }}
-            Patch=${{ env.patch }}
-            BuildNumber=${{ github.run_number }}
-          file: src/Sannel.House.Sprinklers/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: sannel/house.sprinklers:build-arm64
-          labels: ${{ steps.meta.outputs.labels }}
-    - name: FixTags
-      id: fixedTags
-      if: ${{ github.event_name != 'pull_request' }}
-      run: |
-        export Major=${{ env.major }}
-        export Minor=${{ env.minor }}
-        export Patch=${{ env.patch }}
-        export BuildNumber=${{ github.run_number }}
-        fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/:/:linux-arm64./g' | sed 's/\s/,/g')
-        fixed="$fixed,sannel/house.sprinklers:linux-arm64.$major.$minor.$patch.${{ github.run_number }}"
-        export DOCKER_TAGS=$fixed
-        # Set IFS to comma
-        IFS=',' read -ra elements <<< $fixed
-        docker pull sannel/house.sprinklers:build-arm64
-        for element in "${elements[@]}"; do
-          docker tag sannel/house.sprinklers:build-arm64 $element
-          docker push $element
-        done
-  combine:
-    runs-on: ubuntu-24.04
-    needs:
-    - x64
-    - arm64
-    steps:
-    - uses: actions/checkout@v4
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-          # list of Docker images to use as base name for tags
-          images: |
-            sannel/house.sprinklers            
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{major}}.{{minor}}.{{patch}}
-            type=sha            
-    - name: Login to Docker Hub
-      if: github.event_name != 'pull_request'
-      uses: docker/login-action@v3
-      with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: manifest
-      if: ${{ github.event_name != 'pull_request' }}
-      run: |
-        fixed=$(echo $DOCKER_METADATA_OUTPUT_TAGS | sed 's/\s/,/g')
-        # Set IFS to comma
-        IFS=',' read -ra elements <<< $fixed
-        for element in "${elements[@]}"; do
-          amd64=$(echo $element | sed 's/:/:linux-amd64./g')
-          arm64=$(echo $element | sed 's/:/:linux-arm64./g')
-          docker manifest create $element $amd64 $arm64
-          docker manifest push $element
-        done
-        export BuildNumber=${{ github.run_number }}
-        version="sannel/house.sprinklers:v${{ env.major }}.${{ env.minor }}.${{ env.patch }}.$BuildNumber"
-        docker manifest create $version sannel/house.sprinklers:linux-amd64.$major.$minor.$patch.$BuildNumber sannel/house.sprinklers:linux-arm64.$major.$minor.$patch.$BuildNumber
-        docker manifest push $version
-        if [ $GITHUB_REF_NAME = "main" ]; then
-          version="sannel/house.sprinklers:latest"
-          docker manifest create $version sannel/house.sprinklers:linux-amd64.$major.$minor.$patch.$BuildNumber sannel/house.sprinklers:linux-arm64.$major.$minor.$patch.$BuildNumber
-          docker manifest push $version
-        fi
