@@ -2,6 +2,15 @@
 arch="`uname -m`"
 RID="linux-x64"
 
+if [ "$TARGETARCH" = "arm64" ]; then
+    echo "linux-arm64"
+    exit
+fi
+
+if [ "$TARGETARCH" = "amd64" ]; then
+    echo "linux-amd64"
+    exit
+fi
 
 if [ "$arch" = "aarm64" ]; then
     echo "linux-arm64"

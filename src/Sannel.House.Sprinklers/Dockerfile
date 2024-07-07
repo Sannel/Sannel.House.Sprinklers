@@ -12,6 +12,7 @@ ARG Major=0
 ARG Minor=1
 ARG Patch=0
 ARG BuildNumber=0
+ARG TARGETARCH
 WORKDIR /src
 COPY ["calculateRID.sh", "./"]
 COPY ["Directory.Build.props", "./"]
