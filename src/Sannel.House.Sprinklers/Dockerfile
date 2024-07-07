@@ -15,11 +15,12 @@ ARG BuildNumber=0
 WORKDIR /src
 COPY ["calculateRID.sh", "./"]
 COPY ["Directory.Build.props", "./"]
+COPY ["nuget.config", "./"]
 COPY ["src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj", "src/Sannel.House.Sprinklers/"]
 COPY ["src/Sannel.House.Sprinklers.Core/Sannel.House.Sprinklers.Core.csproj", "src/Sannel.House.Sprinklers.Core/"]
 COPY ["src/Sannel.House.Sprinklers.Shared/Sannel.House.Sprinklers.Shared.csproj", "src/Sannel.House.Sprinklers.Shared/"]
 COPY ["src/Sannel.House.Sprinklers.Infrastructure/Sannel.House.Sprinklers.Infrastructure.csproj", "src/Sannel.House.Sprinklers.Infrastructure/"]
-RUN dotnet restore "./src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj" -r "`/src/calculateRID.sh`"
+RUN dotnet restore "./src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj" --configfile "/src/nuget.config" -r "`/src/calculateRID.sh`"
 COPY . .
 WORKDIR "/src/src/Sannel.House.Sprinklers"
 RUN dotnet build "./Sannel.House.Sprinklers.csproj" -r "`/src/calculateRID.sh`" --no-restore -c $BUILD_CONFIGURATION -o /app/build
