@@ -45,6 +45,18 @@ builder.Services.AddDataProtection()
 		new DirectoryInfo("Data")
 	);
 
+builder.Services.AddCors(o =>
+{
+	o.AddDefaultPolicy(p =>
+	{
+		p.AllowAnyHeader()
+		.AllowAnyMethod()
+		.AllowCredentials();
+		var list = builder.Configuration.GetSection("AllowedOrigins").Get<string[]?>() ?? [];
+		p.WithOrigins(list);
+	});
+});
+
 builder.Services.AddApplicationInsightsTelemetry();
 
 builder.Services.AddAuthentication(o =>
@@ -172,6 +184,8 @@ builder.Services.AddSingleton<MQTTManager>();
 using var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
+
+app.UseCors();
 
 using (var scope = app.Services.CreateScope())
 {
