@@ -3,9 +3,12 @@
 		<Major Condition="'$(Major)' == ''">0</Major>
 		<Minor Condition="'$(Minor)' == ''">0</Minor>
 		<Patch Condition="'$(Patch)' == ''">1</Patch>
+		<RunNumber>$(github_run_number)</RunNumber>
+		<BuildNumber>$([System.Int64]::Parse($(RunNumber)))</BuildNumber>
 		<BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
+		<Version Condition="'$(github_ref)' != 'refs/heads/main'">$(Major).$(Minor).$(Patch)-pre-$([System.String]::Format('{0:0000},$(BuildNumber)))</Version>
+		<Version Condition="'$(Version)' == ''">$(Major).$(Minor).$(Patch).$(BuildNumber)</Version>
 		<AssemblyVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</AssemblyVersion>
 		<FileVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</FileVersion>
-		<Version>$(Major).$(Minor).$(Patch).$(BuildNumber)</Version>
 	</PropertyGroup>
 </Project>
