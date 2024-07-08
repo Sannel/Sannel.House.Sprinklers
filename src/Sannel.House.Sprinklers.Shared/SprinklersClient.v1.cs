@@ -119,11 +119,18 @@ public partial class SprinklersClient
 		/// <param name="start">The start date and time of the range.</param>
 		/// <param name="end">The end date and time of the range.</param>
 		/// <returns>A task representing the asynchronous operation with the result containing the zone runs.</returns>
-		public Task<Result<IEnumerable<ZoneRunDto>>> GetRunsForRangeAsync(DateTimeOffset start, DateTimeOffset end)
+		public Task<Result<IEnumerable<ZoneRunDto>>> GetRunsForRangeAsync(DateOnly start, DateOnly end)
+			=> GetRunsForRangeAsync(start, end, DateTimeOffset.Now.Offset);
+
+		/// <summary>
+		/// Get the zone runs for a specified range.
+		/// </summary>
+		/// <param name="start">The start date and time of the range.</param>
+		/// <param name="end">The end date and time of the range.</param>
+		/// <returns>A task representing the asynchronous operation with the result containing the zone runs.</returns>
+		public Task<Result<IEnumerable<ZoneRunDto>>> GetRunsForRangeAsync(DateOnly start, DateOnly end, TimeSpan offset)
 		{
-			var startDT = JsonSerializer.Serialize(start, _parent._jsonOptions);
-			var endDT = JsonSerializer.Serialize(end, _parent._jsonOptions);
-			return _parent.GetAsync<IEnumerable<ZoneRunDto>>($"/api/v1/Logs/Runs/{Uri.EscapeDataString(startDT)}/{Uri.EscapeDataString(endDT)}");
+			return _parent.GetAsync<IEnumerable<ZoneRunDto>>($"/api/v1/Logs/Runs/{Uri.EscapeDataString(start.ToString())}/{Uri.EscapeDataString(end.ToString())}?offset={offset}");
 		}
 	}
 }

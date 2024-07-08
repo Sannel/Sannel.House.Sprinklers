@@ -21,9 +21,19 @@ public class LogController : ControllerBase
 		_loggerRepository = loggerRepository;
 	}
 
+	/// <summary>
+	/// Retrieves the zone run logs for a specified date range.
+	/// </summary>
+	/// <param name="from">The start date of the range.</param>
+	/// <param name="to">The end date of the range.</param>
+	/// <param name="offset">The offset to apply to the date range.</param>
+	/// <returns>The zone run logs within the specified date range.</returns>
 	[HttpGet("Runs/{from}/{to}", Name = $"{VERSION}.[controller].[action]")]
 	[ProducesResponseType(typeof(IEnumerable<ZoneRunDto>), 200)]
-	public async Task<IActionResult> GetRunsForRange(DateOnly from, DateOnly to)
+	public async Task<IActionResult> GetRunsForRange(DateOnly from,
+	DateOnly to,
+	[FromQuery]
+	TimeSpan? offset)
 	{
 		if (from > to)
 		{
@@ -35,9 +45,15 @@ public class LogController : ControllerBase
 
 		var now = DateTimeOffset.Now;
 
-		var logs = await _loggerRepository.GetLogs(new DateTimeOffset(start, now.Offset),
-									new DateTimeOffset(end, now.Offset),
-									LogActions.START);
+		var o = now.Offset;
+		if (offset is not null)
+		{
+			o = offset.Value;
+		}
+
+		var logs = await _loggerRepository.GetLogs(new DateTimeOffset(start, o),
+										new DateTimeOffset(end, o),
+										LogActions.START);
 
 		return Ok(logs.Select(i => new ZoneRunDto()
 		{
