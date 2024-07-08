@@ -16,8 +16,8 @@ on:
 
 env:
   major: 0
-  minor: 2
-  patch: 0
+  minor: 3
+  patch: 8
 
 jobs:
   build:
