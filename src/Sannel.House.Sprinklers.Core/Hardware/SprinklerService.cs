@@ -113,7 +113,7 @@ public class SprinklerService : BackgroundService, IDisposable
 				}
 				catch (Exception ex)
 				{
-
+					_logger.LogError(ex, "Error sending progress message");
 				}
 			}
 		}
@@ -181,7 +181,7 @@ public class SprinklerService : BackgroundService, IDisposable
 		}
 	}
 
-	public void Dispose()
+	public override void Dispose()
 	{
 		_scope.Dispose();
 	}

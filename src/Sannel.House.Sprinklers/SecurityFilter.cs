@@ -21,7 +21,12 @@ public class SecurityFilter : IOperationFilter
 				Type = SecuritySchemeType.OAuth2
 			};
 
-			req[scheme] = new List<string>() { p };
+			if(p is null)
+			{
+				continue;
+			}
+
+			req[scheme] = [ p ];
 
 			if (req.Count > 0)
 			{
