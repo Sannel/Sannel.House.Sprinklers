@@ -130,7 +130,7 @@ public partial class SprinklersClient
 		/// <returns>A task representing the asynchronous operation with the result containing the zone runs.</returns>
 		public Task<Result<IEnumerable<ZoneRunDto>>> GetRunsForRangeAsync(DateOnly start, DateOnly end, TimeSpan offset)
 		{
-			return _parent.GetAsync<IEnumerable<ZoneRunDto>>($"/api/v1/Logs/Runs/{start.Year}-{start.Month:00}-{start.Day:00}/{end.Year}-{end.Month:00}-{end.Day:00}", $"?offset={offset}");
+			return _parent.GetAsync<IEnumerable<ZoneRunDto>>($"/api/v1/Log/Runs/{start.Year}-{start.Month:00}-{start.Day:00}/{end.Year}-{end.Month:00}-{end.Day:00}", $"?offset={offset}");
 		}
 	}
 }

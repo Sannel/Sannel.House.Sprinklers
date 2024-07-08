@@ -39,6 +39,8 @@ public partial class SprinklersClient
 			builder.Query = query;
 		}
 
+		builder.Path = builder.Path.Replace("//","/");
+
 		using var message = new HttpRequestMessage(HttpMethod.Get, builder.Uri);
 		var response = await _httpClient.SendAsync(message);
 
