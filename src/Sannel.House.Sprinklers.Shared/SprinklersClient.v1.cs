@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
+using Sannel.House.Sprinklers.Shared.Dtos.Logs;
 using Sannel.House.Sprinklers.Shared.Dtos.Sprinklers;
 using Sannel.House.Sprinklers.Shared.Dtos.Zones;
 using Sannel.House.Sprinklers.Shared.Messages;
@@ -78,6 +79,11 @@ public partial class SprinklersClient
 		public Task<Result<StatusDto>> GetStatus()
 		{
 			return _parent.GetAsync<StatusDto>("/api/v1/Sprinklers/Status");
+		}
+
+		public Task<Result<IEnumerable<ZoneRunDto>>> GetRunsForRangeAsync(DateTimeOffset start, DateTimeOffset end)
+		{
+			return _parent.GetAsync<IEnumerable<ZoneRunDto>>($"/api/v1/Logs/Runs/{start:O}/{end:O}");
 		}
 	}
 }
