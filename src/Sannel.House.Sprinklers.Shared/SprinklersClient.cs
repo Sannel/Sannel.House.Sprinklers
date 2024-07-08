@@ -12,13 +12,18 @@ public partial class SprinklersClient
 {
 	private readonly HttpClient _httpClient;
 	private readonly SprinklerClientOptions _options;
+	private readonly JsonSerializerOptions _jsonOptions;
 
-	public SprinklersClient(HttpClient httpClient, IOptions<SprinklerClientOptions> options)
+	public SprinklersClient(HttpClient httpClient, 
+		IOptions<SprinklerClientOptions> options,
+		IOptions<JsonSerializerOptions> jsonOptions)
 	{
 		ArgumentNullException.ThrowIfNull(httpClient);
 		ArgumentNullException.ThrowIfNull(options);
+		ArgumentNullException.ThrowIfNull(jsonOptions);
 		_httpClient = httpClient;
 		_options = options.Value;
+		_jsonOptions = jsonOptions.Value;
 		V1 = new V1Class(this);
 	}
 

@@ -121,7 +121,9 @@ public partial class SprinklersClient
 		/// <returns>A task representing the asynchronous operation with the result containing the zone runs.</returns>
 		public Task<Result<IEnumerable<ZoneRunDto>>> GetRunsForRangeAsync(DateTimeOffset start, DateTimeOffset end)
 		{
-			return _parent.GetAsync<IEnumerable<ZoneRunDto>>($"/api/v1/Logs/Runs/{start:O}/{end:O}");
+			var startDT = JsonSerializer.Serialize(start, _parent._jsonOptions);
+			var endDT = JsonSerializer.Serialize(end, _parent._jsonOptions);
+			return _parent.GetAsync<IEnumerable<ZoneRunDto>>($"/api/v1/Logs/Runs/{Uri.EscapeDataString(startDT)}/{Uri.EscapeDataString(endDT)}");
 		}
 	}
 }
