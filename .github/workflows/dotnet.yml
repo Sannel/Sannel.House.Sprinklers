@@ -84,4 +84,16 @@ jobs:
       with:
         name: nuget 
         path: ./publish
+  nuget_org:
+    runs-on: ubuntu-24.04
+    environment: "nuget.org"
+    needs: nuget
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: nuget
+        path: './nuget'
+    - name: .NET push to nuget
+      run: dotnet nuget push ./nuget/*.nupkg --api-key ${{ secrets.NUGET_API_TOKEN }}
 
