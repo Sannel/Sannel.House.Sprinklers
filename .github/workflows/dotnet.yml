@@ -90,6 +90,8 @@ jobs:
     needs: nuget
     steps:
     - uses: actions/download-artifact@v4
+    - name: info
+      run: pwd && ls -la
     - name: .NET push to nuget
       run: dotnet nuget push ./nuget/*.nupkg --api-key ${{ secrets.NUGET_API_TOKEN }}
 
