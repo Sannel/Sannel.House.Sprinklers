@@ -92,6 +92,8 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         name: nuget
+    - name: info
+      run: pwd && ls -la && ls -la nuget
     - name: .NET push to nuget
-      run: dotnet nuget push ./nuget/*.nupkg --api-key ${{ secrets.NUGET_API_TOKEN }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push nuget/*.nupkg --api-key ${{ secrets.NUGET_API_TOKEN }} --source https://api.nuget.org/v3/index.json
 
