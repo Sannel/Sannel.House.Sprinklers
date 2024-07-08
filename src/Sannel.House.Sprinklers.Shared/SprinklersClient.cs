@@ -27,12 +27,17 @@ public partial class SprinklersClient
 		V1 = new V1Class(this);
 	}
 
-	private async Task<Result<T>> GetAsync<T>(string path)
+	private async Task<Result<T>> GetAsync<T>(string path, string? query = null)
 	{
 		var result = new Result<T>();
 
 		var builder = new UriBuilder(_options.HostUri!);
 		builder.Path += path;
+
+		if (query is not null)
+		{
+			builder.Query = query;
+		}
 
 		using var message = new HttpRequestMessage(HttpMethod.Get, builder.Uri);
 		var response = await _httpClient.SendAsync(message);
