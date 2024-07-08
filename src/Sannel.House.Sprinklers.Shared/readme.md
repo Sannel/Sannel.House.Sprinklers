@@ -1,0 +1,1 @@
+The client library provides seamless integration with the Sannel.House.Sprinklers.Api, allowing for easy communication and interaction.
