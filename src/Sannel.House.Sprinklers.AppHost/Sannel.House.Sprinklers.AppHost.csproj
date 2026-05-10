@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.3.0" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>sannel-house-sprinklers-apphost</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sannel.House.Sprinklers\Sannel.House.Sprinklers.csproj" IsAspireProjectResource="true" />
+    <ProjectReference Include="..\Sannel.House.Sprinklers.Web\Sannel.House.Sprinklers.Web.csproj" IsAspireProjectResource="true" />
+  </ItemGroup>
+
+</Project>

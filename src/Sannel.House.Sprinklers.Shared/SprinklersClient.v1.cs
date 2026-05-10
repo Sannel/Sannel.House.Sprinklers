@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Sannel.House.Sprinklers.Shared.Dtos.Logs;
 using Sannel.House.Sprinklers.Shared.Dtos.Schedules;
 using Sannel.House.Sprinklers.Shared.Dtos.Sprinklers;
 using Sannel.House.Sprinklers.Shared.Dtos.Zones;
@@ -96,5 +97,8 @@ public partial class SprinklersClient
 
 		public Task<Result> UpdateScheduleStatusAsync(Guid scheduleId, bool isEnabled)
 			=> _parent.PutAsync($"/api/v1/Schedule/{scheduleId}/{isEnabled}");
+
+		public Task<Result<IEnumerable<ZoneRunDto>>> GetRunHistoryAsync(DateOnly from, DateOnly to)
+			=> _parent.GetAsync<IEnumerable<ZoneRunDto>>($"/api/v1/Log/Runs/{from:yyyy-MM-dd}/{to:yyyy-MM-dd}");
 	}
 }
