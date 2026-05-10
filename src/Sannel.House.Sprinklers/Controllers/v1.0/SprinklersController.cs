@@ -1,10 +1,9 @@
 ﻿using System.Net;
 using Asp.Versioning;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sannel.House.Sprinklers.Core.Hardware;
-using Sannel.House.Sprinklers.Core.Zones;
-using Sannel.House.Sprinklers.Mappers;
+using Sannel.House.Sprinklers.Features.Sprinklers;
 using Sannel.House.Sprinklers.Shared.Dtos.Sprinklers;
 
 namespace Sannel.House.Sprinklers.Controllers.v1_0;
@@ -15,33 +14,19 @@ namespace Sannel.House.Sprinklers.Controllers.v1_0;
 public class SprinklersController : ControllerBase
 {
 	private const string VERSION = "v1";
-	private readonly ILogger _logger;
-	private readonly SprinklerService _service;
-	private readonly IZoneRepository _zoneRepository;
-	private readonly ZoneInfoMapper _zoneInfoMapper;
+	private readonly IMediator _mediator;
 
-	public SprinklersController(SprinklerService service,
-		IZoneRepository zoneRepository,
-		ZoneInfoMapper zoneInfoMapper,
-		ILogger<SprinklersController> logger)
+	public SprinklersController(IMediator mediator)
 	{
-		ArgumentNullException.ThrowIfNull(service);
-		ArgumentNullException.ThrowIfNull(zoneRepository);
-		ArgumentNullException.ThrowIfNull(zoneInfoMapper);
-		ArgumentNullException.ThrowIfNull(logger);
-		_service = service;
-		_zoneRepository = zoneRepository;
-		_zoneInfoMapper = zoneInfoMapper;
-		_logger = logger;
+		_mediator = mediator;
 	}
 
 	[HttpPost("Start", Name = $"{VERSION}.[controller].[action]")]
 	[Authorize(AuthPolicy.ZONE_TRIGGERS)]
 	[ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-	public async Task<IActionResult> Start(byte zoneId, TimeSpan length)
+	public async Task<IActionResult> Start([FromBody] IEnumerable<ZoneStartRequestDto> zones)
 	{
-		var result = await _service.StartZoneAsync(zoneId, length);
-
+		var result = await _mediator.Send(new EnqueueZonesCommand(zones));
 		return Ok(result);
 	}
 
@@ -50,7 +35,7 @@ public class SprinklersController : ControllerBase
 	[ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
 	public async Task<IActionResult> Stop()
 	{
-		var result = await _service.StopAllAsync();
+		var result = await _mediator.Send(new StopAllCommand());
 		return Ok(result);
 	}
 
@@ -59,23 +44,8 @@ public class SprinklersController : ControllerBase
 	[ProducesResponseType(typeof(StatusDto), (int)HttpStatusCode.OK)]
 	public async Task<IActionResult> Status()
 	{
-		var status = new StatusDto()
-		{
-			IsRunning = _service.IsRunning,
-			TimeLeft = _service.TimeLeft,
-			TotalTime = _service.TotalTime,
-			Zones = _service.Zones
-		};
-
-		if (status.IsRunning)
-		{
-			var s = await _zoneRepository.GetZoneInfoByIdAsync(_service.StationId);
-			if (s is not null)
-			{
-				status.ZoneInfo = _zoneInfoMapper.ModelToDto(s);
-			}
-		}
-
+		var status = await _mediator.Send(new GetStatusQuery());
 		return Ok(status);
 	}
 }
+

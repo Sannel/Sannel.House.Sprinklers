@@ -1,8 +1,8 @@
 <Project>
 	<PropertyGroup>
-		<Major Condition="'$(Major)' == ''">0</Major>
+		<Major Condition="'$(Major)' == ''">1</Major>
 		<Minor Condition="'$(Minor)' == ''">0</Minor>
-		<Patch Condition="'$(Patch)' == ''">1</Patch>
+		<Patch Condition="'$(Patch)' == ''">0</Patch>
 		<BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
 		<AssemblyVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</AssemblyVersion>
 		<FileVersion>$(Major).$(Minor).$(Patch).$(BuildNumber)</FileVersion>

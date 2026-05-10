@@ -15,9 +15,19 @@
 		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
 		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Identity.Web" Version="2.20.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+		<PackageReference Include="MediatR" Version="12.4.1" />
 		<PackageReference Include="MQTTnet" Version="4.3.6.1152" />
 		<PackageReference Include="Riok.Mapperly" Version="3.6.0" />
 		<PackageReference Include="Sannel.House.Core" Version="0.1.2-preview-001" />
@@ -27,8 +37,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Sannel.House.Sprinklers.Core\Sannel.House.Sprinklers.Core.csproj" />
-		<ProjectReference Include="..\Sannel.House.Sprinklers.Infrastructure\Sannel.House.Sprinklers.Infrastructure.csproj" />
 		<ProjectReference Include="..\Sannel.House.Sprinklers.Shared\Sannel.House.Sprinklers.Shared.csproj" />
 	</ItemGroup>
 

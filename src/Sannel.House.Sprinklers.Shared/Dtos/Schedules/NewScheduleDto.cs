@@ -3,12 +3,11 @@ using System.ComponentModel.DataAnnotations;
 namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules;
 
 /// <summary>
-/// Schedule program DTO class representing a schedule program with a unique identifier, user defined name, 
-/// a Cron Expression string and a collection of station times.
+/// DTO for creating a new schedule program with a hybrid scheduling model.
+/// A schedule runs either on specified days of the week or on a fixed interval.
 /// </summary>
 public class NewScheduleDto
 {
-
 	/// <summary>
 	/// User-defined name for the schedule program.
 	/// </summary>
@@ -17,11 +16,28 @@ public class NewScheduleDto
 	public string Name { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Cron Expression for the schedule program.
+	/// The time of day when the schedule starts running.
 	/// </summary>
 	[Required]
-	[MinLength(5)]
-	public string ScheduleCron { get; set; } = string.Empty;
+	public TimeOnly StartTime { get; set; }
+
+	/// <summary>
+	/// Days of the week on which the schedule runs.
+	/// Mutually exclusive with <see cref="IntervalDays"/>.
+	/// </summary>
+	public ICollection<DayOfWeek>? DaysOfWeek { get; set; }
+
+	/// <summary>
+	/// Number of days between each run in interval mode.
+	/// Mutually exclusive with <see cref="DaysOfWeek"/>.
+	/// </summary>
+	public int? IntervalDays { get; set; }
+
+	/// <summary>
+	/// The reference start date used to calculate interval runs.
+	/// Required when <see cref="IntervalDays"/> is set.
+	/// </summary>
+	public DateOnly? IntervalStartDate { get; set; }
 
 	/// <summary>
 	/// Collection of station times defined for the schedule program.

@@ -1,10 +1,9 @@
 ﻿using System.Net;
 using Asp.Versioning;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sannel.House.Sprinklers.Core;
-using Sannel.House.Sprinklers.Core.Zones;
-using Sannel.House.Sprinklers.Mappers;
+using Sannel.House.Sprinklers.Features.Zones;
 using Sannel.House.Sprinklers.Shared.Dtos.Zones;
 
 namespace Sannel.House.Sprinklers.Controllers.v1_0;
@@ -15,20 +14,11 @@ namespace Sannel.House.Sprinklers.Controllers.v1_0;
 public class ZoneController : ControllerBase
 {
 	private const string VERSION = "v1";
-	private readonly IZoneService _zoneService;
-	private readonly ZoneInfoMapper _zoneInfoMapper;
-	private readonly ILoggerRepository _loggerRepository;
+	private readonly IMediator _mediator;
 
-	public ZoneController(IZoneService zoneService,
-		ZoneInfoMapper zoneInfoMapper,
-		ILoggerRepository loggerRepository)
+	public ZoneController(IMediator mediator)
 	{
-		ArgumentNullException.ThrowIfNull(zoneService);
-		ArgumentNullException.ThrowIfNull(zoneInfoMapper);
-		ArgumentNullException.ThrowIfNull(loggerRepository);
-		_zoneService = zoneService;
-		_zoneInfoMapper = zoneInfoMapper;
-		_loggerRepository = loggerRepository;
+		_mediator = mediator;
 	}
 
 	[HttpGet(Name = $"{VERSION}.[controller].[action]")]
@@ -36,9 +26,8 @@ public class ZoneController : ControllerBase
 	[ProducesResponseType(typeof(IEnumerable<ZoneInfoDto>), (int)HttpStatusCode.OK)]
 	public async Task<IActionResult> GetAllZoneMetaData()
 	{
-		var zones = await _zoneService.GetAllZones();
-
-		return Ok(zones.Select(i => _zoneInfoMapper.ModelToDto(i)));
+		var zones = await _mediator.Send(new GetZonesQuery());
+		return Ok(zones);
 	}
 
 	[HttpGet("{id}", Name = $"{VERSION}.[controller].[action]")]
@@ -47,16 +36,8 @@ public class ZoneController : ControllerBase
 	[ProducesResponseType((int)HttpStatusCode.NotFound)]
 	public async Task<IActionResult> GetZoneMetaData(byte id)
 	{
-		var metaData = await _zoneService.GetZoneInfoByIdAsync(id);
-
-		if (metaData is not null)
-		{
-			return Ok(_zoneInfoMapper.ModelToDto(metaData));
-		}
-		else
-		{
-			return NotFound();
-		}
+		var zone = await _mediator.Send(new GetZoneByIdQuery(id));
+		return zone is not null ? Ok(zone) : NotFound();
 	}
 
 	[HttpPut(Name = $"{VERSION}.[controller].[action]")]
@@ -64,9 +45,8 @@ public class ZoneController : ControllerBase
 	[ProducesResponseType((int)HttpStatusCode.OK)]
 	public async Task<IActionResult> UpdateZoneMetaData([FromBody] ZoneInfoDto zoneInfo)
 	{
-		await _zoneService.AddOrUpdateZoneInfoAsync(_zoneInfoMapper.DtoToModel(zoneInfo));
-
+		await _mediator.Send(new UpdateZoneCommand(zoneInfo));
 		return Ok();
 	}
-
 }
+

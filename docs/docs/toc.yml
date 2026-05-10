@@ -1,2 +1,6 @@
 - name: Docker Compose
   href: docker-compose.md
+- name: Business Requirements Document
+  href: brd.md
+- name: Architecture Document
+  href: architecture.md

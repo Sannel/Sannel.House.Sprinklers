@@ -1,5 +1,5 @@
 ﻿using Riok.Mapperly.Abstractions;
-using Sannel.House.Sprinklers.Core.Zones;
+using Sannel.House.Sprinklers.Features.Zones;
 using Sannel.House.Sprinklers.Shared.Dtos.Zones;
 
 namespace Sannel.House.Sprinklers.Mappers;

@@ -1,6 +1,8 @@
-﻿
 namespace Sannel.House.Sprinklers.Shared.Dtos.Schedules;
 
+/// <summary>
+/// Represents a schedule program with hybrid scheduling (day-of-week or interval).
+/// </summary>
 public class ScheduleProgramDto
 {
 	/// <summary>
@@ -14,9 +16,26 @@ public class ScheduleProgramDto
 	public string Name { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Cron Expression for the schedule program.
+	/// The time of day when the schedule starts running.
 	/// </summary>
-	public string? ScheduleCron { get; set; }
+	public TimeOnly StartTime { get; set; }
+
+	/// <summary>
+	/// Days of the week on which the schedule runs.
+	/// Null when using interval mode.
+	/// </summary>
+	public ICollection<DayOfWeek>? DaysOfWeek { get; set; }
+
+	/// <summary>
+	/// Number of days between each run in interval mode.
+	/// Null when using day-of-week mode.
+	/// </summary>
+	public int? IntervalDays { get; set; }
+
+	/// <summary>
+	/// The reference start date used to calculate interval runs.
+	/// </summary>
+	public DateOnly? IntervalStartDate { get; set; }
 
 	/// <summary>
 	/// Indicates if the schedule program is enabled for sprinkling.

@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Architecture Document: Sannel.House.Sprinklers | Sannel.House.Sprinklers </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Architecture Document: Sannel.House.Sprinklers | Sannel.House.Sprinklers ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/Sannel/Sannel.House.Sprinklers/blob/main/docs/docs/architecture.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Sannel.House.Sprinklers">
+            Sannel.House.Sprinklers
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="architecture-document-sannelhousesprinklers">Architecture Document: Sannel.House.Sprinklers</h1>
+
+<h2 id="document-info">Document Info</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Version</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Draft</td>
+</tr>
+<tr>
+<td>Author</td>
+<td>Sannel Software, L.L.C.</td>
+</tr>
+<tr>
+<td>Last Updated</td>
+<td>2026-05-09</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="overview">Overview</h2>
+<p>Sannel.House.Sprinklers is a self-hosted ASP.NET Core 8 Web API that controls a residential irrigation system running on a Raspberry Pi. It manages GPIO-driven sprinkler zones, executes day-of-week and interval-based watering schedules, and fans real-time events out over both SignalR and MQTT. Configuration, scheduling, and zone metadata are persisted in a local SQLite database.</p>
+<p>The system is distributed as a multi-architecture Docker image (<code>linux/amd64</code>, <code>linux/arm64</code>) and as a self-contained single-file binary for bare-metal Raspberry Pi deployment.</p>
+<p>The backend is structured using <strong>Vertical Slice Architecture (VSA)</strong>: business logic is organized into feature slices under <code>Features/</code> (each slice contains its own MediatR commands/queries, handlers, and response types), with cross-cutting infrastructure kept in <code>Sannel.House.Sprinklers.Infrastructure</code>. Background workers (<code>SprinklerWorker</code>, <code>ScheduleWorker</code>) live under <code>Workers/</code> alongside their corresponding feature slices.</p>
+<hr>
+<h2 id="goals--non-goals">Goals &amp; Non-Goals</h2>
+<h3 id="goals">Goals</h3>
+<ul>
+<li>Provide a versioned, JWT-secured REST API for zone control, scheduling, and history retrieval.</li>
+<li>Execute automated watering schedules derived from day-of-week or interval-based patterns without cloud dependency.</li>
+<li>Fan real-time zone events to SignalR clients and an MQTT broker simultaneously.</li>
+<li>Abstract GPIO hardware behind an interface so the service runs on non-Pi hosts using a fake driver.</li>
+<li>Ship a typed .NET client NuGet package (<code>Sannel.House.Sprinklers.Shared</code>) for consumer applications.</li>
+</ul>
+<h3 id="non-goals">Non-Goals</h3>
+<ul>
+<li>Multi-zone concurrent activation (only one zone runs at a time by design).</li>
+<li>Weather-aware scheduling adjustments.</li>
+<li>Managing the MQTT broker or the Azure AD tenant.</li>
+<li>Providing a general-purpose smart home or multi-site irrigation management platform.</li>
+</ul>
+<hr>
+<h2 id="system-context">System Context</h2>
+<p>Sannel.House.Sprinklers sits at the edge of the Sannel House home automation network, directly attached to GPIO hardware. External systems that interact with it are:</p>
+<table>
+<thead>
+<tr>
+<th>External System</th>
+<th>Interaction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Microsoft Entra ID</strong></td>
+<td>Issues JWT bearer tokens; defines app roles for authorization</td>
+</tr>
+<tr>
+<td><strong>MQTT Broker</strong></td>
+<td>Receives zone start/stop/progress/zone-update event publications</td>
+</tr>
+<tr>
+<td><strong>Browser Users</strong></td>
+<td>Interact with the Blazor WASM management UI served by the API host</td>
+</tr>
+<tr>
+<td><strong>Consumer Apps</strong></td>
+<td>Call the REST API and connect to the SignalR hub using <code>SprinklersClient</code></td>
+</tr>
+<tr>
+<td><strong>OpenSprinkler Board</strong></td>
+<td>Receives zone enable/disable signals via Raspberry Pi GPIO shift registers</td>
+</tr>
+<tr>
+<td><strong>Docker / Host OS</strong></td>
+<td>Provides the container runtime, volume mounts, and GPIO device access</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="architecture-diagram">Architecture Diagram</h2>
+<pre><code class="lang-mermaid">flowchart TD
+    WebApp([&quot;Browser — Sannel.House.Sprinklers.Web\nBlazor WASM · MudBlazor\nAuthenticated via MSAL&quot;])
+    Consumer([&quot;Consumer Applications / Dashboards\nSprinklersClient NuGet · custom HTTP clients&quot;])
+    EntraID([&quot;Microsoft Entra ID\nJWT issuer · app roles&quot;])
+
+    subgraph Service[&quot;Sannel.House.Sprinklers — ASP.NET Core 8&quot;]
+        direction TB
+        Controllers[&quot;Controllers v1.0\nSprinklersController · ZoneController\nScheduleController · LogController&quot;]
+        MediatRNode[&quot;MediatR\nCommand / Query dispatcher&quot;]
+
+        subgraph Features[&quot;Feature Slices (Features/)&quot;]
+            FSlice1[&quot;Features/Sprinklers\nStartZone · StopAll · GetStatus&quot;]
+            FSlice2[&quot;Features/Zones\nGetZones · UpdateZone&quot;]
+            FSlice3[&quot;Features/Schedules\nCreate · Update · Enable · List&quot;]
+            FSlice4[&quot;Features/Logs\nGetRunHistory&quot;]
+        end
+
+        subgraph Workers[&quot;Background Workers (Workers/)&quot;]
+            SprinklerWorker[&quot;SprinklerWorker\n⏱ 500 ms poll&quot;]
+            ScheduleWorker[&quot;ScheduleWorker\n⏱ 10 s poll · 01:00 daily&quot;]
+        end
+
+        subgraph Infra[&quot;Sannel.House.Sprinklers.Infrastructure (Cross-cutting)&quot;]
+            DbCtx[&quot;SprinklerDbContext\nSQLite — Data/schedule.db&quot;]
+            HW[&quot;OpenSprinklerHardware\nFakeHardware (dev)&quot;]
+            MultiMsg[&quot;MultiMessageClient (fan-out)&quot;]
+            HubClient[&quot;HubMessageClient → SignalR Hub\n/sprinkler/hub&quot;]
+            MQTTMgr[&quot;MQTTMessageClient → MQTTManager\nexponential back-off reconnect&quot;]
+        end
+    end
+
+    subgraph Shared[&quot;Sannel.House.Sprinklers.Shared (NuGet)&quot;]
+        NuGet[&quot;SprinklersClient · DTOs · Message types&quot;]
+    end
+
+    SQLite[(&quot;SQLite\nData/schedule.db&quot;)]
+    GPIO([&quot;OpenSprinkler Board\nGPIO shift register&quot;])
+    Broker([&quot;MQTT Broker\nexternal&quot;])
+
+    Service --&gt;|&quot;Serves Blazor WASM static assets&quot;| WebApp
+    WebApp --&gt;|&quot;HTTPS REST (SprinklersClient)&quot;| Controllers
+    WebApp &lt;--&gt;|&quot;WebSocket (SignalR)&quot;| HubClient
+    EntraID -.-&gt;|&quot;MSAL OIDC&quot;| WebApp
+    Consumer --&gt;|&quot;HTTPS REST&quot;| Controllers
+    Consumer &lt;--&gt;|&quot;WebSocket (SignalR)&quot;| HubClient
+    EntraID -.-&gt;|&quot;JWT validation&quot;| Service
+    Controllers --&gt; MediatRNode
+    MediatRNode --&gt; Features
+    Features --&gt; DbCtx
+    Features --&gt;|&quot;StartZoneAsync / StopAllAsync&quot;| SprinklerWorker
+    Workers --&gt; DbCtx
+    SprinklerWorker --&gt; HW
+    SprinklerWorker --&gt; MultiMsg
+    ScheduleWorker --&gt; MultiMsg
+    DbCtx --&gt; SQLite
+    HW --&gt; GPIO
+    MultiMsg --&gt; HubClient
+    MultiMsg --&gt; MQTTMgr
+    MQTTMgr --&gt; Broker
+    NuGet -.-&gt;|&quot;used by&quot;| Consumer
+    NuGet -.-&gt;|&quot;used by&quot;| WebApp
+</code></pre>
+<hr>
+<h2 id="components--services">Components &amp; Services</h2>
+<h3 id="sannelhousesprinklers-web-api-host--feature-slices">Sannel.House.Sprinklers (Web API Host + Feature Slices)</h3>
+<ul>
+<li><strong>Responsibility:</strong> ASP.NET Core application host. Wires DI container, configures authentication/authorization, registers background workers, exposes Swagger UI, maps the SignalR hub route, and starts the MQTT connection. Business logic is organized as feature slices under <code>Features/</code>; controllers dispatch to MediatR rather than calling services directly.</li>
+<li><strong>Technology:</strong> ASP.NET Core 8 (<code>net8.0</code>), <code>Microsoft.NET.Sdk.Web</code>, MediatR 12.x</li>
+<li><strong>Key registrations:</strong>
+<ul>
+<li><code>MediatR</code> — registered via <code>AddMediatR</code> scanning the <code>Features/</code> and <code>Workers/</code> assemblies.</li>
+<li><code>SprinklerWorker</code> — registered as both <code>AddSingleton&lt;SprinklerWorker&gt;</code> and <code>AddHostedService&lt;SprinklerWorker&gt;</code> so it is injectable by feature handlers.</li>
+<li><code>ScheduleWorker</code> — registered via <code>AddHostedService&lt;ScheduleWorker&gt;</code>.</li>
+<li><code>MultiMessageClient</code> — registered as <code>IMessageClient</code> singleton, wrapping <code>HubMessageClient</code> and <code>MQTTMessageClient</code>.</li>
+<li><code>SprinklerDbContext</code> — <code>AddDbContext</code> with SQLite connection string <code>Data Source=Data/schedule.db</code>.</li>
+<li>Hardware driver — <code>OpenSprinklerHardware</code> if <code>/dev/gpiomem</code> exists, otherwise <code>FakeHardware</code>, both as <code>ISprinklerHardware</code> singleton.</li>
+</ul>
+</li>
+<li><strong>Interfaces:</strong> HTTP REST (<code>/sprinkler/api/v{version}/</code>), WebSocket SignalR hub (<code>/sprinkler/hub</code>), Swagger UI (<code>/sprinkler/swagger</code>)</li>
+<li><strong>Configuration loaded from:</strong>
+<ol>
+<li><code>appsettings.json</code> (embedded defaults)</li>
+<li><code>appsettings.{Environment}.json</code></li>
+<li><code>app_config/appsettings.json</code> (Docker volume mount — overrides)</li>
+<li><code>app_config/appsettings.{Environment}.json</code></li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="feature-slices--features-inside-sannelhousesprinklers">Feature Slices — <code>Features/</code> (inside <code>Sannel.House.Sprinklers</code>)</h3>
+<ul>
+<li><strong>Responsibility:</strong> Each feature slice owns all the logic for one business capability: MediatR command and/or query request classes, a handler, and response types. Handlers receive their dependencies (including <code>SprinklerDbContext</code> and <code>SprinklerWorker</code>) via DI — there are no repository interfaces.</li>
+<li><strong>Technology:</strong> .NET 8; MediatR 12.x; Riok.Mapperly for source-generated object mapping.</li>
+<li><strong>Feature areas:</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Commands / Queries</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Features/Sprinklers</code></td>
+<td><code>EnqueueZonesCommand</code>, <code>StopAllCommand</code>, <code>GetStatusQuery</code></td>
+<td>Handlers call <code>SprinklerWorker</code> (injected singleton) for live zone control; <code>EnqueueZonesCommand</code> accepts a list of zone+duration pairs</td>
+</tr>
+<tr>
+<td><code>Features/Zones</code></td>
+<td><code>GetZonesQuery</code>, <code>GetZoneByIdQuery</code>, <code>UpdateZoneCommand</code></td>
+<td>Handlers read/write <code>ZoneMetaData</code> via <code>SprinklerDbContext</code>; send <code>ZoneUpdateMessage</code> via <code>IMessageClient</code></td>
+</tr>
+<tr>
+<td><code>Features/Schedules</code></td>
+<td><code>CreateScheduleCommand</code>, <code>UpdateScheduleCommand</code>, <code>EnableScheduleCommand</code>, <code>GetSchedulesQuery</code>, <code>GetScheduleByIdQuery</code></td>
+<td>Handlers read/write <code>ScheduleProgram</code> via <code>SprinklerDbContext</code></td>
+</tr>
+<tr>
+<td><code>Features/Logs</code></td>
+<td><code>GetRunHistoryQuery</code></td>
+<td>Handlers query <code>StationLog</code> joined with <code>ZoneMetaData</code> via <code>SprinklerDbContext</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="background-feature-workers--workers-inside-sannelhousesprinklers">Background Feature Workers — <code>Workers/</code> (inside <code>Sannel.House.Sprinklers</code>)</h3>
+<ul>
+<li><strong>Responsibility:</strong> Long-running <code>BackgroundService</code> implementations that own their domain's background processing loop. Each worker is co-located with its corresponding feature slice and is treated as a feature worker in the VSA sense.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SprinklerWorker</code></td>
+<td><code>BackgroundService</code> — 500 ms polling loop. Tracks active zone timer (<code>_endAt</code>). Sends <code>StationStartMessage</code>, <code>StationProgressMessage</code>, <code>StationStopMessage</code> via <code>IMessageClient</code>. Calls <code>ISprinklerHardware</code> and writes to <code>SprinklerDbContext</code> directly. Maintains an internal <code>Queue&lt;(byte ZoneId, TimeSpan Length)&gt;</code> for manual zone runs; when the current zone finishes, the next queued item starts automatically. Exposes <code>EnqueueZonesAsync(IEnumerable&lt;(byte ZoneId, TimeSpan Length)&gt;)</code> for <code>Features/Sprinklers</code> handlers. Registered as both <code>AddSingleton&lt;SprinklerWorker&gt;</code> and <code>AddHostedService&lt;SprinklerWorker&gt;</code> so feature handlers can inject it.</td>
+</tr>
+<tr>
+<td><code>ScheduleWorker</code></td>
+<td><code>BackgroundService</code> — 10 s polling loop dispatches due <code>ZoneRun</code> records. A separate <code>Task</code>-returning generation method with <code>CancellationToken</code> support regenerates daily runs at 01:00 by evaluating each <code>ScheduleProgram</code>'s day-of-week set or interval-in-days pattern against the current date. Unhandled exceptions propagate to the host rather than being silently swallowed. Uses <code>SprinklerDbContext</code> directly.</td>
+</tr>
+<tr>
+<td><code>IMessageClient</code></td>
+<td>Fan-out interface: <code>SendStartMessageAsync</code>, <code>SendStopMessageAsync</code>, <code>SendProgressMessageAsync</code>, <code>SendZoneUpdateMessageAsync</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sannelhousesprinklersinfrastructure-cross-cutting-infrastructure">Sannel.House.Sprinklers.Infrastructure (Cross-cutting Infrastructure)</h3>
+<ul>
+<li><strong>Responsibility:</strong> Cross-cutting infrastructure concerns shared across all feature slices: EF Core DbContext and migrations, GPIO drivers, SignalR hub, MQTT client management, and messaging fan-out. Feature handlers and workers access <code>SprinklerDbContext</code> directly via DI — no repository interfaces are defined here.</li>
+<li><strong>Technology:</strong> .NET 8 class library; ASP.NET Core framework reference (for SignalR); <code>Microsoft.EntityFrameworkCore.Sqlite</code> 8.0.6; <code>Iot.Device.Bindings</code> 3.2.0; <code>System.Device.Gpio</code> 3.2.0; <code>MQTTnet</code> 4.3.6.1152.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SprinklerDbContext</code></td>
+<td>EF Core <code>DbContext</code> with <code>ScheduleProgram</code>, <code>StationLog</code>, <code>ZoneRun</code>, <code>ZoneMetaData</code> entity sets. Applies <code>DateTimeOffsetToBinaryConverter</code> for all <code>DateTimeOffset</code> properties (SQLite limitation). Stores <code>ScheduleProgram.StationTimes</code> and <code>ScheduleProgram.DaysOfWeek</code> as JSON columns. Accessed directly by feature handlers and workers — no repository layer.</td>
+</tr>
+<tr>
+<td><code>ISprinklerHardware</code></td>
+<td>Interface abstracting GPIO zone control (<code>TurnZoneOnAsync</code>, <code>ResetZonesAsync</code>, <code>Zones</code>, <code>State</code>).</td>
+</tr>
+<tr>
+<td><code>OpenSprinklerHardware</code></td>
+<td>Drives a 74HC595-style shift register via four GPIO pins (OE: 17, DATA: 27, CLOCK: 4, LATCH: 22) using <code>System.Device.Gpio</code> and <code>Iot.Device.Board</code>. Zone count read from <code>Sprinkler:Zones</code> config. Only one zone is active at a time.</td>
+</tr>
+<tr>
+<td><code>FakeHardware</code></td>
+<td>In-memory <code>ISprinklerHardware</code> stub. Used on non-Pi hosts. All operations are no-ops. Reads zone count from <code>Sprinkler:Zones</code> config (consistent with <code>OpenSprinklerHardware</code>).</td>
+</tr>
+<tr>
+<td><code>MessageHub</code></td>
+<td>Empty <code>SignalR Hub</code> class. Hub methods are not exposed — the hub is server-push only (infrastructure sends messages, clients subscribe).</td>
+</tr>
+<tr>
+<td><code>HubMessageClient</code></td>
+<td><code>IMessageClient</code> implementation. Publishes messages to all SignalR clients using <code>IHubContext&lt;MessageHub&gt;</code> with event names from <code>EventNames</code>.</td>
+</tr>
+<tr>
+<td><code>MQTTMessageClient</code></td>
+<td><code>IMessageClient</code> implementation. Serializes messages to JSON and publishes to MQTT topics under <code>Sannel/House/Sprinklers/{EventName}</code>. Errors are caught and logged; failures do not interrupt zone operation.</td>
+</tr>
+<tr>
+<td><code>MultiMessageClient</code></td>
+<td>Composite <code>IMessageClient</code>. Calls all registered clients in parallel via <code>Task.WhenAll</code>.</td>
+</tr>
+<tr>
+<td><code>MQTTManager</code></td>
+<td>Manages the <code>MQTTnet</code> client lifecycle: initial connection, TLS (with custom CA certificate chain), credentials, and disconnection recovery. Reconnect uses exponential back-off doubling from 250 µs, capped at 30 s. Exposes <code>StartAsync()</code> and <code>PublishAsync()</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="sannelhousesprinklersshared-nuget-package">Sannel.House.Sprinklers.Shared (NuGet Package)</h3>
+<ul>
+<li><strong>Responsibility:</strong> Contains all types shared between the service and its consumers. Published as a NuGet package. Referenced by Core and Infrastructure for message types.</li>
+<li><strong>Technology:</strong> .NET 8 class library; <code>Microsoft.AspNetCore.SignalR.Client</code> 8.0.6; Source Link (GitHub).</li>
+<li><strong>Key types:</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SprinklersClient</code></td>
+<td>Typed HTTP + SignalR client. <code>V1</code> nested class provides strongly-typed methods for all v1 API endpoints and exposes <code>StationStart</code>, <code>StationStop</code>, <code>StationProgress</code>, <code>ZoneUpdate</code> events from the SignalR hub.</td>
+</tr>
+<tr>
+<td><code>SprinklerClientOptions</code></td>
+<td>Configuration POCO. <strong><code>HostUri</code></strong> must be set to the service base URL including the <code>/sprinkler</code> path prefix — e.g., <code>https://rpi.local:8080/sprinkler</code>. The client appends API paths (<code>/api/v1/Zone</code>, <code>/api/v1/Sprinklers/Start</code>, etc.) and the hub path (<code>/hub</code>) directly to this value. Omitting the prefix will produce silent <code>HTTP 404</code> errors on all calls.</td>
+</tr>
+<tr>
+<td><code>Result&lt;T&gt;</code> / <code>Result</code></td>
+<td>HTTP call result wrapper exposing <code>IsSuccess</code>, <code>StatusCode</code>, and <code>Value</code>.</td>
+</tr>
+<tr>
+<td><code>StatusDto</code></td>
+<td>Sprinkler system status: <code>IsRunning</code>, <code>TimeLeft</code>, <code>TotalTime</code>, <code>Zones</code>, <code>ZoneInfo</code>, <code>QueuedZoneCount</code>.</td>
+</tr>
+<tr>
+<td><code>ZoneInfoDto</code></td>
+<td>Zone metadata: <code>ZoneId</code>, <code>Name</code>, <code>Color</code>.</td>
+</tr>
+<tr>
+<td><code>ScheduleProgramDto</code> / <code>NewScheduleDto</code> / <code>UpdateScheduleDto</code></td>
+<td>Schedule request/response shapes.</td>
+</tr>
+<tr>
+<td><code>ZoneStartRequestDto</code></td>
+<td>Zone start queue item: <code>ZoneId</code> and <code>Length</code>. Used as the body for <code>POST /Start</code>.</td>
+</tr>
+<tr>
+<td><code>StationTimeDto</code></td>
+<td>Zone ID and run length within a schedule.</td>
+</tr>
+<tr>
+<td><code>StationStartMessage</code></td>
+<td>Real-time start event: <code>ZoneId</code>, <code>Duration</code>, <code>StartTime</code>, <code>TriggerTime</code>.</td>
+</tr>
+<tr>
+<td><code>StationStopMessage</code></td>
+<td>Real-time stop event: <code>ZoneId</code>, <code>StopTime</code>, <code>TriggerTime</code>.</td>
+</tr>
+<tr>
+<td><code>StationProgressMessage</code></td>
+<td>Real-time progress tick: <code>ZoneId</code>, <code>RunLength</code>, <code>TimeLeft</code>, <code>PercentCompleteFloat</code>, <code>PercentComplete</code>, <code>InvertPercentComplete</code>, <code>TriggerTime</code>.</td>
+</tr>
+<tr>
+<td><code>ZoneUpdateMessage</code></td>
+<td>Zone metadata change notification: <code>ZoneInfo</code>, <code>UpdateTime</code>.</td>
+</tr>
+<tr>
+<td><code>EventNames</code></td>
+<td>Constants: <code>ProgressMessage</code>, <code>StartMessage</code>, <code>StopMessage</code>, <code>ZoneUpdate</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="sannelhousesprinklersweb-blazor-wasm-client">Sannel.House.Sprinklers.Web (Blazor WASM Client)</h3>
+<ul>
+<li><strong>Responsibility:</strong> Browser-based management UI. Provides authenticated access to all system features: real-time zone status dashboard, manual zone start/stop, schedule program management, zone metadata editing, and run history viewer.</li>
+<li><strong>Technology:</strong> Blazor WebAssembly (ASP.NET Core hosted model), MudBlazor (Material Design component library), <code>Microsoft.Authentication.WebAssembly.Msal</code> for Azure AD authentication.</li>
+<li><strong>Hosting:</strong> Compiled to WebAssembly and served as static assets (<code>_framework/</code>, <code>wwwroot/</code>) by the <code>Sannel.House.Sprinklers</code> API host. No separate server process is required.</li>
+<li><strong>API integration:</strong> Uses <code>SprinklersClient</code> from <code>Sannel.House.Sprinklers.Shared</code> for all REST API calls and SignalR event subscriptions.</li>
+<li><strong>Authentication:</strong> Authenticates via Azure AD using MSAL for Blazor WASM (<code>Microsoft.Authentication.WebAssembly.Msal</code>). The access token is injected into all outgoing API requests via a delegating handler. The same app registration and role assignments used by the REST API are reused.</li>
+<li><strong>Real-time updates:</strong> Subscribes to <code>StationStart</code>, <code>StationStop</code>, <code>StationProgress</code>, and <code>ZoneUpdate</code> events via <code>SprinklersClient</code> SignalR integration, updating the zone status dashboard in real time without polling.</li>
+<li><strong>Interfaces:</strong> Served from the API host root; all API calls are same-origin (no CORS required for the Blazor client itself).</li>
+</ul>
+<hr>
+<h2 id="api-design">API Design</h2>
+<p>All routes are prefixed <code>/sprinkler/api/v{version}/</code> (currently <code>v1.0</code>). All endpoints require a valid Azure AD JWT bearer token.</p>
+<h3 id="sprinklerscontroller--sprinklerapiv1sprinklers">SprinklersController — <code>/sprinkler/api/v1/Sprinklers</code></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>Auth Policy</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/Start</code></td>
+<td><code>ZONE_TRIGGERS</code></td>
+<td>Enqueue one or more zones to run sequentially. Accepts <code>IEnumerable&lt;ZoneStartRequestDto&gt;</code> body (each item: <code>ZoneId</code>, <code>Length</code>). Appends to the queue if a zone is already running. Returns <code>bool</code>.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/Stop</code></td>
+<td><code>ZONE_TRIGGERS</code></td>
+<td>Stop all zones immediately. Returns <code>bool</code>.</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><em>(base)</em></td>
+<td><code>ZONE_READERS</code></td>
+<td>Get current system status (<code>StatusDto</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="zonecontroller--sprinklerapiv1zone">ZoneController — <code>/sprinkler/api/v1/Zone</code></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>Auth Policy</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><em>(base)</em></td>
+<td><code>ZONE_METADATA_READER</code></td>
+<td>Get all zone metadata (<code>IEnumerable&lt;ZoneInfoDto&gt;</code>).</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{id}</code></td>
+<td><code>ZONE_METADATA_READER</code></td>
+<td>Get zone metadata by ID. 404 if not found.</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><em>(base)</em></td>
+<td><code>ZONE_METADATA_WRITER</code></td>
+<td>Create or update zone metadata (<code>ZoneInfoDto</code> body).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="schedulecontroller--sprinklerapiv1schedule">ScheduleController — <code>/sprinkler/api/v1/Schedule</code></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>Auth Policy</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><em>(base)</em></td>
+<td><code>SCHEDULE_READERS</code></td>
+<td>Get all schedule programs.</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/{id}</code></td>
+<td><code>SCHEDULE_READERS</code></td>
+<td>Get schedule by GUID. 404 if not found.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><em>(base)</em></td>
+<td><code>SCHEDULE_SCHEDULERS</code></td>
+<td>Create a new schedule (<code>NewScheduleDto</code>). Returns new GUID.</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><em>(base)</em></td>
+<td><code>SCHEDULE_SCHEDULERS</code></td>
+<td>Update an existing schedule (<code>UpdateScheduleDto</code>). Returns GUID.</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/{scheduleId}/{isEnable}</code></td>
+<td><code>SCHEDULE_SCHEDULERS</code></td>
+<td>Enable (<code>true</code>) or disable (<code>false</code>) a schedule.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="logcontroller--sprinklerapiv1log">LogController — <code>/sprinkler/api/v1/Log</code></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>Auth Policy</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/Runs/{from}/{to}</code></td>
+<td><code>ZONE_READERS</code></td>
+<td>Get station run log entries between <code>from</code> and <code>to</code> (<code>DateOnly</code>). <code>from</code> must be ≤ <code>to</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="signalr-hub--sprinklerhub">SignalR Hub — <code>/sprinkler/hub</code></h3>
+<p>Server-push only. Clients subscribe to events; the server never expects hub method calls.</p>
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Message Type</th>
+<th>Trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StartMessage</code></td>
+<td><code>StationStartMessage</code></td>
+<td>Zone activated (<code>SprinklerWorker.StartZoneAsync</code>)</td>
+</tr>
+<tr>
+<td><code>StopMessage</code></td>
+<td><code>StationStopMessage</code></td>
+<td>Zone stopped manually (<code>POST /Stop</code>) or by timer expiry.</td>
+</tr>
+<tr>
+<td><code>ProgressMessage</code></td>
+<td><code>StationProgressMessage</code></td>
+<td>Every 500 ms while a zone is running</td>
+</tr>
+<tr>
+<td><code>ZoneUpdate</code></td>
+<td><code>ZoneUpdateMessage</code></td>
+<td>Zone metadata updated via <code>UpdateZoneCommand</code> handler in <code>Features/Zones</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="mqtt-topics">MQTT Topics</h3>
+<p>Published by <code>MQTTMessageClient</code> using JSON-serialized payloads.</p>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Message Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Sannel/House/Sprinklers/StartMessage</code></td>
+<td><code>StationStartMessage</code></td>
+</tr>
+<tr>
+<td><code>Sannel/House/Sprinklers/StopMessage</code></td>
+<td><code>StationStopMessage</code></td>
+</tr>
+<tr>
+<td><code>Sannel/House/Sprinklers/ProgressMessage</code></td>
+<td><code>StationProgressMessage</code></td>
+</tr>
+<tr>
+<td><code>Sannel/House/Sprinklers/ZoneUpdate</code></td>
+<td><code>ZoneUpdateMessage</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="data-models">Data Models</h2>
+<h3 id="scheduleprogram">ScheduleProgram</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Id</code></td>
+<td><code>Guid</code> (PK)</td>
+<td>Auto-generated on creation</td>
+</tr>
+<tr>
+<td><code>Name</code></td>
+<td><code>string</code></td>
+<td>User-defined display name</td>
+</tr>
+<tr>
+<td><code>StartTime</code></td>
+<td><code>TimeOnly</code></td>
+<td>Time of day to begin watering (required)</td>
+</tr>
+<tr>
+<td><code>DaysOfWeek</code></td>
+<td><code>ICollection&lt;DayOfWeek&gt;?</code></td>
+<td>Days on which to run; null when interval mode is used. Stored as a JSON column.</td>
+</tr>
+<tr>
+<td><code>IntervalDays</code></td>
+<td><code>int?</code></td>
+<td>Number of days between runs; null when day-of-week mode is used</td>
+</tr>
+<tr>
+<td><code>IntervalStartDate</code></td>
+<td><code>DateOnly?</code></td>
+<td>Anchor date for interval calculation; required when <code>IntervalDays</code> is set. Due when <code>⌊(today − IntervalStartDate).Days⌋ % IntervalDays == 0</code>.</td>
+</tr>
+<tr>
+<td><code>Enabled</code></td>
+<td><code>bool</code></td>
+<td>Controls whether schedule generates daily runs</td>
+</tr>
+<tr>
+<td><code>StationTimes</code></td>
+<td><code>ICollection&lt;StationTime&gt;</code></td>
+<td>Per-zone run durations; stored as a JSON column in SQLite</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Constraint:</strong> Exactly one of <code>DaysOfWeek</code> or <code>IntervalDays</code> must be non-null per <code>ScheduleProgram</code>. Setting both or neither is invalid.</p>
+</blockquote>
+<h3 id="stationtime">StationTime</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StationId</code></td>
+<td><code>byte</code></td>
+<td>Zero-based zone index</td>
+</tr>
+<tr>
+<td><code>RunLength</code></td>
+<td><code>TimeSpan</code></td>
+<td>Duration to run this zone</td>
+</tr>
+</tbody>
+</table>
+<h3 id="zonerun-composite-pk">ZoneRun (composite PK)</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StartDateTime</code></td>
+<td><code>DateTime</code></td>
+<td>Part of composite PK; scheduled start time</td>
+</tr>
+<tr>
+<td><code>ZoneId</code></td>
+<td><code>byte</code></td>
+<td>Part of composite PK; zero-based zone index</td>
+</tr>
+<tr>
+<td><code>RunLength</code></td>
+<td><code>TimeSpan</code></td>
+<td>Duration to run this zone</td>
+</tr>
+<tr>
+<td><code>Started</code></td>
+<td><code>bool</code></td>
+<td>Set to <code>true</code> by <code>FlagRunAsStartedAsync</code> when execution begins</td>
+</tr>
+</tbody>
+</table>
+<h3 id="zonemetadata">ZoneMetaData</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ZoneId</code></td>
+<td><code>byte</code> (PK)</td>
+<td>Zero-based zone index</td>
+</tr>
+<tr>
+<td><code>Name</code></td>
+<td><code>string?</code></td>
+<td>Display name</td>
+</tr>
+<tr>
+<td><code>Color</code></td>
+<td><code>string?</code></td>
+<td>CSS-compatible hex color</td>
+</tr>
+</tbody>
+</table>
+<h3 id="stationlog">StationLog</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Id</code></td>
+<td><code>Guid</code> (PK)</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td><code>Action</code></td>
+<td><code>string</code></td>
+<td><code>LogActions</code> constant (START, ALL_STOP, FINISHED)</td>
+</tr>
+<tr>
+<td><code>ActionDate</code></td>
+<td><code>DateTimeOffset</code></td>
+<td>Stored as binary (SQLite workaround)</td>
+</tr>
+<tr>
+<td><code>ZoneId</code></td>
+<td><code>byte</code></td>
+<td>Zero-based zone index</td>
+</tr>
+<tr>
+<td><code>RunLength</code></td>
+<td><code>TimeSpan?</code></td>
+<td>Duration (present for START entries)</td>
+</tr>
+<tr>
+<td><code>Username</code></td>
+<td><code>string?</code></td>
+<td>Authenticated user display name</td>
+</tr>
+<tr>
+<td><code>UserId</code></td>
+<td><code>string?</code></td>
+<td>Azure AD object ID of initiating user</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note:</strong> <code>StationName</code> and <code>StationColor</code> are denormalised properties on <code>StationLog</code> that are populated at query time and are marked <code>[NotMapped]</code> (<code>.Ignore()</code>). They are not stored in the database. They are resolved via an inner join with <code>ZoneMetaData</code> in <code>LoggerRepository.GetLogs</code>; zones that have no <code>ZoneMetaData</code> record are silently absent from history results.</p>
+</blockquote>
+<hr>
+<h2 id="data-flow">Data Flow</h2>
+<h3 id="manual-zone-start">Manual Zone Start</h3>
+<pre><code class="lang-mermaid">sequenceDiagram
+    actor Client
+    participant Ctrl as SprinklersController
+    participant Med as MediatR
+    participant Handler as StartZoneHandler
+    participant SW as SprinklerWorker
+    participant HW as ISprinklerHardware
+    participant DB as SprinklerDbContext
+    participant MC as MultiMessageClient
+    participant Hub as SignalR Hub
+    participant MQTT as MQTT Broker
+
+    Client-&gt;&gt;Ctrl: POST /sprinkler/api/v1/Sprinklers/Start [body: IEnumerable&lt;ZoneStartRequestDto&gt;]
+    Note over Ctrl: Validates ZONE_TRIGGERS role
+    Ctrl-&gt;&gt;Med: Send(EnqueueZonesCommand)
+    Med-&gt;&gt;Handler: Handle(EnqueueZonesCommand)
+    Handler-&gt;&gt;SW: EnqueueZonesAsync([(zoneId=2, length=00:10:00)])
+    Note over SW: Appends to queue; if not running, starts immediately
+    SW-&gt;&gt;SW: _endAt = Now + 00:10:00, IsRunning = true
+    SW-&gt;&gt;HW: TurnZoneOnAsync(2)
+    HW--&gt;&gt;SW: GPIO shift register updated
+    SW-&gt;&gt;DB: LogStationAction(START, 2, 00:10:00)
+    SW-&gt;&gt;MC: SendStartMessageAsync(...)
+    par Fan-out
+        MC-&gt;&gt;Hub: Broadcast ZoneStartMessage to all clients
+    and
+        MC-&gt;&gt;MQTT: Publish ZoneStartMessage
+    end
+    Handler--&gt;&gt;Ctrl: true
+    Ctrl--&gt;&gt;Client: 200 OK
+</code></pre>
+<h3 id="manual-zone-stop">Manual Zone Stop</h3>
+<pre><code class="lang-mermaid">sequenceDiagram
+    actor Client
+    participant Ctrl as SprinklersController
+    participant Med as MediatR
+    participant Handler as StopAllHandler
+    participant SW as SprinklerWorker
+    participant HW as ISprinklerHardware
+    participant DB as SprinklerDbContext
+    participant MC as MultiMessageClient
+    participant Hub as SignalR Hub
+    participant MQTT as MQTT Broker
+
+    Client-&gt;&gt;Ctrl: POST /sprinkler/api/v1/Sprinklers/Stop
+    Note over Ctrl: Validates ZONE_TRIGGERS role
+    Ctrl-&gt;&gt;Med: Send(StopAllCommand)
+    Med-&gt;&gt;Handler: Handle(StopAllCommand)
+    Handler-&gt;&gt;SW: StopAllAsync()
+    SW-&gt;&gt;SW: Clear internal zone queue
+    SW-&gt;&gt;HW: ResetZonesAsync()
+    HW--&gt;&gt;SW: All GPIO outputs cleared
+    SW-&gt;&gt;SW: IsRunning = false
+    SW-&gt;&gt;DB: LogStationAction(STOP, stationId)
+    SW-&gt;&gt;MC: SendStopMessageAsync(...)
+    par Fan-out
+        MC-&gt;&gt;Hub: Broadcast StationStopMessage to all clients
+    and
+        MC-&gt;&gt;MQTT: Publish StationStopMessage
+    end
+    Handler--&gt;&gt;Ctrl: true
+    Ctrl--&gt;&gt;Client: 200 OK
+</code></pre>
+<h3 id="automated-schedule-execution">Automated Schedule Execution</h3>
+<blockquote>
+<p><strong>Note:</strong> The ~10-second gap between sequential zone runs is by design — <code>ScheduleWorker</code> polls on a fixed 10-second cycle, not on zone-stop events.</p>
+</blockquote>
+<pre><code class="lang-mermaid">sequenceDiagram
+    participant SchedW as ScheduleWorker
+    participant DB as SprinklerDbContext
+    participant SW as SprinklerWorker
+
+    loop Every 10 seconds
+        SchedW-&gt;&gt;DB: GetNotRanRunsByDayAsync(today)
+        DB--&gt;&gt;SchedW: pending ZoneRuns
+        alt due run exists (StartDateTime &lt; Now) &amp;&amp; !IsRunning
+            SchedW-&gt;&gt;SW: StartZoneAsync(zoneId, runLength)
+            SchedW-&gt;&gt;DB: FlagRunAsStartedAsync(startDateTime, zoneId)
+        end
+    end
+</code></pre>
+<h3 id="zone-timer-expiry">Zone Timer Expiry</h3>
+<pre><code class="lang-mermaid">sequenceDiagram
+    participant SW as SprinklerWorker
+    participant MC as MultiMessageClient
+    participant HW as ISprinklerHardware
+    participant DB as SprinklerDbContext
+
+    loop Every 500 ms
+        SW-&gt;&gt;SW: Check IsRunning &amp;&amp; _endAt &lt; DateTimeOffset.Now
+        alt timer expired
+            SW-&gt;&gt;MC: SendProgressMessage(100%)
+            SW-&gt;&gt;MC: SendStopMessage()
+            SW-&gt;&gt;SW: IsRunning = false
+            SW-&gt;&gt;HW: ResetZonesAsync()
+            SW-&gt;&gt;DB: LogStationAction(FINISHED, stationId)
+        end
+    end
+</code></pre>
+<h3 id="daily-schedule-generation">Daily Schedule Generation</h3>
+<pre><code class="lang-mermaid">sequenceDiagram
+    participant SchedW as ScheduleWorker
+    participant DB as SprinklerDbContext
+
+    Note over SchedW: Runs once at startup, then waits until 01:00 each day
+    loop Daily at 01:00
+        SchedW-&gt;&gt;DB: GetEnabledSchedulesAsync()
+        DB--&gt;&gt;SchedW: enabled SchedulePrograms
+        loop For each ScheduleProgram
+            alt DaysOfWeek mode
+                SchedW-&gt;&gt;SchedW: Check if today ∈ DaysOfWeek
+            else IntervalDays mode
+                SchedW-&gt;&gt;SchedW: Check if ⌊(today − IntervalStartDate).Days⌋ % IntervalDays == 0
+            end
+            alt schedule is due today
+                loop For each StationTime where RunLength &gt; 0
+                    SchedW-&gt;&gt;DB: AddZoneRunIfNotFoundAsync(ZoneRun at StartTime)
+                end
+            end
+        end
+    end
+</code></pre>
+<hr>
+<h2 id="technology-stack">Technology Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+<th>Version</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web Framework</td>
+<td>ASP.NET Core</td>
+<td>8.0</td>
+<td><code>Microsoft.NET.Sdk.Web</code></td>
+</tr>
+<tr>
+<td>API Versioning</td>
+<td>Asp.Versioning</td>
+<td>8.1.0</td>
+<td>URL segment versioning, format <code>'v'VVV</code></td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>Microsoft.Identity.Web</td>
+<td>2.20.0</td>
+<td>Azure AD JWT bearer token validation</td>
+</tr>
+<tr>
+<td>Authorization</td>
+<td>ASP.NET Core Authorization</td>
+<td>8.0</td>
+<td>Role-based policies using <code>Sannel.House.Core</code> roles</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>Entity Framework Core</td>
+<td>8.0.6</td>
+<td>Code-first; migrations applied on startup</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>SQLite (via EF Core)</td>
+<td>8.0.6</td>
+<td><code>Data/schedule.db</code>; <code>DateTimeOffset</code> stored as binary</td>
+</tr>
+<tr>
+<td>Object Mapping</td>
+<td>Riok.Mapperly</td>
+<td>3.6.0</td>
+<td>Source-generated mappers in feature slices and Web API host</td>
+</tr>
+<tr>
+<td>Real-time</td>
+<td>ASP.NET Core SignalR</td>
+<td>8.0.6</td>
+<td>Server-push hub at <code>/sprinkler/hub</code></td>
+</tr>
+<tr>
+<td>Messaging</td>
+<td>MQTTnet</td>
+<td>4.3.6.1152</td>
+<td>MQTT v3.1.1/v5 client with TLS support</td>
+</tr>
+<tr>
+<td>Command/Query</td>
+<td>MediatR</td>
+<td>12.x</td>
+<td>In-process CQRS dispatcher; controllers dispatch to feature handlers</td>
+</tr>
+<tr>
+<td>GPIO</td>
+<td>System.Device.Gpio / Iot.Device.Bindings</td>
+<td>3.2.0</td>
+<td>Raspberry Pi GPIO via <code>RaspberryPiBoard</code></td>
+</tr>
+<tr>
+<td>API Docs</td>
+<td>Swashbuckle.AspNetCore</td>
+<td>6.6.2</td>
+<td>Swagger UI at <code>/sprinkler/swagger</code></td>
+</tr>
+<tr>
+<td>Telemetry</td>
+<td>Microsoft.ApplicationInsights.AspNetCore</td>
+<td>2.22.0</td>
+<td>Optional; configured via connection string</td>
+</tr>
+<tr>
+<td>Roles</td>
+<td>Sannel.House.Core</td>
+<td>0.1.2-preview-001</td>
+<td>Shared role constants (<code>Roles.Sprinklers.*</code>, <code>Roles.ADMIN</code>)</td>
+</tr>
+<tr>
+<td>UI Framework</td>
+<td>Blazor WebAssembly (ASP.NET Core hosted)</td>
+<td>8.0</td>
+<td>Browser SPA served by the API host; client-side .NET via WASM</td>
+</tr>
+<tr>
+<td>UI Components</td>
+<td>MudBlazor</td>
+<td>7.x</td>
+<td>Material Design component library for Blazor</td>
+</tr>
+<tr>
+<td>Browser Auth</td>
+<td>Microsoft.Authentication.WebAssembly.Msal</td>
+<td>8.0.x</td>
+<td>MSAL for Blazor WASM; Azure AD interactive OIDC flow</td>
+</tr>
+<tr>
+<td>Local Dev</td>
+<td>.NET Aspire</td>
+<td>9.x</td>
+<td>AppHost orchestrates API, Blazor app, and MQTT broker (dev only)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="infrastructure--deployment">Infrastructure &amp; Deployment</h2>
+<h3 id="docker">Docker</h3>
+<ul>
+<li><strong>Base image:</strong> <code>mcr.microsoft.com/dotnet/aspnet:8.0</code></li>
+<li><strong>Architectures:</strong> <code>linux/amd64</code>, <code>linux/arm64</code> (multi-arch build via <code>build-docker.ps1</code>)</li>
+<li><strong>Exposed ports:</strong> 8080 (HTTP), 8443 (HTTPS)</li>
+<li><strong>Volume mounts:</strong>
+<ul>
+<li><code>./Data:/app/Data</code> — SQLite database and data protection keys</li>
+<li><code>./config:/app/app_config</code> — runtime <code>appsettings.json</code>, TLS certificates</li>
+</ul>
+</li>
+<li><strong>Device access:</strong> <code>/dev/gpiomem</code> — required for real GPIO hardware</li>
+<li><strong>User:</strong> Must run as a user in the host <code>gpio</code> group (e.g. <code>user: &quot;1000:993&quot;</code>)</li>
+<li><strong>Blazor WASM:</strong> <code>Sannel.House.Sprinklers.Web</code> static assets (<code>_framework/</code>, <code>wwwroot/</code>) are bundled into the API image at publish time. No additional server or volume mount is required for the Blazor UI.</li>
+</ul>
+<h3 id="self-contained-binary">Self-Contained Binary</h3>
+<pre><code class="lang-sh">make arm64
+# Equivalent to:
+# dotnet publish -r linux-arm64 --sc -o output/ /p:PublishSingleFile=true \
+#   src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj
+</code></pre>
+<p>Produces a single executable under <code>output/</code> that includes the .NET runtime and can run directly on a Raspberry Pi without a pre-installed SDK.</p>
+<h3 id="versioning">Versioning</h3>
+<p>Version is sourced from <code>Directory.Build.props</code> via <code>Major</code>, <code>Minor</code>, <code>Patch</code>, and <code>BuildNumber</code> MSBuild properties. Docker build args (<code>--build-arg Major=X</code>) set these at CI build time.</p>
+<h3 id="local-development--net-aspire">Local Development — .NET Aspire</h3>
+<p>.NET Aspire is used <strong>exclusively for local development</strong>. The Aspire AppHost project (<code>Sannel.House.Sprinklers.AppHost</code>) orchestrates all services needed to run the full system locally:</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Sannel.House.Sprinklers</code></td>
+<td>.NET project resource</td>
+<td>Web API host (includes the hosted Blazor WASM app)</td>
+</tr>
+<tr>
+<td>MQTT Broker</td>
+<td>Container resource</td>
+<td>e.g. <code>eclipse-mosquitto</code>; replaces the external MQTT broker for local dev</td>
+</tr>
+</tbody>
+</table>
+<p>The Aspire dashboard provides live service URLs, structured logs, and distributed traces for all orchestrated resources. Aspire is <strong>not</strong> used in the Docker-based production deployment.</p>
+<hr>
+<h2 id="authorization-model">Authorization Model</h2>
+<p>Authorization is enforced at the controller action level via named ASP.NET Core policies. Roles are Azure AD app roles defined in the <code>Sannel.House.Core</code> package.</p>
+<table>
+<thead>
+<tr>
+<th>Policy Name</th>
+<th>Required Roles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ZONE_READERS</code></td>
+<td><code>Roles.Sprinklers.ZONE_READ</code>, <code>ZONE_WRITE</code>, or <code>Roles.ADMIN</code></td>
+</tr>
+<tr>
+<td><code>ZONE_METADATA_READER</code></td>
+<td><code>Roles.Sprinklers.ZONE_READ</code>, <code>ZONE_WRITE</code>, or <code>Roles.ADMIN</code></td>
+</tr>
+<tr>
+<td><code>ZONE_TRIGGERS</code></td>
+<td><code>Roles.Sprinklers.ZONE_TRIGGER</code> or <code>Roles.ADMIN</code></td>
+</tr>
+<tr>
+<td><code>ZONE_METADATA_WRITER</code></td>
+<td><code>Roles.Sprinklers.ZONE_WRITE</code> or <code>Roles.ADMIN</code></td>
+</tr>
+<tr>
+<td><code>SCHEDULE_READERS</code></td>
+<td><code>Roles.Sprinklers.SCHEDULE_READ</code>, <code>SCHEDULE_WRITE</code>, or <code>Roles.ADMIN</code></td>
+</tr>
+<tr>
+<td><code>SCHEDULE_SCHEDULERS</code></td>
+<td><code>Roles.Sprinklers.SCHEDULE_WRITE</code> or <code>Roles.ADMIN</code></td>
+</tr>
+</tbody>
+</table>
+<p>A <code>UserClaimsTransformation</code> (<code>IClaimsTransformation</code>) is registered to augment the claims principal before policy evaluation.</p>
+<hr>
+<h2 id="security-considerations">Security Considerations</h2>
+<ul>
+<li><strong>Authentication:</strong> All API endpoints require a valid Azure AD JWT bearer token (<code>Microsoft.Identity.Web</code>). The SignalR hub (<code>MessageHub</code>) is decorated with <code>[Authorize]</code> — unauthenticated WebSocket connections are rejected server-side; consumers must supply the bearer token in the WebSocket handshake. The Blazor WASM client authenticates via MSAL (<code>Microsoft.Authentication.WebAssembly.Msal</code>), acquiring tokens from Azure AD through the interactive OIDC browser flow; tokens are attached to all outgoing API requests and the SignalR handshake via a delegating handler.</li>
+<li><strong>Authorization:</strong> Fine-grained role-based policies enforce least-privilege access at the action level. <code>Roles.ADMIN</code> grants full access across all policies.</li>
+<li><strong>Transport Security:</strong> HTTPS is configurable via Kestrel endpoint options and a volume-mounted PFX certificate. MQTT connections support TLS with a configurable custom CA certificate chain; the custom certificate handler validates against the provided CA roots.</li>
+<li><strong>Configuration Secrets:</strong> Credentials (Azure AD client secret, MQTT password, certificate passwords) are supplied at runtime via the volume-mounted <code>app_config/appsettings.json</code> and are never committed to source control.</li>
+<li><strong>Data Protection:</strong> ASP.NET Core Data Protection keys are persisted to <code>Data/</code> so that cookie/token protection survives container restarts.</li>
+<li><strong>CORS:</strong> Allowed origins are configurable via the <code>AllowedOrigins</code> config key. Only listed origins are permitted; <code>AllowCredentials()</code> is enabled to support the SignalR WebSocket handshake.</li>
+</ul>
+<hr>
+<h2 id="scalability--performance">Scalability &amp; Performance</h2>
+<ul>
+<li>The system is intentionally single-instance and single-zone. Horizontal scaling is not a design goal.</li>
+<li><code>SprinklerWorker</code> polls every 500 ms using <code>Task.Delay</code> — CPU usage during idle periods is negligible.</li>
+<li><code>ScheduleWorker</code> polls every 10 s and generates the daily schedule once at 01:00, then sleeps. No continuous database polling for schedule generation.</li>
+<li>SignalR progress messages are emitted every 500 ms per running zone. With a small number of connected clients, this is low-volume.</li>
+<li>MQTT publishes are fire-and-forget with caught exceptions — MQTT failures do not block zone operation.</li>
+<li><code>SprinklerWorker</code> and <code>ScheduleWorker</code> each create their own <code>IServiceScope</code> to avoid captive dependency issues with <code>DbContext</code>. Feature handlers receive a scoped <code>DbContext</code> via the standard DI pipeline.</li>
+</ul>
+<hr>
+<h2 id="failure-modes--resilience">Failure Modes &amp; Resilience</h2>
+<table>
+<thead>
+<tr>
+<th>Failure Scenario</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MQTT broker unavailable at startup</td>
+<td><code>MQTTManager.StartAsync()</code> catches the connection exception and logs it; the rest of the application starts normally.</td>
+</tr>
+<tr>
+<td>MQTT broker disconnects at runtime</td>
+<td><code>MQTTManager</code> reconnects using exponential back-off (250 µs → doubles each attempt, capped at 30 s). Zone operation is unaffected.</td>
+</tr>
+<tr>
+<td><code>SprinklerWorker</code> unhandled exception</td>
+<td>Exception propagates out of <code>ExecuteAsync</code>; the .NET host logs the error and terminates the process (restart handled by Docker or systemd).</td>
+</tr>
+<tr>
+<td><code>ScheduleWorker</code> unhandled exception</td>
+<td>Same as above.</td>
+</tr>
+<tr>
+<td>GPIO write failure</td>
+<td>No explicit retry; exception propagates to <code>SprinklerWorker</code> and terminates the host.</td>
+</tr>
+<tr>
+<td>SQLite write failure (log)</td>
+<td>Not explicitly handled in <code>SprinklerWorker</code>; exception would propagate.</td>
+</tr>
+<tr>
+<td>Zone timer logic race</td>
+<td><code>IsRunning</code> is read/written on the single <code>ExecuteAsync</code> loop thread; no additional synchronisation is used. Concurrent <code>StartZoneAsync</code> calls guard on <code>IsRunning</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="related-adrs">Related ADRs</h2>
+<p>The following architectural decisions have not yet been formally documented as ADRs. They are candidates for documentation before or alongside v1 release:</p>
+<h3 id="adr-001-sqlite-over-a-relational-database-engine-proposed">ADR-001: SQLite over a relational database engine <em>(Proposed)</em></h3>
+<p><strong>Context:</strong> The service runs on a Raspberry Pi with no assumption of a network-accessible database server.
+<strong>Decision:</strong> Use SQLite via EF Core for all persistence. The database file lives at <code>Data/schedule.db</code> on a volume-mounted path.</p>
+<h3 id="adr-002-mqtt-alongside-signalr-for-real-time-events-proposed">ADR-002: MQTT alongside SignalR for real-time events <em>(Proposed)</em></h3>
+<p><strong>Context:</strong> Consumer applications may be headless (no browser/WebSocket) and need to subscribe to zone events.
+<strong>Decision:</strong> Fan all events to both SignalR (for browser/app clients) and MQTT (for headless and IoT consumers) simultaneously via <code>MultiMessageClient</code>.</p>
+<h3 id="adr-003-hardware-detection-via-devgpiomem-proposed">ADR-003: Hardware detection via <code>/dev/gpiomem</code> <em>(Proposed)</em></h3>
+<p><strong>Context:</strong> The service must run on non-Raspberry Pi hosts (developer machines, CI) without crashing or requiring GPIO hardware.
+<strong>Decision:</strong> Check for the presence of <code>/dev/gpiomem</code> at startup; register <code>OpenSprinklerHardware</code> if present, <code>FakeHardware</code> otherwise.</p>
+<h3 id="adr-004-hybrid-day-of-week--interval-in-days-scheduling-model-proposed">ADR-004: Hybrid day-of-week / interval-in-days scheduling model <em>(Proposed)</em></h3>
+<p><strong>Context:</strong> Cron expressions are expressive but opaque to end users and difficult to validate in a UI. Residential irrigation needs are typically either &quot;run on specific days of the week&quot; or &quot;run every N days&quot; — patterns that map naturally to UI controls (checkboxes + number input) and are straightforward to evaluate in code without a parsing library.
+<strong>Decision:</strong> Replace the <code>ScheduleCron</code> cron string with four fields on <code>ScheduleProgram</code>: <code>StartTime</code> (required), <code>DaysOfWeek</code> (nullable JSON collection), <code>IntervalDays</code> (nullable int), and <code>IntervalStartDate</code> (nullable <code>DateOnly</code>). Exactly one of <code>DaysOfWeek</code> or <code>IntervalDays</code> must be set. Interval-mode schedules are due on day D when <code>⌊(D − IntervalStartDate).Days⌋ % IntervalDays == 0</code>. This eliminates the NCrontab dependency.</p>
+<h3 id="adr-005-blazor-webassembly-as-the-browser-client-proposed">ADR-005: Blazor WebAssembly as the browser client <em>(Proposed)</em></h3>
+<p><strong>Context:</strong> A management UI is needed for end-user interaction. The development team is .NET-focused and the API is ASP.NET Core; a .NET-native UI avoids context-switching to a JavaScript framework.
+<strong>Decision:</strong> Use Blazor WebAssembly (ASP.NET Core hosted model) so the UI shares the same .NET ecosystem, can directly reference <code>Sannel.House.Sprinklers.Shared</code> for typed client and DTOs, and is served as static assets from the existing API host with no additional server.</p>
+<h3 id="adr-006-mudblazor-as-the-ui-component-library-proposed">ADR-006: MudBlazor as the UI component library <em>(Proposed)</em></h3>
+<p><strong>Context:</strong> Building a component library from scratch is out of scope; a pre-built Material Design library accelerates development.
+<strong>Decision:</strong> Use MudBlazor as the primary component library. It is the most widely adopted Material Design library for Blazor, has active maintenance, and supports the accessibility and responsive layout requirements of a dashboard-style UI.</p>
+<h3 id="adr-007-vertical-slice-architecture-with-mediatr-proposed">ADR-007: Vertical Slice Architecture with MediatR <em>(Proposed)</em></h3>
+<p><strong>Context:</strong> A traditional layered architecture (Core / Infrastructure) distributes a single feature's logic across multiple layers and projects, making it harder to reason about and test a feature in isolation. As the feature set grows, the layering becomes a coordination overhead rather than a safety net.
+<strong>Decision:</strong> Adopt Vertical Slice Architecture (VSA). Each feature area (<code>Sprinklers</code>, <code>Zones</code>, <code>Schedules</code>, <code>Logs</code>) is implemented as a self-contained slice under <code>Features/</code> in the Web API host project, containing its own MediatR command/query types, handler, and response types. Controllers become thin dispatchers that forward requests to MediatR. <code>Sannel.House.Sprinklers.Core</code> is dissolved; its logic migrates into feature handlers and background workers. Cross-cutting infrastructure (DbContext, GPIO, MQTT) remains in <code>Sannel.House.Sprinklers.Infrastructure</code>.</p>
+<hr>
+<h2 id="open-questions">Open Questions</h2>
+<p>All open questions have been resolved. See the <strong>Decisions &amp; Resolved Questions</strong> table in the BRD for full resolution details.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Question</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OQ-A</td>
+<td>SignalR hub auth enforcement</td>
+<td><code>MessageHub</code> decorated with <code>[Authorize]</code>; unauthenticated connections rejected server-side.</td>
+</tr>
+<tr>
+<td>OQ-B</td>
+<td>Zone run queuing via manual Start API</td>
+<td><code>POST /Start</code> accepts <code>IEnumerable&lt;ZoneStartRequestDto&gt;</code>; <code>SprinklerWorker</code> maintains an internal queue.</td>
+</tr>
+<tr>
+<td>OQ-C</td>
+<td><code>FakeHardware</code> configurable zone count</td>
+<td>Reads from <code>Sprinkler:Zones</code> config. Implemented as FR-023.</td>
+</tr>
+<tr>
+<td>OQ-D</td>
+<td><code>ScheduleWorker</code> <code>async void</code> generation loop</td>
+<td>Restructured as <code>Task</code>-returning method with <code>CancellationToken</code>; exceptions propagate to host.</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/Sannel/Sannel.House.Sprinklers/blob/main/docs/docs/architecture.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
