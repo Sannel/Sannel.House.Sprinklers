@@ -7,7 +7,7 @@
 | Version      | 1.0                          |
 | Status       | Draft                        |
 | Author       | Sannel Software, L.L.C.      |
-| Last Updated | 2026-05-09                   |
+| Last Updated | 2026-05-11                   |
 
 ---
 
@@ -45,7 +45,7 @@ The system exposes a versioned REST API secured by Azure AD (Microsoft Entra ID)
 - Self-contained single-file binary for direct deployment on Raspberry Pi (`make arm64`).
 - A non-hardware "fake" mode for development and testing on non-Pi hosts.
 - Shared NuGet package (`Sannel.House.Sprinklers.Shared`) containing typed HTTP client, DTOs, and message types.
-- A browser-based management UI (`Sannel.House.Sprinklers.Web`) built with Blazor WebAssembly and MudBlazor, served by the API host, providing real-time zone status, manual zone start/stop, schedule management, zone metadata editing, and run history.
+- A browser-based management UI (`Sannel.House.Sprinklers.Web`) built with Blazor WebAssembly and MudBlazor, providing real-time zone status, manual zone start/stop, schedule management, zone metadata editing, and run history. In development it is orchestrated alongside the API by the Aspire AppHost; for production it may be bundled with the API or deployed independently.
 - A .NET Aspire AppHost project for orchestrated local development, spinning up the API host, Blazor app, and an MQTT broker container.
 
 ### Out of Scope
@@ -96,7 +96,7 @@ The system exposes a versioned REST API secured by Azure AD (Microsoft Entra ID)
 | FR-018 | The system SHALL detect whether GPIO hardware is available (`/dev/gpiomem`) and select the real or fake hardware driver accordingly at startup. | High |
 | FR-019 | The system SHALL expose a Swagger/OpenAPI UI at `/sprinkler/swagger` for API exploration.                                   | Low      |
 | FR-020 | The `Sannel.House.Sprinklers.Shared` NuGet package SHALL provide a typed `SprinklersClient` with methods covering all v1 API operations and SignalR event subscriptions. | Medium |
-| FR-021 | The system SHALL provide a browser-based management UI served by the Web API host, enabling authenticated users to view real-time zone status, manually start and stop zones, manage schedule programs, edit zone metadata, and review run history. | High |
+| FR-021 | The system SHALL provide a browser-based management UI (`Sannel.House.Sprinklers.Web`) enabling authenticated users to view real-time zone status, manually start and stop zones, manage schedule programs, edit zone metadata, and review run history. | High |
 | FR-022 | The browser-based UI SHALL authenticate users against the same Azure AD tenant and enforce the same role-based access policies as the REST API. | High |
 | FR-023 | The non-hardware fake driver SHALL read zone count from the `Sprinkler:Zones` configuration key, consistent with the real hardware driver. | High |
 
