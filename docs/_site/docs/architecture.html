@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/Sannel/Sannel.House.Sprinklers/blob/main/docs/docs/architecture.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/Sannel/Sannel.House.Sprinklers/blob/feature/vsa-scheduling-implementation/docs/docs/architecture.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -110,7 +110,7 @@
 </tr>
 <tr>
 <td>Last Updated</td>
-<td>2026-05-09</td>
+<td>2026-05-11</td>
 </tr>
 </tbody>
 </table>
@@ -118,7 +118,7 @@
 <h2 id="overview">Overview</h2>
 <p>Sannel.House.Sprinklers is a self-hosted ASP.NET Core 8 Web API that controls a residential irrigation system running on a Raspberry Pi. It manages GPIO-driven sprinkler zones, executes day-of-week and interval-based watering schedules, and fans real-time events out over both SignalR and MQTT. Configuration, scheduling, and zone metadata are persisted in a local SQLite database.</p>
 <p>The system is distributed as a multi-architecture Docker image (<code>linux/amd64</code>, <code>linux/arm64</code>) and as a self-contained single-file binary for bare-metal Raspberry Pi deployment.</p>
-<p>The backend is structured using <strong>Vertical Slice Architecture (VSA)</strong>: business logic is organized into feature slices under <code>Features/</code> (each slice contains its own MediatR commands/queries, handlers, and response types), with cross-cutting infrastructure kept in <code>Sannel.House.Sprinklers.Infrastructure</code>. Background workers (<code>SprinklerWorker</code>, <code>ScheduleWorker</code>) live under <code>Workers/</code> alongside their corresponding feature slices.</p>
+<p>The backend is structured using <strong>Vertical Slice Architecture (VSA)</strong>: business logic is organized into feature slices under <code>Features/</code> (each slice contains its own MediatR commands/queries, handlers, entities, and EF configuration). Cross-cutting infrastructure (DbContext, hardware drivers, messaging) lives in <code>Features/Common/</code> and <code>Features/Notifications/</code> within the same project. Background workers (<code>SprinklerWorker</code>, <code>ScheduleWorker</code>) are co-located with their corresponding feature slices.</p>
 <hr>
 <h2 id="goals--non-goals">Goals &amp; Non-Goals</h2>
 <h3 id="goals">Goals</h3>
@@ -197,7 +197,7 @@
             ScheduleWorker[&quot;ScheduleWorker\n⏱ 10 s poll · 01:00 daily&quot;]
         end
 
-        subgraph Infra[&quot;Sannel.House.Sprinklers.Infrastructure (Cross-cutting)&quot;]
+        subgraph CommonInfra[&quot;Features/Common · Features/Notifications&quot;]
             DbCtx[&quot;SprinklerDbContext\nSQLite — Data/schedule.db&quot;]
             HW[&quot;OpenSprinklerHardware\nFakeHardware (dev)&quot;]
             MultiMsg[&quot;MultiMessageClient (fan-out)&quot;]
@@ -327,10 +327,10 @@
 </tr>
 </tbody>
 </table>
-<h3 id="sannelhousesprinklersinfrastructure-cross-cutting-infrastructure">Sannel.House.Sprinklers.Infrastructure (Cross-cutting Infrastructure)</h3>
+<h3 id="cross-cutting-infrastructure--featurescommon-and-featuresnotifications">Cross-cutting Infrastructure — <code>Features/Common/</code> and <code>Features/Notifications/</code></h3>
 <ul>
-<li><strong>Responsibility:</strong> Cross-cutting infrastructure concerns shared across all feature slices: EF Core DbContext and migrations, GPIO drivers, SignalR hub, MQTT client management, and messaging fan-out. Feature handlers and workers access <code>SprinklerDbContext</code> directly via DI — no repository interfaces are defined here.</li>
-<li><strong>Technology:</strong> .NET 8 class library; ASP.NET Core framework reference (for SignalR); <code>Microsoft.EntityFrameworkCore.Sqlite</code> 8.0.6; <code>Iot.Device.Bindings</code> 3.2.0; <code>System.Device.Gpio</code> 3.2.0; <code>MQTTnet</code> 4.3.6.1152.</li>
+<li><strong>Responsibility:</strong> Cross-cutting infrastructure concerns shared across all feature slices: EF Core DbContext and migrations, GPIO drivers, SignalR hub, MQTT client management, and messaging fan-out. These live inside <code>Sannel.House.Sprinklers</code> rather than a separate library project — there is no <code>Sannel.House.Sprinklers.Infrastructure</code> project. Feature handlers and workers access <code>SprinklerDbContext</code> directly via DI — no repository interfaces are defined.</li>
+<li><strong>Technology:</strong> Part of <code>Sannel.House.Sprinklers</code> (<code>net8.0</code>); <code>Microsoft.EntityFrameworkCore.Sqlite</code> 8.0.6; <code>Iot.Device.Bindings</code> 3.2.0; <code>System.Device.Gpio</code> 3.2.0; <code>MQTTnet</code> 4.3.6.1152.</li>
 </ul>
 <table>
 <thead>
@@ -451,12 +451,12 @@
 <h3 id="sannelhousesprinklersweb-blazor-wasm-client">Sannel.House.Sprinklers.Web (Blazor WASM Client)</h3>
 <ul>
 <li><strong>Responsibility:</strong> Browser-based management UI. Provides authenticated access to all system features: real-time zone status dashboard, manual zone start/stop, schedule program management, zone metadata editing, and run history viewer.</li>
-<li><strong>Technology:</strong> Blazor WebAssembly (ASP.NET Core hosted model), MudBlazor (Material Design component library), <code>Microsoft.Authentication.WebAssembly.Msal</code> for Azure AD authentication.</li>
-<li><strong>Hosting:</strong> Compiled to WebAssembly and served as static assets (<code>_framework/</code>, <code>wwwroot/</code>) by the <code>Sannel.House.Sprinklers</code> API host. No separate server process is required.</li>
+<li><strong>Technology:</strong> Blazor WebAssembly (standalone, <code>net10.0</code>), MudBlazor 7.x (Material Design component library), <code>Microsoft.Authentication.WebAssembly.Msal</code> for Azure AD authentication.</li>
+<li><strong>Hosting:</strong> Built as a standalone Blazor WebAssembly application. In development the Aspire AppHost runs it as a separate process. For production it can be deployed independently (e.g. behind a reverse proxy) or bundled into the API Docker image at publish time by copying the compiled <code>wwwroot</code> output into the API host's static files directory.</li>
 <li><strong>API integration:</strong> Uses <code>SprinklersClient</code> from <code>Sannel.House.Sprinklers.Shared</code> for all REST API calls and SignalR event subscriptions.</li>
 <li><strong>Authentication:</strong> Authenticates via Azure AD using MSAL for Blazor WASM (<code>Microsoft.Authentication.WebAssembly.Msal</code>). The access token is injected into all outgoing API requests via a delegating handler. The same app registration and role assignments used by the REST API are reused.</li>
 <li><strong>Real-time updates:</strong> Subscribes to <code>StationStart</code>, <code>StationStop</code>, <code>StationProgress</code>, and <code>ZoneUpdate</code> events via <code>SprinklersClient</code> SignalR integration, updating the zone status dashboard in real time without polling.</li>
-<li><strong>Interfaces:</strong> Served from the API host root; all API calls are same-origin (no CORS required for the Blazor client itself).</li>
+<li><strong>Deployment:</strong> In the Aspire-orchestrated local dev environment both the Web app and the API run as separate processes. For production, the Web app's compiled <code>wwwroot</code> output can be copied into the API host to serve them from the same origin, or it can be deployed independently behind a reverse proxy that routes <code>/sprinkler</code> calls to the API.</li>
 </ul>
 <hr>
 <h2 id="api-design">API Design</h2>
@@ -1057,9 +1057,9 @@
 </tr>
 <tr>
 <td>UI Framework</td>
-<td>Blazor WebAssembly (ASP.NET Core hosted)</td>
-<td>8.0</td>
-<td>Browser SPA served by the API host; client-side .NET via WASM</td>
+<td>Blazor WebAssembly (standalone)</td>
+<td>10.0</td>
+<td>Browser SPA; standalone WASM app (<code>Sannel.House.Sprinklers.Web</code>)</td>
 </tr>
 <tr>
 <td>UI Components</td>
@@ -1291,7 +1291,7 @@
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/Sannel/Sannel.House.Sprinklers/blob/main/docs/docs/architecture.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/Sannel/Sannel.House.Sprinklers/blob/feature/vsa-scheduling-implementation/docs/docs/architecture.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>

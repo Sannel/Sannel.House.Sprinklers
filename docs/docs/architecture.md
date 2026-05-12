@@ -128,7 +128,7 @@ flowchart TD
 ### Sannel.House.Sprinklers (Web API Host + Feature Slices)
 
 - **Responsibility:** ASP.NET Core application host. Wires DI container, configures authentication/authorization, registers background workers, exposes Swagger UI, maps the SignalR hub route, and starts the MQTT connection. Business logic is organized as feature slices under `Features/`; controllers dispatch to MediatR rather than calling services directly.
-- **Technology:** ASP.NET Core 8 (`net8.0`), `Microsoft.NET.Sdk.Web`, MediatR 12.x
+- **Technology:** ASP.NET Core 10 (`net10.0`), `Microsoft.NET.Sdk.Web`, MediatR 12.x
 - **Key registrations:**
   - `MediatR` — registered via `AddMediatR` scanning the `Features/` and `Workers/` assemblies.
   - `SprinklerWorker` — registered as both `AddSingleton<SprinklerWorker>` and `AddHostedService<SprinklerWorker>` so it is injectable by feature handlers.
@@ -148,7 +148,7 @@ flowchart TD
 ### Feature Slices — `Features/` (inside `Sannel.House.Sprinklers`)
 
 - **Responsibility:** Each feature slice owns all the logic for one business capability: MediatR command and/or query request classes, a handler, and response types. Handlers receive their dependencies (including `SprinklerDbContext` and `SprinklerWorker`) via DI — there are no repository interfaces.
-- **Technology:** .NET 8; MediatR 12.x; Riok.Mapperly for source-generated object mapping.
+- **Technology:** .NET 10; MediatR 12.x; Riok.Mapperly for source-generated object mapping.
 - **Feature areas:**
 
 | Feature | Commands / Queries | Notes |
@@ -171,7 +171,7 @@ flowchart TD
 ### Cross-cutting Infrastructure — `Features/Common/` and `Features/Notifications/`
 
 - **Responsibility:** Cross-cutting infrastructure concerns shared across all feature slices: EF Core DbContext and migrations, GPIO drivers, SignalR hub, MQTT client management, and messaging fan-out. These live inside `Sannel.House.Sprinklers` rather than a separate library project — there is no `Sannel.House.Sprinklers.Infrastructure` project. Feature handlers and workers access `SprinklerDbContext` directly via DI — no repository interfaces are defined.
-- **Technology:** Part of `Sannel.House.Sprinklers` (`net8.0`); `Microsoft.EntityFrameworkCore.Sqlite` 8.0.6; `Iot.Device.Bindings` 3.2.0; `System.Device.Gpio` 3.2.0; `MQTTnet` 4.3.6.1152.
+- **Technology:** Part of `Sannel.House.Sprinklers` (`net10.0`); `Microsoft.EntityFrameworkCore.Sqlite` 10.0.0; `Iot.Device.Bindings` 3.2.0; `System.Device.Gpio` 3.2.0; `MQTTnet` 4.3.6.1152.
 
 | Type | Role |
 |---|---|
@@ -190,7 +190,7 @@ flowchart TD
 ### Sannel.House.Sprinklers.Shared (NuGet Package)
 
 - **Responsibility:** Contains all types shared between the service and its consumers. Published as a NuGet package. Referenced by Core and Infrastructure for message types.
-- **Technology:** .NET 8 class library; `Microsoft.AspNetCore.SignalR.Client` 8.0.6; Source Link (GitHub).
+- **Technology:** .NET 10 class library; `Microsoft.AspNetCore.SignalR.Client` 10.0.0; Source Link (GitHub).
 - **Key types:**
 
 | Type | Role |
@@ -215,11 +215,11 @@ flowchart TD
 
 - **Responsibility:** Browser-based management UI. Provides authenticated access to all system features: real-time zone status dashboard, manual zone start/stop, schedule program management, zone metadata editing, and run history viewer.
 - **Technology:** Blazor WebAssembly (standalone, `net10.0`), MudBlazor 7.x (Material Design component library), `Microsoft.Authentication.WebAssembly.Msal` for Azure AD authentication.
-- **Hosting:** Built as a standalone Blazor WebAssembly application. In development the Aspire AppHost runs it as a separate process. For production it can be deployed independently (e.g. behind a reverse proxy) or bundled into the API Docker image at publish time by copying the compiled `wwwroot` output into the API host's static files directory.
+- **Hosting:** Referenced by `Sannel.House.Sprinklers` as a project reference; at publish time the Blazor compiled assets are placed in the API's `wwwroot` and served via `UseStaticFiles()` + `MapFallbackToFile("index.html")`. In the Aspire-orchestrated local dev environment both projects run as separate processes.
 - **API integration:** Uses `SprinklersClient` from `Sannel.House.Sprinklers.Shared` for all REST API calls and SignalR event subscriptions.
 - **Authentication:** Authenticates via Azure AD using MSAL for Blazor WASM (`Microsoft.Authentication.WebAssembly.Msal`). The access token is injected into all outgoing API requests via a delegating handler. The same app registration and role assignments used by the REST API are reused.
 - **Real-time updates:** Subscribes to `StationStart`, `StationStop`, `StationProgress`, and `ZoneUpdate` events via `SprinklersClient` SignalR integration, updating the zone status dashboard in real time without polling.
-- **Deployment:** In the Aspire-orchestrated local dev environment both the Web app and the API run as separate processes. For production, the Web app's compiled `wwwroot` output can be copied into the API host to serve them from the same origin, or it can be deployed independently behind a reverse proxy that routes `/sprinkler` calls to the API.
+- **Deployment:** The API project references `Sannel.House.Sprinklers.Web`; Blazor static assets are bundled into the API's published output and served from the same origin. In the Aspire local dev environment both run as separate processes.
 
 ---
 
@@ -485,24 +485,24 @@ sequenceDiagram
 
 | Layer            | Technology                          | Version  | Notes                                               |
 |---|---|---|---|
-| Web Framework    | ASP.NET Core                        | 8.0      | `Microsoft.NET.Sdk.Web`                             |
-| API Versioning   | Asp.Versioning                      | 8.1.0    | URL segment versioning, format `'v'VVV`             |
-| Authentication   | Microsoft.Identity.Web              | 2.20.0   | Azure AD JWT bearer token validation                |
-| Authorization    | ASP.NET Core Authorization          | 8.0      | Role-based policies using `Sannel.House.Core` roles |
-| ORM              | Entity Framework Core               | 8.0.6    | Code-first; migrations applied on startup           |
-| Database         | SQLite (via EF Core)                | 8.0.6    | `Data/schedule.db`; `DateTimeOffset` stored as binary |
+| Web Framework    | ASP.NET Core                        | 10.0     | `Microsoft.NET.Sdk.Web`                             |
+| API Versioning   | Asp.Versioning                      | 10.0.0   | URL segment versioning, format `'v'VVV`             |
+| Authentication   | Microsoft.Identity.Web              | 3.7.1    | Azure AD JWT bearer token validation                |
+| Authorization    | ASP.NET Core Authorization          | 10.0     | Role-based policies using `Sannel.House.Core` roles |
+| ORM              | Entity Framework Core               | 10.0.0   | Code-first; migrations applied on startup           |
+| Database         | SQLite (via EF Core)                | 10.0.0   | `Data/schedule.db`; `DateTimeOffset` stored as binary |
 | Object Mapping   | Riok.Mapperly                       | 3.6.0    | Source-generated mappers in feature slices and Web API host |
-| Real-time        | ASP.NET Core SignalR                | 8.0.6    | Server-push hub at `/sprinkler/hub`                 |
+| Real-time        | ASP.NET Core SignalR                | 10.0.0   | Server-push hub at `/sprinkler/hub`                 |
 | Messaging        | MQTTnet                             | 4.3.6.1152 | MQTT v3.1.1/v5 client with TLS support            |
 | Command/Query    | MediatR                             | 12.x     | In-process CQRS dispatcher; controllers dispatch to feature handlers |
 | GPIO             | System.Device.Gpio / Iot.Device.Bindings | 3.2.0 | Raspberry Pi GPIO via `RaspberryPiBoard`          |
-| API Docs         | Swashbuckle.AspNetCore              | 6.6.2    | Swagger UI at `/sprinkler/swagger`                  |
+| API Docs         | Swashbuckle.AspNetCore              | 7.x      | Swagger UI at `/sprinkler/swagger`                  |
 | Telemetry        | Microsoft.ApplicationInsights.AspNetCore | 2.22.0 | Optional; configured via connection string        |
 | Roles            | Sannel.House.Core                   | 0.1.2-preview-001 | Shared role constants (`Roles.Sprinklers.*`, `Roles.ADMIN`) |
-| UI Framework     | Blazor WebAssembly (standalone) | 10.0         | Browser SPA; standalone WASM app (`Sannel.House.Sprinklers.Web`) |
-| UI Components    | MudBlazor                           | 7.x              | Material Design component library for Blazor                |
-| Browser Auth     | Microsoft.Authentication.WebAssembly.Msal | 8.0.x        | MSAL for Blazor WASM; Azure AD interactive OIDC flow        |
-| Local Dev        | .NET Aspire                         | 9.x              | AppHost orchestrates API, Blazor app, and MQTT broker (dev only) |
+| UI Framework     | Blazor WebAssembly (standalone)     | 10.0     | Browser SPA; `Sannel.House.Sprinklers.Web`; static files served by API |
+| UI Components    | MudBlazor                           | 7.x      | Material Design component library for Blazor        |
+| Browser Auth     | Microsoft.Authentication.WebAssembly.Msal | 10.0.x | MSAL for Blazor WASM; Azure AD interactive OIDC flow |
+| Local Dev        | .NET Aspire                         | 9.x      | AppHost orchestrates API, Blazor app, and MQTT broker (dev only) |
 
 ---
 

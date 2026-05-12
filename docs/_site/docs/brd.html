@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/Sannel/Sannel.House.Sprinklers/blob/main/docs/docs/brd.md/#L1">
+      <meta name="docfx:docurl" content="https://github.com/Sannel/Sannel.House.Sprinklers/blob/feature/vsa-scheduling-implementation/docs/docs/brd.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -110,7 +110,7 @@
 </tr>
 <tr>
 <td>Last Updated</td>
-<td>2026-05-09</td>
+<td>2026-05-11</td>
 </tr>
 </tbody>
 </table>
@@ -143,7 +143,7 @@
 <li>Self-contained single-file binary for direct deployment on Raspberry Pi (<code>make arm64</code>).</li>
 <li>A non-hardware &quot;fake&quot; mode for development and testing on non-Pi hosts.</li>
 <li>Shared NuGet package (<code>Sannel.House.Sprinklers.Shared</code>) containing typed HTTP client, DTOs, and message types.</li>
-<li>A browser-based management UI (<code>Sannel.House.Sprinklers.Web</code>) built with Blazor WebAssembly and MudBlazor, served by the API host, providing real-time zone status, manual zone start/stop, schedule management, zone metadata editing, and run history.</li>
+<li>A browser-based management UI (<code>Sannel.House.Sprinklers.Web</code>) built with Blazor WebAssembly and MudBlazor, providing real-time zone status, manual zone start/stop, schedule management, zone metadata editing, and run history. In development it is orchestrated alongside the API by the Aspire AppHost; for production it may be bundled with the API or deployed independently.</li>
 <li>A .NET Aspire AppHost project for orchestrated local development, spinning up the API host, Blazor app, and an MQTT broker container.</li>
 </ul>
 <h3 id="out-of-scope">Out of Scope</h3>
@@ -311,7 +311,7 @@
 </tr>
 <tr>
 <td>FR-021</td>
-<td>The system SHALL provide a browser-based management UI served by the Web API host, enabling authenticated users to view real-time zone status, manually start and stop zones, manage schedule programs, edit zone metadata, and review run history.</td>
+<td>The system SHALL provide a browser-based management UI (<code>Sannel.House.Sprinklers.Web</code>) enabling authenticated users to view real-time zone status, manually start and stop zones, manage schedule programs, edit zone metadata, and review run history.</td>
 <td>High</td>
 </tr>
 <tr>
@@ -486,7 +486,7 @@
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/Sannel/Sannel.House.Sprinklers/blob/main/docs/docs/brd.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/Sannel/Sannel.House.Sprinklers/blob/feature/vsa-scheduling-implementation/docs/docs/brd.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>

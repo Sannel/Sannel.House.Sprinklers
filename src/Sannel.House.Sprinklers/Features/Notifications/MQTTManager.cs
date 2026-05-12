@@ -91,7 +91,7 @@ public class MQTTManager : IDisposable
 					p.UseTls = true;
 					if (_options.CertPaths?.Any() == true)
 					{
-						p.Certificates = _options.CertPaths.Select(i => new X509Certificate2(i)).ToList();
+						p.Certificates = _options.CertPaths.Select(i => X509CertificateLoader.LoadCertificateFromFile(i)).ToList();
 						p.CertificateValidationHandler += (certContext) =>
 						{
 							X509Chain chain = new X509Chain();
