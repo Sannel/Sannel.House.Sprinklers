@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using MQTTnet;
-using MQTTnet.Client;
 using Sannel.House.Sprinklers.Shared.Messages;
 
 namespace Sannel.House.Sprinklers.Features.Notifications;

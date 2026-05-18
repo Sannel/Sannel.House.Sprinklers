@@ -366,3 +366,5 @@ schedule.db*
 **/app_config/*
 [bB]uild/
 [dD]ata/
+
+output/

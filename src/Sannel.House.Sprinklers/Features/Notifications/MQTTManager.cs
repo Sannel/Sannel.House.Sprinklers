@@ -2,14 +2,13 @@ using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MQTTnet;
-using MQTTnet.Client;
 
 namespace Sannel.House.Sprinklers.Features.Notifications;
 
 public class MQTTManager : IDisposable
 {
 	private readonly MqttOptions _options;
-	private readonly MqttFactory _factory = new();
+	private readonly MqttClientFactory _factory = new();
 	private readonly IMqttClient _client;
 	private readonly ILogger _logger;
 	private bool _isTryingToConnect = false;
@@ -86,13 +85,14 @@ public class MQTTManager : IDisposable
 
 			if (_options.UseSSL)
 			{
-				o = o.WithTls(p =>
+				o = o.WithTlsOptions(p =>
 				{
-					p.UseTls = true;
+					p.UseTls();
 					if (_options.CertPaths?.Any() == true)
 					{
-						p.Certificates = _options.CertPaths.Select(i => X509CertificateLoader.LoadCertificateFromFile(i)).ToList();
-						p.CertificateValidationHandler += (certContext) =>
+						var certs = _options.CertPaths.Select(i => X509CertificateLoader.LoadCertificateFromFile(i)).ToList();
+						p.WithClientCertificates(certs);
+						p.WithCertificateValidationHandler(certContext =>
 						{
 							X509Chain chain = new X509Chain();
 							chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
@@ -100,14 +100,14 @@ public class MQTTManager : IDisposable
 							chain.ChainPolicy.VerificationFlags = X509VerificationFlags.NoFlag;
 							chain.ChainPolicy.VerificationTime = DateTime.Now;
 							chain.ChainPolicy.UrlRetrievalTimeout = new TimeSpan(0, 0, 0);
-							foreach (var c in p.Certificates)
+							foreach (var c in certs)
 							{
 								chain.ChainPolicy.CustomTrustStore.Add(c);
 							}
 							chain.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;
 							var x5092 = new X509Certificate2(certContext.Certificate);
 							return chain.Build(x5092);
-						};
+						});
 					}
 				});
 			}

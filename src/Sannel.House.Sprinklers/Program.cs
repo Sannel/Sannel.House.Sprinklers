@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Sannel.House;
 using Sannel.House.Sprinklers;
 using Sannel.House.Sprinklers.Features.Common;
@@ -113,8 +113,8 @@ builder.Services.AddSwaggerGen(o =>
     o.UseAllOfToExtendReferenceSchemas();
     o.DocumentFilter<DocumentSecurityFilter>();
     o.OperationFilter<SecurityFilter>();
-    o.MapType<TimeSpan>(() => new OpenApiSchema { Type = "string", Format = "00:00:00", Reference = null, Nullable = false });
-    o.MapType<TimeSpan?>(() => new OpenApiSchema { Type = "string", Format = "00:00:00", Reference = null, Nullable = true });
+    o.MapType<TimeSpan>(() => new OpenApiSchema { Type = JsonSchemaType.String, Format = "00:00:00" });
+    o.MapType<TimeSpan?>(() => new OpenApiSchema { Type = JsonSchemaType.String | JsonSchemaType.Null, Format = "00:00:00" });
 });
 
 builder.Services.Configure<MqttOptions>(builder.Configuration.GetSection("MQTT"));

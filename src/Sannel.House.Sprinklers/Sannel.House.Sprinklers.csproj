@@ -14,31 +14,33 @@
 		<PackageReference Include="Asp.Versioning.Http" Version="10.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc" Version="10.0.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.0.0" />
-		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="3.1.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.8">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.8">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Identity.Web" Version="3.7.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="10.0.8" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="4.9.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-		<PackageReference Include="MediatR" Version="12.4.1" />
-		<PackageReference Include="MQTTnet" Version="4.3.6.1152" />
-		<PackageReference Include="Riok.Mapperly" Version="3.6.0" />
+		<PackageReference Include="MediatR" Version="14.1.0" />
+		<PackageReference Include="MQTTnet" Version="5.1.0.1559" />
+		<PackageReference Include="Riok.Mapperly" Version="4.3.1" />
 		<PackageReference Include="Sannel.House.Core" Version="0.1.2-preview-001" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
-		<PackageReference Include="Iot.Device.Bindings" Version="3.2.0" />
-		<PackageReference Include="System.Device.Gpio" Version="3.2.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
+		<PackageReference Include="Iot.Device.Bindings" Version="4.2.0" />
+		<PackageReference Include="System.Device.Gpio" Version="4.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Sannel.House.Sprinklers.Shared\Sannel.House.Sprinklers.Shared.csproj" />
-		<ProjectReference Include="..\Sannel.House.Sprinklers.Web\Sannel.House.Sprinklers.Web.csproj" />
+		<ProjectReference Include="..\Sannel.House.Sprinklers.Web\Sannel.House.Sprinklers.Web.csproj">
+			<GlobalPropertiesToRemove>PublishSingleFile</GlobalPropertiesToRemove>
+		</ProjectReference>
 	</ItemGroup>
 
 	<ItemGroup>
