@@ -20,7 +20,9 @@ COPY ["nuget.config", "./"]
 COPY ["src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj", "src/Sannel.House.Sprinklers/"]
 COPY ["src/Sannel.House.Sprinklers.Shared/Sannel.House.Sprinklers.Shared.csproj", "src/Sannel.House.Sprinklers.Shared/"]
 COPY ["src/Sannel.House.Sprinklers.Web/Sannel.House.Sprinklers.Web.csproj", "src/Sannel.House.Sprinklers.Web/"]
-RUN dotnet restore "./src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj" --configfile "/src/nuget.config" -r "`/src/calculateRID.sh`"
+RUN dotnet restore "./src/Sannel.House.Sprinklers.Shared/Sannel.House.Sprinklers.Shared.csproj" --configfile "/src/nuget.config" && \
+    dotnet restore "./src/Sannel.House.Sprinklers.Web/Sannel.House.Sprinklers.Web.csproj" --configfile "/src/nuget.config" && \
+    dotnet restore "./src/Sannel.House.Sprinklers/Sannel.House.Sprinklers.csproj" --configfile "/src/nuget.config" -r "`/src/calculateRID.sh`" --no-dependencies
 COPY . .
 WORKDIR "/src/src/Sannel.House.Sprinklers"
 RUN dotnet build "./Sannel.House.Sprinklers.csproj" -r "`/src/calculateRID.sh`" --no-restore -c $BUILD_CONFIGURATION -o /app/build
