@@ -146,6 +146,17 @@ app.UseSwaggerUI(o =>
 app.MapHub<MessageHub>("/sprinkler/hub");
 await app.Services.GetRequiredService<MQTTManager>().StartAsync();
 
+// Allow overriding Blazor WASM client config (e.g. appsettings.json) via the volume mount.
+// Files in app_config/wwwroot take precedence over the built-in wwwroot.
+var clientConfigPath = Path.GetFullPath(Path.Combine("app_config", "wwwroot"));
+if (Directory.Exists(clientConfigPath))
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(clientConfigPath)
+    });
+}
+
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
