@@ -32,4 +32,9 @@ public class StatusDto
 	/// Gets or sets information about the running zone.
 	/// </summary>
 	public ZoneInfoDto? ZoneInfo { get; set; }
+
+	/// <summary>
+	/// Gets or sets the number of zones waiting in the queue behind the currently running zone.
+	/// </summary>
+	public int QueuedZoneCount { get; set; }
 }

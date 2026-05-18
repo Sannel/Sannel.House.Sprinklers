@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Sannel.House.Sprinklers.Shared.Dtos.Logs;
+using Sannel.House.Sprinklers.Shared.Dtos.Schedules;
 using Sannel.House.Sprinklers.Shared.Dtos.Sprinklers;
 using Sannel.House.Sprinklers.Shared.Dtos.Zones;
 using Sannel.House.Sprinklers.Shared.Messages;
@@ -65,9 +61,10 @@ public partial class SprinklersClient
 			return _parent.PutAsync("/api/v1/Zone", zone);
 		}
 
-		public Task<Result> StartZoneAsync(byte id, TimeSpan length)
+		public Task<Result> EnqueueZonesAsync(IEnumerable<ZoneStartRequestDto> zones)
 		{
-			return _parent.PostAsync($"/api/v1/Sprinklers/Start?zoneId={id}&length={JsonSerializer.Serialize(length)}");
+			ArgumentNullException.ThrowIfNull(zones);
+			return _parent.PostAsync("/api/v1/Sprinklers/Start", zones);
 		}
 
 		public Task<Result> StopAll()
@@ -79,5 +76,29 @@ public partial class SprinklersClient
 		{
 			return _parent.GetAsync<StatusDto>("/api/v1/Sprinklers/Status");
 		}
+
+		public Task<Result<IEnumerable<ScheduleProgramDto>>> GetAllSchedulesAsync()
+			=> _parent.GetAsync<IEnumerable<ScheduleProgramDto>>("/api/v1/Schedule");
+
+		public Task<Result<ScheduleProgramDto>> GetScheduleAsync(Guid id)
+			=> _parent.GetAsync<ScheduleProgramDto>($"/api/v1/Schedule/{id}");
+
+		public Task<Result<Guid>> CreateScheduleAsync(NewScheduleDto schedule)
+		{
+			ArgumentNullException.ThrowIfNull(schedule);
+			return _parent.PostAsync<NewScheduleDto, Guid>("/api/v1/Schedule", schedule);
+		}
+
+		public Task<Result> UpdateScheduleAsync(UpdateScheduleDto schedule)
+		{
+			ArgumentNullException.ThrowIfNull(schedule);
+			return _parent.PutAsync("/api/v1/Schedule", schedule);
+		}
+
+		public Task<Result> UpdateScheduleStatusAsync(Guid scheduleId, bool isEnabled)
+			=> _parent.PutAsync($"/api/v1/Schedule/{scheduleId}/{isEnabled}");
+
+		public Task<Result<IEnumerable<ZoneRunDto>>> GetRunHistoryAsync(DateOnly from, DateOnly to)
+			=> _parent.GetAsync<IEnumerable<ZoneRunDto>>($"/api/v1/Log/Runs/{from:yyyy-MM-dd}/{to:yyyy-MM-dd}");
 	}
 }

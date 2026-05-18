@@ -2,54 +2,77 @@
 items:
 - uid: Sannel.House.Sprinklers.Shared
   name: Sannel.House.Sprinklers.Shared
+  type: Namespace
   items:
   - uid: Sannel.House.Sprinklers.Shared.Result
     name: Result
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.Result`1
     name: Result<T>
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.SprinklerClientOptions
     name: SprinklerClientOptions
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.SprinklersClient
     name: SprinklersClient
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.SprinklersClient.V1Class
     name: SprinklersClient.V1Class
+    type: Class
 - uid: Sannel.House.Sprinklers.Shared.Dtos.Logs
   name: Sannel.House.Sprinklers.Shared.Dtos.Logs
+  type: Namespace
   items:
   - uid: Sannel.House.Sprinklers.Shared.Dtos.Logs.ZoneRunDto
     name: ZoneRunDto
+    type: Class
 - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules
   name: Sannel.House.Sprinklers.Shared.Dtos.Schedules
+  type: Namespace
   items:
   - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.NewScheduleDto
     name: NewScheduleDto
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.ScheduleProgramDto
     name: ScheduleProgramDto
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.StationTimeDto
     name: StationTimeDto
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.Dtos.Schedules.UpdateScheduleDto
     name: UpdateScheduleDto
+    type: Class
 - uid: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers
   name: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers
+  type: Namespace
   items:
   - uid: Sannel.House.Sprinklers.Shared.Dtos.Sprinklers.StatusDto
     name: StatusDto
+    type: Class
 - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones
   name: Sannel.House.Sprinklers.Shared.Dtos.Zones
+  type: Namespace
   items:
   - uid: Sannel.House.Sprinklers.Shared.Dtos.Zones.ZoneInfoDto
     name: ZoneInfoDto
+    type: Class
 - uid: Sannel.House.Sprinklers.Shared.Messages
   name: Sannel.House.Sprinklers.Shared.Messages
+  type: Namespace
   items:
   - uid: Sannel.House.Sprinklers.Shared.Messages.EventNames
     name: EventNames
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.Messages.StationProgressMessage
     name: StationProgressMessage
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.Messages.StationStartMessage
     name: StationStartMessage
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.Messages.StationStopMessage
     name: StationStopMessage
+    type: Class
   - uid: Sannel.House.Sprinklers.Shared.Messages.ZoneUpdateMessage
     name: ZoneUpdateMessage
+    type: Class
 memberLayout: SamePage

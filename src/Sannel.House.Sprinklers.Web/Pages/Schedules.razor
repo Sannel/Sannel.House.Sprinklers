@@ -1,0 +1,60 @@
+@page "/schedules"
+@attribute [Authorize]
+@inject SprinklersClient Api
+
+<PageTitle>Schedules</PageTitle>
+
+<MudText Typo="Typo.h4" GutterBottom="true">Schedules</MudText>
+
+@if (_schedules is null)
+{
+    <MudProgressCircular Indeterminate="true" />
+}
+else
+{
+    <MudTable Items="_schedules" Hover="true" Striped="true">
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Start Time</MudTh>
+            <MudTh>Schedule</MudTh>
+            <MudTh>Enabled</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.Name</MudTd>
+            <MudTd>@context.StartTime.ToString("HH:mm")</MudTd>
+            <MudTd>
+                @if (context.DaysOfWeek?.Any() == true)
+                {
+                    <span>@string.Join(", ", context.DaysOfWeek)</span>
+                }
+                else if (context.IntervalDays.HasValue)
+                {
+                    <span>Every @context.IntervalDays days</span>
+                }
+            </MudTd>
+            <MudTd>
+                <MudSwitch T="bool" Value="@context.Enabled"
+                           ValueChanged="@(v => ToggleSchedule(context, v))" Color="Color.Success" />
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+}
+
+@code {
+    private IEnumerable<ScheduleProgramDto>? _schedules;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await Api.V1.GetAllSchedulesAsync();
+        if (result.IsSuccess)
+            _schedules = result.Value;
+    }
+
+    private async Task ToggleSchedule(ScheduleProgramDto schedule, bool isEnabled)
+    {
+        await Api.V1.UpdateScheduleStatusAsync(schedule.Id, isEnabled);
+        var result = await Api.V1.GetAllSchedulesAsync();
+        if (result.IsSuccess)
+            _schedules = result.Value;
+    }
+}

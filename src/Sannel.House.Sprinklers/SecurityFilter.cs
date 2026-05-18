@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Sannel.House.Sprinklers;
@@ -15,11 +15,7 @@ public class SecurityFilter : IOperationFilter
 		var req = new OpenApiSecurityRequirement();
 		foreach (var p in authAttribute)
 		{
-			var scheme = new OpenApiSecurityScheme()
-			{
-				Reference = new OpenApiReference() { Type = ReferenceType.SecurityScheme, Id = "AzureAd" },
-				Type = SecuritySchemeType.OAuth2
-			};
+			var scheme = new OpenApiSecuritySchemeReference("AzureAd", null);
 
 			req[scheme] = new List<string>() { p };
 

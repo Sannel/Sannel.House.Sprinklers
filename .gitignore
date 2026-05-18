@@ -32,6 +32,7 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
+!src/**/Features/Logs/
 
 
 # Visual Studio 2015/2017 cache/options directory
@@ -366,3 +367,6 @@ schedule.db*
 **/app_config/*
 [bB]uild/
 [dD]ata/
+
+output/
+docs/_site/

@@ -1,7 +1,8 @@
-﻿using Asp.Versioning;
+using Asp.Versioning;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sannel.House.Sprinklers.Core;
+using Sannel.House.Sprinklers.Features.Logs;
 using Sannel.House.Sprinklers.Shared.Dtos.Logs;
 
 namespace Sannel.House.Sprinklers.Controllers.v1_0;
@@ -12,40 +13,22 @@ namespace Sannel.House.Sprinklers.Controllers.v1_0;
 [Authorize(AuthPolicy.ZONE_READERS)]
 public class LogController : ControllerBase
 {
-	private const string VERSION = "v1";
-	private readonly ILoggerRepository _loggerRepository;
+private const string VERSION = "v1";
+private readonly IMediator _mediator;
 
-	public LogController(ILoggerRepository loggerRepository)
-	{
-		ArgumentNullException.ThrowIfNull(loggerRepository);
-		_loggerRepository = loggerRepository;
-	}
+public LogController(IMediator mediator)
+{
+_mediator = mediator;
+}
 
-	[HttpGet("Runs/{from}/{to}", Name = $"{VERSION}.[controller].[action]")]
-	[ProducesResponseType(typeof(IEnumerable<ZoneRunDto>), 200)]
-	public async Task<IActionResult> GetRunsForRange(DateOnly from, DateOnly to)
-	{
-		if (from > to)
-		{
-			return BadRequest("StartDate must be before endDate");
-		}
+[HttpGet("Runs/{from}/{to}", Name = $"{VERSION}.[controller].[action]")]
+[ProducesResponseType(typeof(IEnumerable<ZoneRunDto>), 200)]
+public async Task<IActionResult> GetRunsForRange(DateOnly from, DateOnly to)
+{
+if (from > to)
+return BadRequest("StartDate must be before endDate");
 
-		var start = from.ToDateTime(TimeOnly.MinValue);
-		var end = to.ToDateTime(TimeOnly.MaxValue);
-
-		var now = DateTimeOffset.Now;
-
-		var logs = await _loggerRepository.GetLogs(new DateTimeOffset(start, now.Offset),
-									new DateTimeOffset(end, now.Offset),
-									LogActions.START);
-
-		return Ok(logs.Select(i => new ZoneRunDto()
-		{
-			ActionDate = i.ActionDate,
-			StationId = i.ZoneId,
-			RunLength = i.RunLength,
-			StationName = i.StationName,
-			StationColor = i.StationColor
-		}));
-	}
+var logs = await _mediator.Send(new GetRunHistoryQuery(from, to));
+return Ok(logs);
+}
 }

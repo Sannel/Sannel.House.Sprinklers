@@ -57,19 +57,67 @@ public partial class SprinklersClient
 		var builder = new UriBuilder(_options.HostUri!);
 		builder.Path += path;
 
+		using var message = new HttpRequestMessage(HttpMethod.Post, builder.Uri);
+		var response = await _httpClient.SendAsync(message);
+
+		result.IsSuccess = response.IsSuccessStatusCode;
+		result.StatusCode = response.StatusCode;
+
+		return result;
+	}
+
+	private async Task<Result> PostAsync<T>(string path, T body)
+	{
+		var result = new Result();
+
+		var builder = new UriBuilder(_options.HostUri!);
+		builder.Path += path;
+
+		using var message = new HttpRequestMessage(HttpMethod.Post, builder.Uri);
+		message.Content = JsonContent.Create(body);
+		var response = await _httpClient.SendAsync(message);
+
+		result.IsSuccess = response.IsSuccessStatusCode;
+		result.StatusCode = response.StatusCode;
+
+		return result;
+	}
+
+	private async Task<Result<TResult>> PostAsync<TBody, TResult>(string path, TBody body)
+	{
+		var result = new Result<TResult>();
+
+		var builder = new UriBuilder(_options.HostUri!);
+		builder.Path += path;
+
+		using var message = new HttpRequestMessage(HttpMethod.Post, builder.Uri);
+		message.Content = JsonContent.Create(body);
+		var response = await _httpClient.SendAsync(message);
+
+		result.IsSuccess = response.IsSuccessStatusCode;
+		result.StatusCode = response.StatusCode;
+
+		if (response.IsSuccessStatusCode)
+		{
+			var content = await response.Content.ReadAsStringAsync();
+			result.Value = JsonSerializer.Deserialize<TResult>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+		}
+
+		return result;
+	}
+
+	private async Task<Result> PutAsync(string path)
+	{
+		var result = new Result();
+
+		var builder = new UriBuilder(_options.HostUri!);
+		builder.Path += path;
+
 		using var message = new HttpRequestMessage(HttpMethod.Put, builder.Uri);
 		var response = await _httpClient.SendAsync(message);
 
-		if(response.IsSuccessStatusCode)
-		{
-			result.IsSuccess = true;
-			result.StatusCode = response.StatusCode;
-		}
-		else
-		{
-			result.IsSuccess = false;
-			result.StatusCode = response.StatusCode;
-		}
+		result.IsSuccess = response.IsSuccessStatusCode;
+		result.StatusCode = response.StatusCode;
 
 		return result;
 	}
