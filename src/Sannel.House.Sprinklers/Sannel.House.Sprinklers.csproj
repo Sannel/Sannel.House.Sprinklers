@@ -39,7 +39,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Sannel.House.Sprinklers.Shared\Sannel.House.Sprinklers.Shared.csproj" />
 		<ProjectReference Include="..\Sannel.House.Sprinklers.Web\Sannel.House.Sprinklers.Web.csproj">
-			<GlobalPropertiesToRemove>PublishSingleFile</GlobalPropertiesToRemove>
+			<GlobalPropertiesToRemove>PublishSingleFile;RuntimeIdentifier</GlobalPropertiesToRemove>
 		</ProjectReference>
 	</ItemGroup>
 
