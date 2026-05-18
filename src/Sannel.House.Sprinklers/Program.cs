@@ -157,9 +157,9 @@ if (Directory.Exists(clientConfigPath))
     });
 }
 
-app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapStaticAssets();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 
