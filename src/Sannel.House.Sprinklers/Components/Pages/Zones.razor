@@ -1,0 +1,51 @@
+@page "/zones"
+@attribute [Authorize]
+@inject IMediator Mediator
+
+<PageTitle>Zones</PageTitle>
+
+<MudText Typo="Typo.h4" GutterBottom="true">Zones</MudText>
+
+@if (_zones is null)
+{
+    <MudProgressCircular Indeterminate="true" />
+}
+else
+{
+    <MudTable Items="_zones" Hover="true" Striped="true">
+        <HeaderContent>
+            <MudTh>ID</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Color</MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.ZoneId</MudTd>
+            <MudTd>@context.Name</MudTd>
+            <MudTd>
+                <MudChip Style="@($"background-color:{context.Color}")" T="string">@context.Color</MudChip>
+            </MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.PlayArrow" Color="Color.Success"
+                               OnClick="() => RunZone(context)" />
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+}
+
+@code {
+    private IEnumerable<ZoneInfoDto>? _zones;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _zones = await Mediator.Send(new GetZonesQuery());
+    }
+
+    private async Task RunZone(ZoneInfoDto zone)
+    {
+        await Mediator.Send(new EnqueueZonesCommand(
+        [
+            new ZoneStartRequestDto { ZoneId = zone.ZoneId, Length = TimeSpan.FromMinutes(5) }
+        ]));
+    }
+}

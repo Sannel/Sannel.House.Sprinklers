@@ -2,12 +2,16 @@ using Iot.Device.Board;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 using Microsoft.OpenApi;
+using MudBlazor.Services;
 using Sannel.House;
 using Sannel.House.Sprinklers;
+using Sannel.House.Sprinklers.Components;
 using Sannel.House.Sprinklers.Features.Common;
 using Sannel.House.Sprinklers.Features.Notifications;
 using Sannel.House.Sprinklers.Features.Schedules;
@@ -38,26 +42,33 @@ builder.Services.AddCors(o =>
 
 builder.Services.AddApplicationInsightsTelemetry();
 
-builder.Services.AddAuthentication(o =>
-{
-    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddMicrosoftIdentityWebApi(builder.Configuration);
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(builder.Configuration);
+
+// JWT Bearer for API controllers and SignalR (external clients)
+builder.Services.AddAuthentication()
+    .AddMicrosoftIdentityWebApi(builder.Configuration);
 
 builder.Services.AddAuthorization(o =>
 {
     o.AddPolicy(AuthPolicy.ZONE_READERS, p =>
-        p.RequireRole(Roles.Sprinklers.ZONE_READ, Roles.Sprinklers.ZONE_WRITE, Roles.ADMIN));
+        p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+         .RequireRole(Roles.Sprinklers.ZONE_READ, Roles.Sprinklers.ZONE_WRITE, Roles.ADMIN));
     o.AddPolicy(AuthPolicy.ZONE_METADATA_READER, p =>
-        p.RequireRole(Roles.Sprinklers.ZONE_READ, Roles.Sprinklers.ZONE_WRITE, Roles.ADMIN));
+        p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+         .RequireRole(Roles.Sprinklers.ZONE_READ, Roles.Sprinklers.ZONE_WRITE, Roles.ADMIN));
     o.AddPolicy(AuthPolicy.ZONE_TRIGGERS, p =>
-        p.RequireRole(Roles.Sprinklers.ZONE_TRIGGER, Roles.ADMIN));
+        p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+         .RequireRole(Roles.Sprinklers.ZONE_TRIGGER, Roles.ADMIN));
     o.AddPolicy(AuthPolicy.ZONE_METADATA_WRITER, p =>
-        p.RequireRole(Roles.Sprinklers.ZONE_WRITE, Roles.ADMIN));
+        p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+         .RequireRole(Roles.Sprinklers.ZONE_WRITE, Roles.ADMIN));
     o.AddPolicy(AuthPolicy.SCHEDULE_READERS, p =>
-        p.RequireRole(Roles.Sprinklers.SCHEDULE_READ, Roles.Sprinklers.SCHEDULE_WRITE, Roles.ADMIN));
+        p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+         .RequireRole(Roles.Sprinklers.SCHEDULE_READ, Roles.Sprinklers.SCHEDULE_WRITE, Roles.ADMIN));
     o.AddPolicy(AuthPolicy.SCHEDULE_SCHEDULERS, p =>
-        p.RequireRole(Roles.Sprinklers.SCHEDULE_WRITE, Roles.ADMIN));
+        p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+         .RequireRole(Roles.Sprinklers.SCHEDULE_WRITE, Roles.ADMIN));
 });
 
 static bool IsRunningOnRaspberryPi() => File.Exists("/dev/gpiomem");
@@ -106,7 +117,9 @@ builder.Services.AddSingleton<ScheduleMapper>();
 builder.Services.AddSingleton<ZoneInfoMapper>();
 
 builder.Services.AddSignalR();
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+builder.Services.AddMudServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(o =>
 {
@@ -146,21 +159,10 @@ app.UseSwaggerUI(o =>
 app.MapHub<MessageHub>("/sprinkler/hub");
 await app.Services.GetRequiredService<MQTTManager>().StartAsync();
 
-// Allow overriding Blazor WASM client config (e.g. appsettings.json) via the volume mount.
-// Files in app_config/wwwroot take precedence over the built-in wwwroot.
-var clientConfigPath = Path.GetFullPath(Path.Combine("app_config", "wwwroot"));
-if (Directory.Exists(clientConfigPath))
-{
-    app.UseStaticFiles(new StaticFileOptions
-    {
-        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(clientConfigPath)
-    });
-}
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapStaticAssets();
 app.MapControllers();
-app.MapFallbackToFile("index.html");
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 await app.RunAsync();

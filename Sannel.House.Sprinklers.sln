@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sannel.House.Sprinklers.Sha
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sannel.House.Sprinklers.Web", "src\Sannel.House.Sprinklers.Web\Sannel.House.Sprinklers.Web.csproj", "{B906B917-B7DF-4C66-81A9-9B88B6AAD114}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sannel.House.Sprinklers.ServiceDefaults", "src\Sannel.House.Sprinklers.ServiceDefaults\Sannel.House.Sprinklers.ServiceDefaults.csproj", "{4B4C52D1-5563-4993-90A6-70D28CA9C66C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sannel.House.Sprinklers.AppHost", "src\Sannel.House.Sprinklers.AppHost\Sannel.House.Sprinklers.AppHost.csproj", "{89B2B789-73E8-41A0-9D66-77BDA160A026}"
@@ -63,18 +61,6 @@ Global
 		{29251B3C-95DC-4CA0-970C-70CEF2F9FC08}.Release|x64.Build.0 = Release|Any CPU
 		{29251B3C-95DC-4CA0-970C-70CEF2F9FC08}.Release|x86.ActiveCfg = Release|Any CPU
 		{29251B3C-95DC-4CA0-970C-70CEF2F9FC08}.Release|x86.Build.0 = Release|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Debug|x64.Build.0 = Debug|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Debug|x86.Build.0 = Debug|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Release|x64.ActiveCfg = Release|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Release|x64.Build.0 = Release|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Release|x86.ActiveCfg = Release|Any CPU
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114}.Release|x86.Build.0 = Release|Any CPU
 		{4B4C52D1-5563-4993-90A6-70D28CA9C66C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4B4C52D1-5563-4993-90A6-70D28CA9C66C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B4C52D1-5563-4993-90A6-70D28CA9C66C}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -104,7 +90,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B906B917-B7DF-4C66-81A9-9B88B6AAD114} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{4B4C52D1-5563-4993-90A6-70D28CA9C66C} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{89B2B789-73E8-41A0-9D66-77BDA160A026} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
