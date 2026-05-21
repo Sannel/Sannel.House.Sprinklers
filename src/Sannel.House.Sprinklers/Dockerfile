@@ -33,7 +33,7 @@ ARG Minor=1
 ARG Patch=0
 ARG BuildNumber=0
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Sannel.House.Sprinklers.csproj" --no-restore -r "`/src/calculateRID.sh`" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Sannel.House.Sprinklers.csproj" -r "`/src/calculateRID.sh`" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
