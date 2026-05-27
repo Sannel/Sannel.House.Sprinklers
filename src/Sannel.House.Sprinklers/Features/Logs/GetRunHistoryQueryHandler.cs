@@ -1,4 +1,4 @@
-using MediatR;
+using Sannel.House.Sprinklers.Features.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Sannel.House.Sprinklers.Features.Common;
 using Sannel.House.Sprinklers.Shared.Dtos.Logs;

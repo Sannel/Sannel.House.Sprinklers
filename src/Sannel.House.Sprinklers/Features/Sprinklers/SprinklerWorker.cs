@@ -58,6 +58,7 @@ public class SprinklerWorker : BackgroundService
 			_queue.Clear();
 			if (_wasRunning)
 			{
+				_logger.LogInformation("StopAll called — stopping zone {ZoneId} and clearing queue", _stationId);
 				_endAt = DateTimeOffset.MinValue;
 				_wasRunning = false;
 				await _hardware.ResetZonesAsync();
@@ -124,6 +125,7 @@ public class SprinklerWorker : BackgroundService
 						_wasRunning = false;
 						var finishedZone = _stationId;
 						var finishedLength = _totalTime;
+						_logger.LogInformation("Zone {ZoneId} finished after {Duration}, resetting hardware", finishedZone, finishedLength);
 						await _hardware.ResetZonesAsync();
 
 						using var scope = _provider.CreateScope();
@@ -182,6 +184,8 @@ public class SprinklerWorker : BackgroundService
 		_endAt = DateTimeOffset.Now.Add(zone.Length);
 		_wasRunning = true;
 
+		_logger.LogInformation("Starting zone {ZoneId} (1-based), hardware index {HardwareIndex} (0-based), duration {Duration}",
+			_stationId, _stationId - 1, _totalTime);
 		await _hardware.TurnZoneOnAsync((byte)(_stationId - 1));
 
 		using var scope = _provider.CreateScope();

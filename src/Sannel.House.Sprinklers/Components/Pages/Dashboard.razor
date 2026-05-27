@@ -44,36 +44,58 @@ else
 
         @if (_zones is not null)
         {
-            <MudItem xs="12">
+            <MudItem xs="12" sm="6" md="8">
                 <MudCard>
                     <MudCardHeader>
                         <CardHeaderContent>
-                            <MudText Typo="Typo.h6">Run a Zone</MudText>
+                            <MudText Typo="Typo.h6">Run Zones</MudText>
                         </CardHeaderContent>
                     </MudCardHeader>
                     <MudCardContent>
-                        <MudTable Items="_zones" Hover="true" Dense="true">
-                            <HeaderContent>
-                                <MudTh>Zone</MudTh>
-                                <MudTh>Minutes</MudTh>
-                                <MudTh></MudTh>
-                            </HeaderContent>
-                            <RowTemplate>
-                                <MudTd>@(string.IsNullOrEmpty(context.Name) ? $"Zone {context.ZoneId}" : context.Name)</MudTd>
-                                <MudTd>
-                                    <MudNumericField Value="_zoneDurations[context.ZoneId]"
-                                                     ValueChanged="(int v) => _zoneDurations[context.ZoneId] = v"
-                                                     Min="1" Max="480" Variant="Variant.Outlined"
-                                                     Style="width:90px" />
-                                </MudTd>
-                                <MudTd>
-                                    <MudButton Variant="Variant.Filled" Color="Color.Success"
-                                               StartIcon="@Icons.Material.Filled.PlayArrow"
-                                               OnClick="() => RunZone(context)">Run</MudButton>
-                                </MudTd>
-                            </RowTemplate>
-                        </MudTable>
+                        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                            <MudSelect @bind-Value="_selectedZoneId" T="byte" Label="Zone" Variant="Variant.Outlined" Style="min-width:180px">
+                                @foreach (var zone in _zones)
+                                {
+                                    <MudSelectItem Value="zone.ZoneId">
+                                        @(string.IsNullOrEmpty(zone.Name) ? $"Zone {zone.ZoneId}" : zone.Name)
+                                    </MudSelectItem>
+                                }
+                            </MudSelect>
+                            <MudNumericField @bind-Value="_selectedMinutes" Label="Minutes" Min="1" Max="480"
+                                             Variant="Variant.Outlined" Style="width:100px" />
+                            <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                                       StartIcon="@Icons.Material.Filled.AddCircleOutline"
+                                       OnClick="AddToQueue">Add to Queue</MudButton>
+                        </MudStack>
+
+                        @if (_zoneQueue.Count > 0)
+                        {
+                            <MudDivider Class="my-3" />
+                            <MudText Typo="Typo.subtitle2" Class="mb-2">Queue (@_zoneQueue.Count zones)</MudText>
+                            @foreach (var item in _zoneQueue.ToList())
+                            {
+                                var entry = item;
+                                <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1" Class="mb-1">
+                                    <MudChip T="string" Color="Color.Default" Size="Size.Small">
+                                        @(string.IsNullOrEmpty(entry.Zone.Name) ? $"Zone {entry.Zone.ZoneId}" : entry.Zone.Name) — @entry.Minutes min
+                                    </MudChip>
+                                    <MudIconButton Icon="@Icons.Material.Filled.Close" Size="Size.Small"
+                                                   Color="Color.Error" OnClick="() => _zoneQueue.Remove(entry)" />
+                                </MudStack>
+                            }
+                        }
                     </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Filled" Color="Color.Success"
+                                   StartIcon="@Icons.Material.Filled.PlayArrow"
+                                   Disabled="_zoneQueue.Count == 0"
+                                   OnClick="StartQueue">Start Queue</MudButton>
+                        @if (_zoneQueue.Count > 0)
+                        {
+                            <MudButton Variant="Variant.Text" Color="Color.Default"
+                                       OnClick="() => _zoneQueue.Clear()">Clear</MudButton>
+                        }
+                    </MudCardActions>
                 </MudCard>
             </MudItem>
         }
@@ -83,13 +105,14 @@ else
 @code {
     private StatusDto? _status;
     private IEnumerable<ZoneInfoDto>? _zones;
-    private readonly Dictionary<byte, int> _zoneDurations = new();
+    private byte _selectedZoneId;
+    private int _selectedMinutes = 10;
+    private readonly List<QueueEntry> _zoneQueue = [];
 
     protected override async Task OnInitializedAsync()
     {
         _zones = await Mediator.Send(new GetZonesQuery());
-        foreach (var zone in _zones)
-            _zoneDurations[zone.ZoneId] = 10;
+        _selectedZoneId = _zones?.FirstOrDefault()?.ZoneId ?? 1;
 
         await RefreshStatus();
 
@@ -138,12 +161,21 @@ else
         await RefreshStatus();
     }
 
-    private async Task RunZone(ZoneInfoDto zone)
+    private void AddToQueue()
     {
-        await Mediator.Send(new EnqueueZonesCommand(
-        [
-            new ZoneStartRequestDto { ZoneId = zone.ZoneId, Length = TimeSpan.FromMinutes(_zoneDurations[zone.ZoneId]) }
-        ]));
+        var zone = _zones?.FirstOrDefault(z => z.ZoneId == _selectedZoneId);
+        if (zone is null) return;
+        _zoneQueue.Add(new QueueEntry(zone, _selectedMinutes));
+    }
+
+    private async Task StartQueue()
+    {
+        if (_zoneQueue.Count == 0) return;
+        var requests = _zoneQueue
+            .Select(e => new ZoneStartRequestDto { ZoneId = e.Zone.ZoneId, Length = TimeSpan.FromMinutes(e.Minutes) })
+            .ToList();
+        _zoneQueue.Clear();
+        await Mediator.Send(new EnqueueZonesCommand(requests));
     }
 
     public ValueTask DisposeAsync()
@@ -153,4 +185,6 @@ else
         HubClient.OnStop -= HandleStop;
         return ValueTask.CompletedTask;
     }
+
+    private sealed record QueueEntry(ZoneInfoDto Zone, int Minutes);
 }

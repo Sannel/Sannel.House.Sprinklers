@@ -1,5 +1,4 @@
 using Iot.Device.Board;
-using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -13,6 +12,7 @@ using Sannel.House;
 using Sannel.House.Sprinklers;
 using Sannel.House.Sprinklers.Components;
 using Sannel.House.Sprinklers.Features.Common;
+using Sannel.House.Sprinklers.Features.Messaging;
 using Sannel.House.Sprinklers.Features.Notifications;
 using Sannel.House.Sprinklers.Features.Schedules;
 using Sannel.House.Sprinklers.Features.Sprinklers;
@@ -95,8 +95,21 @@ else
 
 builder.Services.AddTransient<IClaimsTransformation, UserClaimsTransformation>();
 
-// MediatR — scans the API assembly for all handlers
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+// Internal mediator — scans assembly for all IRequestHandler<,> and IRequestHandler<> implementations
+var assembly = typeof(Program).Assembly;
+foreach (var type in assembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract))
+{
+    foreach (var iface in type.GetInterfaces())
+    {
+        if (iface.IsGenericType)
+        {
+            var def = iface.GetGenericTypeDefinition();
+            if (def == typeof(IRequestHandler<,>) || def == typeof(IRequestHandler<>))
+                builder.Services.AddScoped(iface, type);
+        }
+    }
+}
+builder.Services.AddScoped<IMediator, Mediator>();
 
 // Workers
 builder.Services.AddSingleton<SprinklerWorker>();

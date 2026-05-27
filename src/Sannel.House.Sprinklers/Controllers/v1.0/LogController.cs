@@ -1,5 +1,5 @@
 using Asp.Versioning;
-using MediatR;
+using Sannel.House.Sprinklers.Features.Messaging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sannel.House.Sprinklers.Features.Logs;

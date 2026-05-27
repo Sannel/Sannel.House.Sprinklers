@@ -1,4 +1,4 @@
-using MediatR;
+using Sannel.House.Sprinklers.Features.Messaging;
 
 namespace Sannel.House.Sprinklers.Features.Sprinklers;
 

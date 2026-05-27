@@ -38,6 +38,11 @@ public class OpenSprinklerHardware : ISprinklerHardware
 
 	private void SendOutZoneInfo()
 	{
+		var bitPattern = string.Concat(Enumerable.Range(0, _zones.Length)
+			.OrderByDescending(i => i)
+			.Select(i => _zones[i] == ZoneState.On ? "1" : "0"));
+		_logger.LogDebug("SendOutZoneInfo: bit pattern (index {Last}→0) = {Pattern}", _zones.Length - 1, bitPattern);
+
 		_controller.Write(PIN_SR_OE, PinValue.High);
 		_controller.Write(PIN_SR_LATCH, PinValue.Low);
 
@@ -56,23 +61,27 @@ public class OpenSprinklerHardware : ISprinklerHardware
 	public Task ResetZonesAsync()
 		=> Task.Run(() =>
 		{
+			_logger.LogInformation("ResetZonesAsync: turning off all {TotalZones} zones", _zones.Length);
 			for (var i = 0; i < _zones.Length; i++)
 			{
 				_zones[i] = 0;
 			}
 			SendOutZoneInfo();
-			_logger.LogInformation("Reset all Zones");
+			_logger.LogInformation("All zones are now OFF");
 		});
 
 	public Task TurnZoneOnAsync(byte zoneIndex) => zoneIndex >= Zones || zoneIndex < 0
 		? throw new ArgumentOutOfRangeException(nameof(zoneIndex), zoneIndex, "Zone index does not fall within range")
 		: Task.Run(() =>
 		{
+			_logger.LogInformation("TurnZoneOnAsync: received zoneIndex={ZoneIndex} (0-based) out of {TotalZones} zones", zoneIndex, _zones.Length);
 			for (var i = 0; i < _zones.Length; i++)
 			{
 				_zones[i] = zoneIndex == i ? ZoneState.On : ZoneState.Off;
 			}
+			_logger.LogInformation("Zone states: [{States}]",
+				string.Join(", ", _zones.Select((s, i) => $"[{i}]={s}")));
 			SendOutZoneInfo();
-			_logger.LogInformation("Starting Zone {zone}", zoneIndex + 1);
+			_logger.LogInformation("Hardware: zone {ZoneNumber} (1-based) is now ON", zoneIndex + 1);
 		});
 }

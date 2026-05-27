@@ -1,4 +1,4 @@
-using MediatR;
+using Sannel.House.Sprinklers.Features.Messaging;
 using Sannel.House.Sprinklers.Features.Common;
 using Sannel.House.Sprinklers.Mappers;
 

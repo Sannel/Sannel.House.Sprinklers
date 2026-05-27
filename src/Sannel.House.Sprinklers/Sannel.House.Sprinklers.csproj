@@ -28,8 +28,7 @@
 		<PackageReference Include="Microsoft.Identity.Web" Version="4.9.0" />
 		<PackageReference Include="Microsoft.Identity.Web.UI" Version="4.9.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-		<PackageReference Include="MediatR" Version="14.1.0" />
-		<PackageReference Include="MudBlazor" Version="9.4.0" />
+<PackageReference Include="MudBlazor" Version="9.4.0" />
 		<PackageReference Include="MQTTnet" Version="5.1.0.1559" />
 		<PackageReference Include="Riok.Mapperly" Version="4.3.1" />
 		<PackageReference Include="Sannel.House.Core" Version="0.1.2-preview-001" />
