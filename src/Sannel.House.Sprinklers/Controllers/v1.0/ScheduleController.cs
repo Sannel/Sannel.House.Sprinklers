@@ -74,5 +74,15 @@ public class ScheduleController : ControllerBase
 		await _mediator.Send(new EnableScheduleCommand(scheduleId, isEnable));
 		return Ok();
 	}
+
+	[HttpDelete("{id}", Name = $"{VERSION}.[controller].[action]")]
+	[ProducesResponseType((int)HttpStatusCode.NoContent)]
+	[ProducesResponseType((int)HttpStatusCode.NotFound)]
+	[Authorize(AuthPolicy.SCHEDULE_SCHEDULERS)]
+	public async Task<IActionResult> DeleteSchedule(Guid id)
+	{
+		var deleted = await _mediator.Send(new DeleteScheduleCommand(id));
+		return deleted ? NoContent() : NotFound();
+	}
 }
 

@@ -1,6 +1,8 @@
 @page "/"
 @attribute [Authorize]
 @inject IMediator Mediator
+@inject HubMessageClient HubClient
+@implements IAsyncDisposable
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -39,15 +41,61 @@ else
                 </MudCardActions>
             </MudCard>
         </MudItem>
+
+        @if (_zones is not null)
+        {
+            <MudItem xs="12">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Run a Zone</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudTable Items="_zones" Hover="true" Dense="true">
+                            <HeaderContent>
+                                <MudTh>Zone</MudTh>
+                                <MudTh>Minutes</MudTh>
+                                <MudTh></MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd>@(string.IsNullOrEmpty(context.Name) ? $"Zone {context.ZoneId}" : context.Name)</MudTd>
+                                <MudTd>
+                                    <MudNumericField Value="_zoneDurations[context.ZoneId]"
+                                                     ValueChanged="(int v) => _zoneDurations[context.ZoneId] = v"
+                                                     Min="1" Max="480" Variant="Variant.Outlined"
+                                                     Style="width:90px" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudButton Variant="Variant.Filled" Color="Color.Success"
+                                               StartIcon="@Icons.Material.Filled.PlayArrow"
+                                               OnClick="() => RunZone(context)">Run</MudButton>
+                                </MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        }
     </MudGrid>
 }
 
 @code {
     private StatusDto? _status;
+    private IEnumerable<ZoneInfoDto>? _zones;
+    private readonly Dictionary<byte, int> _zoneDurations = new();
 
     protected override async Task OnInitializedAsync()
     {
+        _zones = await Mediator.Send(new GetZonesQuery());
+        foreach (var zone in _zones)
+            _zoneDurations[zone.ZoneId] = 10;
+
         await RefreshStatus();
+
+        HubClient.OnStart += HandleStart;
+        HubClient.OnProgress += HandleProgress;
+        HubClient.OnStop += HandleStop;
     }
 
     private async Task RefreshStatus()
@@ -55,9 +103,54 @@ else
         _status = await Mediator.Send(new GetStatusQuery());
     }
 
+    private void HandleStart(StationStartMessage msg)
+    {
+        if (_status is null) return;
+        _status.IsRunning = true;
+        _status.ZoneInfo = _zones?.FirstOrDefault(z => z.ZoneId == msg.ZoneId);
+        _status.TotalTime = msg.Duration;
+        _status.TimeLeft = msg.Duration;
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void HandleProgress(StationProgressMessage msg)
+    {
+        if (_status is null) return;
+        _status.TimeLeft = msg.TimeLeft;
+        _status.TotalTime = msg.RunLength;
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void HandleStop(StationStopMessage msg)
+    {
+        if (_status is null) return;
+        _status.IsRunning = false;
+        _status.ZoneInfo = null;
+        _status.TimeLeft = null;
+        _status.TotalTime = null;
+        _status.QueuedZoneCount = 0;
+        InvokeAsync(StateHasChanged);
+    }
+
     private async Task StopAll()
     {
         await Mediator.Send(new StopAllCommand());
         await RefreshStatus();
+    }
+
+    private async Task RunZone(ZoneInfoDto zone)
+    {
+        await Mediator.Send(new EnqueueZonesCommand(
+        [
+            new ZoneStartRequestDto { ZoneId = zone.ZoneId, Length = TimeSpan.FromMinutes(_zoneDurations[zone.ZoneId]) }
+        ]));
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        HubClient.OnStart -= HandleStart;
+        HubClient.OnProgress -= HandleProgress;
+        HubClient.OnStop -= HandleStop;
+        return ValueTask.CompletedTask;
     }
 }

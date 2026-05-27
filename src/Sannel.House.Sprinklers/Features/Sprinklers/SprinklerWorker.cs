@@ -182,7 +182,7 @@ public class SprinklerWorker : BackgroundService
 		_endAt = DateTimeOffset.Now.Add(zone.Length);
 		_wasRunning = true;
 
-		await _hardware.TurnZoneOnAsync(_stationId);
+		await _hardware.TurnZoneOnAsync((byte)(_stationId - 1));
 
 		using var scope = _provider.CreateScope();
 		var db = scope.ServiceProvider.GetRequiredService<SprinklerDbContext>();

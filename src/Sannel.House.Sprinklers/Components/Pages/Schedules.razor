@@ -22,6 +22,7 @@ else
             <MudTh>Start Time</MudTh>
             <MudTh>Schedule</MudTh>
             <MudTh>Enabled</MudTh>
+            <MudTh>Actions</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>@context.Name</MudTd>
@@ -40,10 +41,17 @@ else
                 <MudSwitch T="bool" Value="@context.Enabled"
                            ValueChanged="@(v => ToggleSchedule(context, v))" Color="Color.Success" />
             </MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
+                               OnClick="() => OpenEditDialog(context)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error"
+                               OnClick="() => OpenDeleteDialog(context)" />
+            </MudTd>
         </RowTemplate>
     </MudTable>
 }
 
+@* Add Dialog *@
 <MudDialog @bind-Visible="_addDialogOpen" Options="_dialogOptions">
     <TitleContent>
         <MudText Typo="Typo.h6">Add Schedule</MudText>
@@ -114,10 +122,96 @@ else
     </DialogActions>
 </MudDialog>
 
+@* Edit Dialog *@
+<MudDialog @bind-Visible="_editDialogOpen" Options="_dialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">Edit Schedule</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="_editSchedule.Name" Label="Name" Variant="Variant.Outlined" />
+        <MudTimePicker @bind-Time="_editStartTime" Label="Start Time" Variant="Variant.Outlined" Class="mt-3"
+                       AmPm="true" />
+
+        <MudRadioGroup @bind-Value="_editUseIntervalMode" Class="mt-3">
+            <MudRadio Value="false" Color="Color.Primary">Days of Week</MudRadio>
+            <MudRadio Value="true" Color="Color.Primary">Interval</MudRadio>
+        </MudRadioGroup>
+
+        @if (!_editUseIntervalMode)
+        {
+            <MudStack Row="true" Wrap="Wrap.Wrap" Class="mt-2">
+                @foreach (var day in Enum.GetValues<DayOfWeek>())
+                {
+                    var d = day;
+                    <MudCheckBox Value="_editSelectedDays[d]"
+                                 ValueChanged="(bool v) => _editSelectedDays[d] = v"
+                                 Label="@d.ToString()" Color="Color.Primary" />
+                }
+            </MudStack>
+        }
+        else
+        {
+            <MudStack Row="true" AlignItems="AlignItems.Center" Class="mt-2" Spacing="2">
+                <MudText>Every</MudText>
+                <MudNumericField @bind-Value="_editIntervalDays" Min="1" Max="365"
+                                 Variant="Variant.Outlined" Style="width:90px" />
+                <MudText>days starting</MudText>
+                <MudDatePicker @bind-Date="_editIntervalStartDate" Variant="Variant.Outlined" />
+            </MudStack>
+        }
+
+        <MudDivider Class="mt-4 mb-2" />
+        <MudStack Row="true" AlignItems="AlignItems.Center">
+            <MudText Typo="Typo.subtitle1">Zone Run Times</MudText>
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" OnClick="AddEditStationTime" />
+        </MudStack>
+
+        @foreach (var st in _editStationTimes)
+        {
+            var entry = st;
+            <MudStack Row="true" AlignItems="AlignItems.Center" Class="mt-2" Spacing="2">
+                <MudSelect Value="entry.ZoneId" T="byte" Label="Zone" Variant="Variant.Outlined"
+                           Style="width:200px"
+                           ValueChanged="(byte v) => entry.ZoneId = v">
+                    @foreach (var zone in _zones ?? [])
+                    {
+                        <MudSelectItem Value="zone.ZoneId">@(string.IsNullOrEmpty(zone.Name) ? $"Zone {zone.ZoneId}" : zone.Name)</MudSelectItem>
+                    }
+                </MudSelect>
+                <MudNumericField Value="entry.RunMinutes" Label="Minutes" Min="1" Max="480"
+                                 Variant="Variant.Outlined" Style="width:110px"
+                                 ValueChanged="(int v) => entry.RunMinutes = v" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error"
+                               OnClick="() => _editStationTimes.Remove(entry)" />
+            </MudStack>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="() => _editDialogOpen = false">Cancel</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="SaveEdit">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@* Delete Confirmation Dialog *@
+<MudDialog @bind-Visible="_deleteDialogOpen">
+    <TitleContent>
+        <MudText Typo="Typo.h6">Delete Schedule</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText>Are you sure you want to delete <strong>@_deleteTarget?.Name</strong>? This cannot be undone.</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="() => _deleteDialogOpen = false">Cancel</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="ConfirmDelete">Delete</MudButton>
+    </DialogActions>
+</MudDialog>
+
 @code {
     private IEnumerable<ScheduleProgramDto>? _schedules;
     private IEnumerable<ZoneInfoDto>? _zones;
 
+    // Add dialog state
     private bool _addDialogOpen;
     private NewScheduleDto _newSchedule = new();
     private TimeSpan? _startTime = TimeSpan.Zero;
@@ -126,6 +220,20 @@ else
     private int _intervalDays = 1;
     private DateTime? _intervalStartDate = DateTime.Today;
     private List<StationTimeEntry> _stationTimes = [];
+
+    // Edit dialog state
+    private bool _editDialogOpen;
+    private UpdateScheduleDto _editSchedule = new();
+    private TimeSpan? _editStartTime = TimeSpan.Zero;
+    private bool _editUseIntervalMode;
+    private Dictionary<DayOfWeek, bool> _editSelectedDays = Enum.GetValues<DayOfWeek>().ToDictionary(d => d, _ => false);
+    private int _editIntervalDays = 1;
+    private DateTime? _editIntervalStartDate = DateTime.Today;
+    private List<StationTimeEntry> _editStationTimes = [];
+
+    // Delete dialog state
+    private bool _deleteDialogOpen;
+    private ScheduleProgramDto? _deleteTarget;
 
     private readonly DialogOptions _dialogOptions = new() { MaxWidth = MaxWidth.Medium, FullWidth = true };
 
@@ -140,6 +248,8 @@ else
         await Mediator.Send(new EnableScheduleCommand(schedule.Id, isEnabled));
         _schedules = await Mediator.Send(new GetSchedulesQuery());
     }
+
+    // --- Add ---
 
     private void OpenAddDialog()
     {
@@ -188,6 +298,79 @@ else
         await Mediator.Send(new CreateScheduleCommand(_newSchedule));
         _schedules = await Mediator.Send(new GetSchedulesQuery());
         _addDialogOpen = false;
+    }
+
+    // --- Edit ---
+
+    private void OpenEditDialog(ScheduleProgramDto schedule)
+    {
+        _editSchedule = new UpdateScheduleDto
+        {
+            Id = schedule.Id,
+            Name = schedule.Name,
+            StartTime = schedule.StartTime,
+        };
+        _editStartTime = schedule.StartTime.ToTimeSpan();
+        _editUseIntervalMode = schedule.IntervalDays.HasValue;
+        _editSelectedDays = Enum.GetValues<DayOfWeek>().ToDictionary(d => d, d => schedule.DaysOfWeek?.Contains(d) == true);
+        _editIntervalDays = schedule.IntervalDays ?? 1;
+        _editIntervalStartDate = schedule.IntervalStartDate.HasValue
+            ? schedule.IntervalStartDate.Value.ToDateTime(TimeOnly.MinValue)
+            : DateTime.Today;
+        _editStationTimes = schedule.StationTimes
+            .Select(st => new StationTimeEntry { ZoneId = st.StationId, RunMinutes = (int)st.RunLength.TotalMinutes })
+            .ToList();
+        _editDialogOpen = true;
+    }
+
+    private void AddEditStationTime() =>
+        _editStationTimes.Add(new StationTimeEntry { ZoneId = _zones?.FirstOrDefault()?.ZoneId ?? 1 });
+
+    private async Task SaveEdit()
+    {
+        _editSchedule.StartTime = _editStartTime.HasValue
+            ? TimeOnly.FromTimeSpan(_editStartTime.Value)
+            : TimeOnly.MinValue;
+
+        if (_editUseIntervalMode)
+        {
+            _editSchedule.DaysOfWeek = null;
+            _editSchedule.IntervalDays = _editIntervalDays;
+            _editSchedule.IntervalStartDate = _editIntervalStartDate.HasValue
+                ? DateOnly.FromDateTime(_editIntervalStartDate.Value)
+                : DateOnly.FromDateTime(DateTime.Today);
+        }
+        else
+        {
+            _editSchedule.IntervalDays = null;
+            _editSchedule.IntervalStartDate = null;
+            _editSchedule.DaysOfWeek = _editSelectedDays.Where(kv => kv.Value).Select(kv => kv.Key).ToList();
+        }
+
+        _editSchedule.StationTimes = _editStationTimes
+            .Select(st => new StationTimeDto { StationId = st.ZoneId, RunLength = TimeSpan.FromMinutes(st.RunMinutes) })
+            .ToList();
+
+        await Mediator.Send(new UpdateScheduleCommand(_editSchedule));
+        _schedules = await Mediator.Send(new GetSchedulesQuery());
+        _editDialogOpen = false;
+    }
+
+    // --- Delete ---
+
+    private void OpenDeleteDialog(ScheduleProgramDto schedule)
+    {
+        _deleteTarget = schedule;
+        _deleteDialogOpen = true;
+    }
+
+    private async Task ConfirmDelete()
+    {
+        if (_deleteTarget is null) return;
+        await Mediator.Send(new DeleteScheduleCommand(_deleteTarget.Id));
+        _schedules = await Mediator.Send(new GetSchedulesQuery());
+        _deleteDialogOpen = false;
+        _deleteTarget = null;
     }
 
     private class StationTimeEntry
