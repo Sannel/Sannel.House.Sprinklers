@@ -89,6 +89,9 @@ public class SprinklerWorker : BackgroundService
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
+		_logger.LogInformation("SprinklerWorker starting — resetting hardware to clean state");
+		await _hardware.ResetZonesAsync();
+
 		while (!stoppingToken.IsCancellationRequested)
 		{
 			try
