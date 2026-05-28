@@ -147,6 +147,12 @@ builder.Services.AddSwaggerGen(o =>
 builder.Services.Configure<MqttOptions>(builder.Configuration.GetSection("MQTT"));
 builder.Services.AddSingleton<MQTTManager>();
 
+builder.Services.AddHsts(options =>
+{
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.IncludeSubDomains = true;
+});
+
 using var app = builder.Build();
 
 // Must be first: tells ASP.NET Core to trust X-Forwarded-Proto/For from the K8s ingress
@@ -162,6 +168,16 @@ app.Use(async (context, next) =>
     context.Response.Headers.Append("X-Frame-Options", "SAMEORIGIN");
     context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
     context.Response.Headers.Append("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), microphone=(), payment=(), usb=()");
+    context.Response.Headers.Append("Content-Security-Policy",
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline'; " +
+        "style-src 'self' 'unsafe-inline'; " +
+        "connect-src 'self' wss:; " +
+        "img-src 'self' data: blob:; " +
+        "font-src 'self' data:; " +
+        "object-src 'none'; " +
+        "form-action 'self'; " +
+        "frame-ancestors 'self'");
     await next();
 });
 
