@@ -57,6 +57,8 @@ services:
 	sprinklers:
 		image: sannel/house.sprinklers:latest
 		user: "1000:993"
+		environment:
+		- TZ=America/Denver
 		ports:
 		- 8443:8443
 		volumes:
