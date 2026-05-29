@@ -31,7 +31,7 @@ else
             <MudTh>Run Length</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd>@context.ActionDate.ToLocalTime().ToString("g")</MudTd>
+            <MudTd>@context.ActionDate.ToLocalTime().ToString("g zzz")</MudTd>
             <MudTd>@(context.StationName ?? context.StationId.ToString())</MudTd>
             <MudTd>@context.RunLength?.ToString(@"mm\:ss")</MudTd>
         </RowTemplate>
