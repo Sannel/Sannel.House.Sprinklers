@@ -1,0 +1,163 @@
+@page "/calendar"
+@attribute [Authorize]
+@inject IMediator Mediator
+
+<PageTitle>Schedule Calendar</PageTitle>
+
+<MudStack Row="true" AlignItems="AlignItems.Center" Class="mb-4">
+    <MudText Typo="Typo.h4">Schedule Calendar</MudText>
+    <MudSpacer />
+    <MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" OnClick="PrevMonth" />
+    <MudText Typo="Typo.h6" Style="min-width:160px;text-align:center">@_currentMonth.ToString("MMMM yyyy")</MudText>
+    <MudIconButton Icon="@Icons.Material.Filled.ChevronRight" OnClick="NextMonth" />
+    <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="GoToToday">Today</MudButton>
+</MudStack>
+
+@if (_schedules is null)
+{
+    <MudProgressCircular Indeterminate="true" />
+}
+else
+{
+    <MudSimpleTable Dense="true" Bordered="true" Style="table-layout:fixed;width:100%">
+        <thead>
+            <tr>
+                @foreach (var day in new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" })
+                {
+                    <th style="text-align:center;padding:8px;width:14.28%;font-weight:600">@day</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var week in GetCalendarWeeks())
+            {
+                <tr>
+                    @foreach (var date in week)
+                    {
+                        bool isCurrentMonth = date.Month == _currentMonth.Month;
+                        bool isToday = date == _today;
+                        <td style="vertical-align:top;height:110px;padding:4px;@(!isCurrentMonth ? "opacity:0.35" : "")">
+                            <MudText Typo="Typo.body2"
+                                     Style="@(isToday ? "font-weight:700;color:var(--mud-palette-primary);font-size:1rem" : "")">
+                                @if (isToday)
+                                {
+                                    <MudChip T="string" Size="Size.Small" Color="Color.Primary" Style="height:24px;min-width:24px;padding:0 6px">@date.Day</MudChip>
+                                }
+                                else
+                                {
+                                    @date.Day
+                                }
+                            </MudText>
+                            @foreach (var ev in GetEventsForDay(date))
+                            {
+                                <MudTooltip Text="@ev.Tooltip" Placement="Placement.Top">
+                                    <MudChip T="string" Size="Size.Small" Color="@ev.Color"
+                                             Style="@($"margin:1px 0;max-width:100%;overflow:hidden;{(!ev.Enabled ? "opacity:0.45;text-decoration:line-through" : "")}")">
+                                        @ev.Label
+                                    </MudChip>
+                                </MudTooltip>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+
+    <MudStack Row="true" Wrap="Wrap.Wrap" Class="mt-3" Spacing="2" AlignItems="AlignItems.Center">
+        <MudText Typo="Typo.caption" Class="mr-2">Legend:</MudText>
+        @{
+            int li = 0;
+            foreach (var schedule in _schedules)
+            {
+                var color = _palette[li++ % _palette.Length];
+                <MudChip T="string" Size="Size.Small" Color="color"
+                         Style="@(!schedule.Enabled ? "opacity:0.45;text-decoration:line-through" : "")">
+                    @schedule.Name
+                </MudChip>
+            }
+        }
+    </MudStack>
+}
+
+@code {
+    private IEnumerable<ScheduleProgramDto>? _schedules;
+    private IEnumerable<ZoneInfoDto>? _zones;
+    private DateOnly _currentMonth;
+    private readonly DateOnly _today = DateOnly.FromDateTime(DateTime.Today);
+
+    private static readonly Color[] _palette =
+    [
+        Color.Primary, Color.Secondary, Color.Success, Color.Info, Color.Warning, Color.Tertiary
+    ];
+
+    protected override async Task OnInitializedAsync()
+    {
+        _currentMonth = _today.AddDays(1 - _today.Day);
+        _schedules = await Mediator.Send(new GetSchedulesQuery());
+        _zones = await Mediator.Send(new GetZonesQuery());
+    }
+
+    private void PrevMonth() => _currentMonth = _currentMonth.AddMonths(-1);
+    private void NextMonth() => _currentMonth = _currentMonth.AddMonths(1);
+    private void GoToToday() => _currentMonth = _today.AddDays(1 - _today.Day);
+
+    private IEnumerable<DateOnly[]> GetCalendarWeeks()
+    {
+        var startOffset = (int)_currentMonth.DayOfWeek; // Sunday = 0
+        var start = _currentMonth.AddDays(-startOffset);
+
+        var lastDay = _currentMonth.AddMonths(1).AddDays(-1);
+        var endOffset = 6 - (int)lastDay.DayOfWeek;
+        var end = lastDay.AddDays(endOffset);
+
+        for (var cur = start; cur <= end; cur = cur.AddDays(7))
+        {
+            var week = new DateOnly[7];
+            for (int i = 0; i < 7; i++)
+                week[i] = cur.AddDays(i);
+            yield return week;
+        }
+    }
+
+    private IEnumerable<CalendarEvent> GetEventsForDay(DateOnly date)
+    {
+        if (_schedules is null) yield break;
+        int idx = 0;
+        foreach (var schedule in _schedules)
+        {
+            if (ScheduleRunsOn(schedule, date))
+            {
+                var color = _palette[idx % _palette.Length];
+                var zoneList = schedule.StationTimes.Select(st =>
+                {
+                    var zone = _zones?.FirstOrDefault(z => z.ZoneId == st.StationId);
+                    var name = string.IsNullOrEmpty(zone?.Name) ? $"Zone {st.StationId}" : zone.Name;
+                    return $"{name} {(int)st.RunLength.TotalMinutes}min";
+                });
+                var tooltip = $"{schedule.Name} @ {schedule.StartTime:HH:mm} — {string.Join(", ", zoneList)}";
+                yield return new CalendarEvent(
+                    $"{schedule.StartTime:HH:mm} {schedule.Name}",
+                    tooltip,
+                    color,
+                    schedule.Enabled);
+            }
+            idx++;
+        }
+    }
+
+    private static bool ScheduleRunsOn(ScheduleProgramDto schedule, DateOnly date)
+    {
+        if (schedule.DaysOfWeek?.Any() == true)
+            return schedule.DaysOfWeek.Contains(date.DayOfWeek);
+
+        if (schedule.IntervalDays.HasValue && schedule.IntervalStartDate.HasValue)
+        {
+            var daysDiff = date.DayNumber - schedule.IntervalStartDate.Value.DayNumber;
+            return daysDiff >= 0 && daysDiff % schedule.IntervalDays.Value == 0;
+        }
+        return false;
+    }
+
+    private record CalendarEvent(string Label, string Tooltip, Color Color, bool Enabled);
+}
