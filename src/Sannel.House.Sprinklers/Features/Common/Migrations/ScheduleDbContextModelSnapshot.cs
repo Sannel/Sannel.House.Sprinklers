@@ -15,7 +15,7 @@ namespace Sannel.House.Sprinklers.Features.Common.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.8");
 
             modelBuilder.Entity("Sannel.House.Sprinklers.Features.Logs.StationLog", b =>
                 {
