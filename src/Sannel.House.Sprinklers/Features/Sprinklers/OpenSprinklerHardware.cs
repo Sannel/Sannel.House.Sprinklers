@@ -70,7 +70,7 @@ public class OpenSprinklerHardware : ISprinklerHardware
 			_logger.LogInformation("All zones are now OFF");
 		});
 
-	public Task TurnZoneOnAsync(byte zoneIndex) => zoneIndex >= Zones || zoneIndex < 0
+	public Task TurnZoneOnAsync(byte zoneIndex) => zoneIndex >= Zones
 		? throw new ArgumentOutOfRangeException(nameof(zoneIndex), zoneIndex, "Zone index does not fall within range")
 		: Task.Run(() =>
 		{

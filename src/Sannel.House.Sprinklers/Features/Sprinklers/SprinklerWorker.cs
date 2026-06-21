@@ -42,7 +42,14 @@ public class SprinklerWorker : BackgroundService
 		try
 		{
 			foreach (var zone in zones)
+			{
+				if (zone.ZoneId == 0 || zone.ZoneId > _hardware.Zones)
+				{
+					_logger.LogWarning("Ignoring invalid ZoneId {ZoneId}; valid range is 1–{Max}", zone.ZoneId, _hardware.Zones);
+					continue;
+				}
 				_queue.Enqueue((zone.ZoneId, zone.Length));
+			}
 		}
 		finally
 		{
@@ -182,6 +189,14 @@ public class SprinklerWorker : BackgroundService
 
 	private async Task StartZoneInternalAsync((byte ZoneId, TimeSpan Length) zone, CancellationToken cancellationToken)
 	{
+		// ZoneIds are 1-based; hardware expects a 0-based index.
+		// Guard here prevents state corruption if an invalid ZoneId somehow bypasses EnqueueZonesAsync.
+		if (zone.ZoneId == 0 || zone.ZoneId > _hardware.Zones)
+		{
+			_logger.LogError("Cannot start invalid ZoneId {ZoneId}; valid range is 1–{Max}. Discarding.", zone.ZoneId, _hardware.Zones);
+			return;
+		}
+
 		_stationId = zone.ZoneId;
 		_totalTime = zone.Length;
 		_endAt = DateTimeOffset.Now.Add(zone.Length);
